@@ -1,3 +1,5 @@
+package entities;
+
 public class Passenger extends Thread {
 
     public void travelToAirport() {

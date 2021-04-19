@@ -1,5 +1,7 @@
+package entities;
+
 public class Pilot extends Thread{
-    public void informPlaneReadyForBoarding() {
+    public  void informPlaneReadyForBoarding() {
     }
 
     public void waitForAllInBoard() {
