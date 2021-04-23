@@ -27,6 +27,52 @@ public class Passenger extends Thread {
     }
 
 
+    @Override
+    public void run() {
+        travelToAirport();
+        depAirport.waitInQueue();
+        depAirport.showDocuments();
+
+//        depAirport.boarded(true);
+        airplane.boardThePlane();
+        airplane.waitForEndOfFlight();
+        airplane.leaveThePlane();
+    }
+
+    private int passengerState;
+
+    public void travelToAirport() {
+        passengerState = PassengerStates.goingToAirport;
+
+        long a=0;
+        if(passengerId>18)
+            a =passengerId*1500;//long) Math.random();
+        else
+            a=4000* (long) Math.random();
+        try {
+            sleep(a);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Passageiro "+this.passengerId+" chegou ao aeroporto");
+    }
+
+    public void waitInQueue() { passengerState = PassengerStates.inQueue; }
+
+    public void showDocuments() {
+        passengerState = PassengerStates.inQueue;
+    }
+
+    public void waitForEndOfFlight() { passengerState = PassengerStates.inFlight; }
+
+    public void boardThePlane() {
+        passengerState = PassengerStates.inFlight;
+    }
+
+    public void leaveThePlane() {
+        passengerState = PassengerStates.atDestination;
+    }
+
     public boolean isChecked() {
         return checked;
     }
@@ -69,50 +115,6 @@ public class Passenger extends Thread {
 
     public void setPassengerState(int passengerState) {
         this.passengerState = passengerState;
-    }
-
-    @Override
-    public void run() {
-        System.out.println("FEZ RUN");
-        travelToAirport();
-        depAirport.waitInQueue();
-        depAirport.showDocuments();
-//        depAirport.boarded(true);
-        airplane.board();
-    }
-
-    private int passengerState;
-
-    public void travelToAirport() {
-        passengerState = PassengerStates.goingToAirport;
-
-        long a=0;
-        if(passengerId>15)
-            a =passengerId*1500;//long) Math.random();
-        else
-            a=4000* (long) Math.random();
-        try {
-            sleep(a);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Passageiro "+this.passengerId+" chegou ao aeroporto");
-    }
-
-    public void showDocuments() {
-        passengerState = PassengerStates.inQueue;
-    }
-
-    public void waitForEndOfFlight() {
-        passengerState = PassengerStates.inFlight;
-    }
-
-    public void leaveThePlane() {
-        passengerState = PassengerStates.atDestination;
-    }
-
-    public void boardThePlane() {
-        passengerState = PassengerStates.inFlight;
     }
 
     public int getpassengerState() {

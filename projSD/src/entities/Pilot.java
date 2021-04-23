@@ -14,24 +14,17 @@ public class Pilot extends Thread{
 
     @Override
     public void run() {
-        while(destAirport.getTotalArrived()<21) {
-            informPlaneReadyForBoarding();
+        while(depAirport.getFlew()<21) {
+            depAirport.informPlaneReadyForBoarding();
             depAirport.waitForAllInBoard();
-            fly();
-            destAirport.arrived();
-            airplane.setOccupation(0);
+            depAirport.flyToDestinationPoint();
+            airplane.announceArrival();
+            destAirport.flyToDeparturePoint();
+            airplane.parkAtTransferGate();
+
         }
     }
 
-    private void fly() {
-        try {
-            sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("VOEI");
-    }
 
     public Pilot (DepAirport depAirport, DestAirport destAirport, Airplane airplane, int pilotID) {
         this.pilotID=pilotID;
@@ -42,51 +35,17 @@ public class Pilot extends Thread{
     }
 
 
-    public DepAirport getDepAirport() {
-        return depAirport;
-    }
-
-    public void setDepAirport(DepAirport depAirport) {
-        this.depAirport = depAirport;
-    }
-
-    public DestAirport getDestAirport() {
-        return destAirport;
-    }
-
-    public void setDestAirport(DestAirport destAirport) {
-        this.destAirport = destAirport;
-    }
-
-    public Airplane getAirplane() {
-        return airplane;
-    }
-
-    public void setAirplane(Airplane airplane) {
-        this.airplane = airplane;
-    }
 
 
-    public int getPilotID() {
-        return pilotID;
-    }
-
-    public void setPilotID(int pilotID) {
-        this.pilotID = pilotID;
-    }
-
-    public void informPlaneReadyForBoarding() {
-        Pilotstate = PilotStates.readyForBoarding;
-
-        long a =2000+ 10* (long) Math.random();
+    //meti publico
+    public void fly() {
         try {
-            sleep(a);
+            sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        depAirport.setPilotReady(true);
-        System.out.println("Piloto diz que tá ready");
+        System.out.println("VOEI OH PRA LÁ");
     }
 
     public void waitForAllInBoard() {
@@ -108,6 +67,22 @@ public class Pilot extends Thread{
     public void parkAtTransferGate() {
         Pilotstate = PilotStates.atTransferGate;
     }
+
+    public DepAirport getDepAirport() { return depAirport; }
+
+    public void setDepAirport(DepAirport depAirport) { this.depAirport = depAirport; }
+
+    public DestAirport getDestAirport() { return destAirport; }
+
+    public void setDestAirport(DestAirport destAirport) { this.destAirport = destAirport; }
+
+    public Airplane getAirplane() { return airplane; }
+
+    public void setAirplane(Airplane airplane) { this.airplane = airplane; }
+
+    public int getPilotID() { return pilotID; }
+
+    public void setPilotID(int pilotID) { this.pilotID = pilotID; }
 
     public int getPilotstate() {
         return Pilotstate;

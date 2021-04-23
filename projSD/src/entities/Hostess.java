@@ -4,8 +4,6 @@ import shared.Airplane;
 import shared.DepAirport;
 import shared.DestAirport;
 
-import java.time.format.DecimalStyle;
-
 public class Hostess extends Thread {
 
     private int HostessState;
@@ -16,15 +14,18 @@ public class Hostess extends Thread {
 
     @Override
     public void run() {
-
+        prepareForPassBoarding();
         int i=0;
-        while(destAirport.getTotalArrived()!=21){
+        while(depAirport.getFlew()!=21){
             i++;
             System.out.println("corri "+i);
-            depAirport.checkPassenger();
             depAirport.waitForNextPassenger();
+            depAirport.checkDocuments();
+            depAirport.informPlaneReadyToTakeOff();
+            depAirport.waitForNextFlight();
+
         }
-//        System.out.println("TUDO ENVIADO");
+
     }
 
     public Hostess(DepAirport depAirport, DestAirport destAirport, Airplane airplane, int hostessID){
@@ -34,33 +35,22 @@ public class Hostess extends Thread {
         this.airplane=airplane;
     }
 
-    public DepAirport getDepAirport() {
-        return depAirport;
-    }
-
-    public void setDepAirport(DepAirport depAirport) {
-        this.depAirport = depAirport;
-    }
-
-    public DestAirport getDestAirport() {
-        return destAirport;
-    }
-
-    public void setDestAirport(DestAirport destAirport) {
-        this.destAirport = destAirport;
-    }
-
-    public Airplane getAirplane() {
-        return airplane;
-    }
-
-    public void setAirplane(Airplane airplane) {
-        this.airplane = airplane;
-    }
-
-
     public void prepareForPassBoarding() {
         HostessState = HostessStates.waitForPassenger;
+        try {
+            sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void waitForNextFlight() {
+        HostessState = HostessStates.waitForFlight;
+        try {
+            sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void checkDocuments() {
@@ -71,12 +61,24 @@ public class Hostess extends Thread {
         HostessState = HostessStates.waitForPassenger;
     }
 
-    public void informPlaneReadyToTakeOf() {
-        HostessState = HostessStates.readyToFly;
+    public void informPlaneReadyToTakeOf() { HostessState = HostessStates.readyToFly; }
+
+
+
+    public Airplane getAirplane() {
+        return airplane;
     }
 
-    public void waitForNextFlight() {
-        HostessState = HostessStates.waitForFlight;
+    public void setAirplane(Airplane airplane) {
+        this.airplane = airplane;
+    }
+
+    public DestAirport getDestAirport() {
+        return destAirport;
+    }
+
+    public void setDestAirport(DestAirport destAirport) {
+        this.destAirport = destAirport;
     }
 
     public int getHostessState() {
@@ -93,5 +95,13 @@ public class Hostess extends Thread {
 
     public void setHostessID(int hostessID) {
         this.hostessID = hostessID;
+    }
+
+    public DepAirport getDepAirport() {
+        return depAirport;
+    }
+
+    public void setDepAirport(DepAirport depAirport) {
+        this.depAirport = depAirport;
     }
 }

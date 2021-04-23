@@ -3,12 +3,10 @@ package shared;
 import entities.Hostess;
 import entities.Passenger;
 import entities.Pilot;
-import structs.MemException;
-import structs.MemFIFO;
 
 import java.util.Arrays;
 
-public class Main {
+public class AirLift {
     public static void main(String [] args){
 
         DepAirport depAirport= new DepAirport();
@@ -24,15 +22,28 @@ public class Main {
             passageiros[i]=new Passenger(depAirport, destAirport, airplane, i);
         }
 
-        Arrays.stream(passageiros).forEach(x -> x.start());
         pilot.start();
         hostess.start();
+        Arrays.stream(passageiros).forEach(x -> x.start());
 
+        Arrays.stream(passageiros).forEach(x -> {
+            try {
+                x.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
 
-
-
-
-
+        try {
+            hostess.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        try {
+            pilot.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
 
     }
