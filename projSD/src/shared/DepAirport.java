@@ -19,15 +19,17 @@ public class DepAirport {
     private int flew = 0;
     private boolean readyTakeOff = false;
     private boolean planeReady = false;
+    private Repository repos;
 
 
-    public DepAirport() {
+    public DepAirport(Repository repos) {
 
         try {
             this.passengerIDs = new MemFIFO(new Integer[21]);
             this.calleds = new MemFIFO<>(new Integer[21]);
             this.fifoSize = 0;
             this.boarded = 0;
+            this.repos=repos;
         } catch (MemException e) {
             e.printStackTrace();
         }

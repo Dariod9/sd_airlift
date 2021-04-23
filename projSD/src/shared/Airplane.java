@@ -17,7 +17,7 @@ public class Airplane {
     //private int totalArrived;
 
 
-    public Airplane() {
+    public Airplane(Repository repos) {
         try {
             this.passengerIDs = new MemFIFO<>(new Integer [21]);
             occupation=0;

@@ -9,11 +9,13 @@ import java.util.Arrays;
 public class AirLift {
     public static void main(String [] args){
 
-        DepAirport depAirport= new DepAirport();
-        DestAirport destAirport= new DestAirport();
-        Airplane airplane = new Airplane();
+        int nr=21;
+        Repository repos = new Repository(nr);
+        DepAirport depAirport= new DepAirport(repos);
+        DestAirport destAirport= new DestAirport(repos);
+        Airplane airplane = new Airplane(repos);
 
-        Passenger [] passageiros = new Passenger[21];
+        Passenger [] passageiros = new Passenger[nr];
         Pilot pilot= new Pilot(depAirport,destAirport,airplane,0);
         Hostess hostess= new Hostess(depAirport, destAirport, airplane, 0);
 
