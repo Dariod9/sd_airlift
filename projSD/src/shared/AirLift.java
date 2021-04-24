@@ -47,7 +47,7 @@ public class AirLift {
             e.printStackTrace();
         }
 
-
+        repos.reportSummary();
     }
 
 }

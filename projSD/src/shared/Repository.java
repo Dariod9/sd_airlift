@@ -92,7 +92,7 @@ public class Repository {
         this.hostessState = state;
 
         writeSmallHeader(flight_number, "passenger " + id_passenger + " checked");
-
+        setInqe(getInqe() - 1);
         reportStatus("   hostess");
     }
 
@@ -105,7 +105,7 @@ public class Repository {
                 break;
             case PassengerStates.inFlight:
                 setInpl(getInpl() + 1);
-                setInqe(getInqe() - 1);
+
                 break;
             case PassengerStates.atDestination:
                 setAtds(getAtds() + 1);

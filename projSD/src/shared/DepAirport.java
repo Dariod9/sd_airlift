@@ -117,7 +117,7 @@ public class DepAirport {
 //        notifyAll();
 
 
-        while (fifoSize == 0) {
+        while (fifoSize == 0 ) {
             try {
                 wait();
             } catch (Exception e) {
@@ -154,15 +154,14 @@ public class DepAirport {
             e.printStackTrace();
         }
         //        checkingDocs=true;
-
         try {
             sleep(500 * (long) Math.random()); //A LER OS DOCS
         } catch (InterruptedException e) {
             System.out.println("NÃO CONSEGUIU LER");
         }
-        repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState(), chamado);
         System.out.println("A LER");
 //        flew++;
+        repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState(), chamado);
 
         checked = true;
         boarded++;
@@ -191,8 +190,10 @@ public class DepAirport {
                 pilotReady = false;
                 System.out.println("READY TO TAKE OFF");
                 notifyAll();
+
                 ((Hostess) Thread.currentThread()).setHostessState(HostessStates.readyToFly);
                 repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
+
 
             }
         }
@@ -329,6 +330,7 @@ public class DepAirport {
     }
 
     public synchronized void flyToDestinationPoint() {
+        repos.addFlightInfo(boarded);
         int pilotId = ((Pilot) Thread.currentThread()).getPilotID();
         ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.flyingForward);
         repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());

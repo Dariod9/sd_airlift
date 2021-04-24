@@ -4,14 +4,104 @@ import shared.Airplane;
 import shared.DepAirport;
 import shared.DestAirport;
 
+/**
+ *   Pilot thread.
+ *
+ *   It simulates the Pilot life cycle.
+ *   Static solution.
+ */
+
 public class Pilot extends Thread{
 
+    /**
+     * pilot state.
+     */
     private int Pilotstate;
-    private int pilotID;
-    private DepAirport depAirport;
-    private DestAirport destAirport;
-    private Airplane airplane;
 
+    /**
+     * pilot identification.
+     */
+    private int pilotID;
+
+    /**
+     * Reference to the departure airport.
+     */
+    private final DepAirport depAirport;
+
+    /**
+     * Reference to the departure airport.
+     */
+    private final DestAirport destAirport;
+
+    /**
+     * Reference to the airplane.
+     */
+    private final Airplane airplane;
+
+    /**
+     * Instantiation of a Pilot thread.
+     *
+     * @param depAirport reference to departure airport
+     * @param destAirport reference to destination airport
+     * @param airplane reference to airplane
+     * @param pilotID pilot id
+     */
+    public Pilot (DepAirport depAirport, DestAirport destAirport, Airplane airplane, int pilotID) {
+        this.pilotID=pilotID;
+        this.depAirport=depAirport;
+        this.destAirport=destAirport;
+        this.airplane=airplane;
+        Pilotstate=PilotStates.atTransferGate;
+    }
+
+    /**
+     * Get pilot state.
+     *
+     * @return pilot state.
+     */
+    public int getPilotstate() {
+        return Pilotstate;
+    }
+
+    /**
+     * Set pilot state.
+     *
+     * @param pilotstate new pilot state
+     */
+    public void setPilotstate(int pilotstate) {
+        Pilotstate = pilotstate;
+    }
+
+    /**
+     * Get Pilot Id
+     *
+     * @return pilot id
+     */
+    public int getPilotID() {
+        return pilotID;
+    }
+
+    /**
+     * Set pilot id
+     *
+     * @param pilotID pilot id
+     */
+    public void setPilotID(int pilotID) {
+        this.pilotID = pilotID;
+    }
+
+    /**
+     * Get Departure Airport
+     *
+     * @return departure airport
+     */
+    public DepAirport getDepAirport() {
+        return depAirport;
+    }
+
+    /**
+     * Life cycle of the Pilot
+     */
     @Override
     public void run() {
         while(depAirport.getFlew()<21) {
@@ -25,19 +115,11 @@ public class Pilot extends Thread{
         }
     }
 
-
-    public Pilot (DepAirport depAirport, DestAirport destAirport, Airplane airplane, int pilotID) {
-        this.pilotID=pilotID;
-        this.depAirport=depAirport;
-        this.destAirport=destAirport;
-        this.airplane=airplane;
-        Pilotstate=PilotStates.atTransferGate;
-    }
-
-
-
-
-    //meti publico
+    /**
+     * Pilot in flight.
+     *
+     * Internal Operation.
+     */
     public void fly() {
         try {
             sleep(5000);
@@ -48,47 +130,4 @@ public class Pilot extends Thread{
         System.out.println("VOEI OH PRA LÁ");
     }
 
-    public void waitForAllInBoard() {
-        Pilotstate = PilotStates.waitingForBoarding;
-    }
-
-    public void flyToDestinationPoint() {
-        Pilotstate = PilotStates.flyingForward;
-    }
-
-    public void announceArrival() {
-        Pilotstate = PilotStates.deBoarding;
-    }
-
-    public void flyToDeparturePoint() {
-        Pilotstate = PilotStates.flyingBack;
-    }
-
-    public void parkAtTransferGate() {
-        Pilotstate = PilotStates.atTransferGate;
-    }
-
-    public DepAirport getDepAirport() { return depAirport; }
-
-    public void setDepAirport(DepAirport depAirport) { this.depAirport = depAirport; }
-
-    public DestAirport getDestAirport() { return destAirport; }
-
-    public void setDestAirport(DestAirport destAirport) { this.destAirport = destAirport; }
-
-    public Airplane getAirplane() { return airplane; }
-
-    public void setAirplane(Airplane airplane) { this.airplane = airplane; }
-
-    public int getPilotID() { return pilotID; }
-
-    public void setPilotID(int pilotID) { this.pilotID = pilotID; }
-
-    public int getPilotstate() {
-        return Pilotstate;
-    }
-
-    public void setPilotstate(int pilotstate) {
-        Pilotstate = pilotstate;
-    }
 }

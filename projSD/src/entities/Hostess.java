@@ -13,13 +13,39 @@ import shared.DestAirport;
 
 public class Hostess extends Thread {
 
+    /**
+     * Hostess state.
+     */
+    private int hostessState;
 
-    private int HostessState;
+    /**
+     * Hostess identification.
+     */
     private int hostessID;
-    private DepAirport depAirport;
-    private DestAirport destAirport;
-    private Airplane airplane;
 
+    /**
+     * Reference to the departure airport.
+     */
+    private final DepAirport depAirport;
+
+    /**
+     * Reference to the destination airport.
+     */
+    private final DestAirport destAirport;
+
+    /**
+     * Reference to the airplane.
+     */
+    private final Airplane airplane;
+
+    /**
+     * Instantiation of a Hostess thread.
+     *
+     * @param depAirport reference to departure airport
+     * @param destAirport reference to destination airport
+     * @param airplane reference to airplane
+     * @param hostessID hostess id
+     */
     public Hostess(DepAirport depAirport, DestAirport destAirport, Airplane airplane, int hostessID){
         this.hostessID=hostessID;
         this.destAirport=destAirport;
@@ -27,18 +53,45 @@ public class Hostess extends Thread {
         this.airplane=airplane;
     }
 
+    /**
+     * Get Hostess state.
+     *
+     * @return Hostess State.
+     */
     public int getHostessState() {
-        return HostessState;
+        return hostessState;
     }
 
-    public void setHostessState(int hostessState) {
-        HostessState = hostessState;
+    /**
+     * Set hostess id.
+     *
+     * @param hostessID new hostess id.
+     */
+    public void setHostessID(int hostessID) {
+        this.hostessID = hostessID;
     }
 
+    /**
+     * Get hostess ID.
+     *
+     * @return hostess ID.
+     */
     public int getHostessID() {
         return hostessID;
     }
 
+    /**
+     * Set Hostess State.
+     *
+     * @param hostessState new costumer id.
+     */
+    public void setHostessState(int hostessState) {
+        this.hostessState = hostessState;
+    }
+
+    /**
+     * Life cycle of the Hostess.
+     */
     @Override
     public void run() {
         prepareForPassBoarding();
@@ -55,10 +108,13 @@ public class Hostess extends Thread {
 
     }
 
-
-
+    /**
+     * Hostess prepares for the passengers to board.
+     *
+     * Internal Operation.
+     */
     public void prepareForPassBoarding() {
-        HostessState = HostessStates.waitForPassenger;
+        hostessState = HostessStates.waitForPassenger;
         try {
             sleep(100);
         } catch (InterruptedException e) {

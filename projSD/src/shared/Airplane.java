@@ -90,8 +90,6 @@ public class Airplane {
 
     public synchronized void waitForEndOfFlight(){
         int passengerId = ((Passenger) Thread.currentThread()).getPassengerId();
-        ((Passenger) Thread.currentThread()).setPassengerState(PassengerStates.inFlight);
-        repos.setPassengerState(passengerId, ((Passenger) Thread.currentThread()).getPassengerState());
 
         while (!arrived) {
 //            System.out.println("PRINT DO VALE");

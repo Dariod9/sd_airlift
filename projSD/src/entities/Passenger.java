@@ -25,16 +25,6 @@ public class Passenger extends Thread {
     private int passengerState;
 
     /**
-     * Passenger called by the hostess.
-     */
-    private boolean called;
-
-    /**
-     * Passenger checked by the hostess.
-     */
-    private boolean checked;
-
-    /**
      * Reference to the departure airport.
      */
     private final DepAirport depAirport;
@@ -52,20 +42,18 @@ public class Passenger extends Thread {
     /**
      * Instantiation of a Airplane thread.
      *
-     * @param depAirport
-     * @param destAirport
-     * @param airplane
-     * @param id
+     * @param depAirport reference to departure airport
+     * @param destAirport reference to destination airport
+     * @param airplane reference to airplane
+     * @param id passenger id
      */
     public Passenger(DepAirport depAirport, DestAirport destAirport, Airplane airplane, int id) {
-
-        this.called = false;
-        this.checked = false;
         this.passengerId = id;
         this.depAirport = depAirport;
         this.destAirport = destAirport;
         this.airplane = airplane;
     }
+
 
     /**
      * Get passenger id.
@@ -74,6 +62,15 @@ public class Passenger extends Thread {
      */
     public int getPassengerId() {
         return passengerId;
+    }
+
+    /**
+     * Set customer id.
+     *
+     * @param passengerId new costumer id.
+     */
+    public void setpassengerId(int passengerId) {
+        this.passengerId = passengerId;
     }
 
     /**
@@ -93,6 +90,8 @@ public class Passenger extends Thread {
     public void setPassengerState(int passengerState) {
         this.passengerState = passengerState;
     }
+
+
 
     /**
      * Life cycle of the Passenger.

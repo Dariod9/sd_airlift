@@ -1,34 +1,31 @@
 package entities;
 
+/**
+ *    Definition of the internal states of the passenger during his life cycle.
+ */
+
 public final class PassengerStates
 {
     /**
-     *   The barber is resting while waiting for a customer.
+     *   The passenger is going to the departure airport.
      */
-
     public static final int goingToAirport = 0;
 
     /**
-     *   The barber is cutting some customer hair.
+     *   The passenger is in queue.
      */
-
     public static final int inQueue = 1;
 
     /**
-     *   It can not be instantiated.
+     *   The passenger is in flight.
      */
-
     public static final int inFlight = 2;
 
     /**
-     *   The barber is cutting some customer hair.
+     *   The passenger as arrived at the destination.
      */
-
     public static final int atDestination = 3;
 
-    /**
-     *   The barber is cutting some customer hair.
-     */
 
     private PassengerStates()
     { }
