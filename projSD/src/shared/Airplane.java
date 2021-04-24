@@ -9,20 +9,45 @@ import structs.MemFIFO;
 
 public class Airplane {
 
+    /**
+     * List of all the boarded passengers' IDs.
+     */
+
     private MemFIFO<Integer> passengerIDs;
+
+    /**
+     * Number of passengers currently boarded.
+     */
+
     private int occupation;
-    private boolean boarded;
+
+    /**
+     * Status of the airplanes' occupation (empty or not)
+     */
+
     private boolean empty = false;
+
+    /**
+     * Status of the flight (arrived or not)
+     */
+
     private boolean arrived = false;
-    //private int totalArrived;
+
+    /**
+     * Reference to the repository.
+     */
+
     private Repository repos;
 
+    /**
+     *  Airplane instantiation
+     * @param repos reference to the repository.
+     */
 
     public Airplane(Repository repos) {
         try {
             this.passengerIDs = new MemFIFO<>(new Integer [21]);
             occupation=0;
-            boarded=false;
             this.repos=repos;
 
         } catch (MemException e) {
@@ -30,49 +55,16 @@ public class Airplane {
         }
     }
 
-
-//    public int getTotalArrived() {
-//        return totalArrived;
-//    }
-//
-//    public void setTotalArrived(int totalArrived) {
-//        this.totalArrived = totalArrived;
-//    }
-
-    public boolean isBoarded() {
-        return boarded;
-    }
-
-    public void setBoarded(boolean boarded) {
-        this.boarded = boarded;
-    }
-
-    public int getOccupation() { return this.occupation; }
-
-    public void setOccupation(int occupation) {
-        this.occupation=occupation;
-    }
-
-    public MemFIFO<Integer> getPassengerIDs() {
-        return passengerIDs;
-    }
-
-    public void setPassengerIDs(MemFIFO<Integer> passengerIDs) {
-        this.passengerIDs = passengerIDs;
-    }
+    /**
+     *  Operation board the plane
+     *
+     *  It is called by the passenger after having the documents checked
+     */
 
     public synchronized void boardThePlane() {
         int passengerId = ((Passenger) Thread.currentThread()).getPassengerId();
         ((Passenger) Thread.currentThread()).setPassengerState(PassengerStates.inFlight);
         repos.setPassengerState(passengerId,((Passenger) Thread.currentThread()).getPassengerState());
-//
-//        while (!boarded){
-//            try {
-//                wait();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
 
         try {
             passengerIDs.write(passengerId);
@@ -82,17 +74,21 @@ public class Airplane {
             e.printStackTrace();
         }
 
-//        this.boarded=false;
         System.out.println("ENTROU NO AVIÃO O "+passengerId);
         notifyAll();
 
     }
 
+    /**
+     * Operation wait for the end of the flight
+     *
+     * It is called by a Passenger while it doesn't reach its destination
+     */
+
     public synchronized void waitForEndOfFlight(){
         int passengerId = ((Passenger) Thread.currentThread()).getPassengerId();
 
         while (!arrived) {
-//            System.out.println("PRINT DO VALE");
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -100,6 +96,12 @@ public class Airplane {
             }
         }
     }
+
+    /**
+     * Operation leave the airplane
+     *
+     * It is called by the passenger after the flight lands
+     */
 
     public synchronized void leaveThePlane(){
         int passengerId = ((Passenger) Thread.currentThread()).getPassengerId();
@@ -126,13 +128,17 @@ public class Airplane {
         notifyAll();
     }
 
+    /**
+     * Operation announce arrival.
+     *
+     * It is called by the pilot after the airplane lands at the destination.
+     */
+
     public synchronized void announceArrival() {
         int pilotId = ((Pilot) Thread.currentThread()).getPilotID();
         ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.deBoarding);
         repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
 
-//        totalArrived+= ((Pilot) Thread.currentThread()).getAirplane().getOccupation();
-//        System.out.println("CHEGUEI POTAS, COM "+totalArrived+" WIIS");
         arrived=true;
         notifyAll();
         while(!empty) {
@@ -145,8 +151,13 @@ public class Airplane {
 
         //notifyAll();
 
-        //((Pilot) Thread.currentThread()).getAirplane().setOccupation(0); //vai ter que ser mudado
     }
+
+    /**
+     * Operation park at the transfer gate.
+     *
+     * It is called by the pilot once it has landed back at the departure airport.
+     */
 
     public synchronized void parkAtTransferGate() {
         int pilotId = ((Pilot) Thread.currentThread()).getPilotID();

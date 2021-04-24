@@ -11,21 +11,80 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ *  Repository
+ *
+ *      adasdasda
+ */
+
 public class Repository {
+
+    /**
+     * Name of the logging file.
+     */
+
     private final String filename;
+
+    /**
+     * Number of iterations of the passenger life cycle.
+     */
+
     private final int nPassengers;
+
+    /**
+     * Number of departing flights.
+     */
 
     private static int flight_number = 0;
 
+    /**
+     * State of the passengers.
+     */
+
     private int [] passengerState;
+
+    /**
+     *  State of the hostess.
+     */
+
     private int hostessState;
+
+    /**
+     * State of the pilot.
+     */
+
     private int pilotState;
 
+    /**
+     * Passengers in Queue
+     */
+
     private int inqe;   // passengers in queue
+
+    /**
+     * Passengers in Flight
+     */
+
     private int inpl;   // passengers in plane
+
+    /**
+     * Passengers at the Destination.
+     */
+
     private int atds;   // passengers at destination
 
+    /**
+     * Association of the flight to its' occupation.
+     */
+
     private HashMap<Integer, Integer> flights_info;
+
+    /**
+     *  Instantiation of a repository object.
+     *
+     * @param nPassangers number of iterations of the passenger life cycle
+     *
+     */
 
     public Repository(int nPassangers) {
         this.filename = "logger";
@@ -46,29 +105,64 @@ public class Repository {
         writeHeader();
     }
 
+    /**
+     *  Get number of passengers in Queue
+     * @return Number of passengers
+     */
+
     public int getInqe() {
         return inqe;
     }
+
+    /**
+     *  Set number of passengers in Queue
+     * @param inqe number of passengers
+     */
 
     public void setInqe(int inqe) {
         this.inqe = inqe;
     }
 
+    /**
+     *   Get number of passengers in flight.
+     * @return number of passengers.
+     */
+
     public int getInpl() {
         return inpl;
     }
+
+    /**
+     *  Set number of passengers in flight.
+     * @param inpl number of passengers.
+     */
 
     public void setInpl(int inpl) {
         this.inpl = inpl;
     }
 
+    /**
+     *  Get number of passengers at the destination.
+     * @return number of passengers
+     */
+
     public int getAtds() {
         return atds;
     }
 
+    /**
+     *  Set number of passengers at the destination.
+     * @param atds number of passengers.
+     */
+
     public void setAtds(int atds) {
         this.atds = atds;
     }
+
+    /**
+     *  Set pilot state
+     * @param state pilot state
+     */
 
     public synchronized void setPilotState(int state){
         if (this.pilotState != state){
@@ -83,10 +177,21 @@ public class Repository {
         reportStatus("   pilot");
     }
 
+    /**
+     *  Set hostess state.
+     * @param state hostess state.
+     */
+
     public synchronized void setHostessState(int state){
         this.hostessState = state;
         reportStatus("   hostess");
     }
+
+    /**
+     * Set hostess state after checking a passenger.
+     * @param state hostess state.
+     * @param id_passenger ID of the passenger checked.
+     */
 
     public synchronized void setHostessState(int state, int id_passenger){
         this.hostessState = state;
@@ -95,6 +200,12 @@ public class Repository {
         setInqe(getInqe() - 1);
         reportStatus("   hostess");
     }
+
+    /**
+     *  Set passenger state.
+     * @param id passenger id.
+     * @param state passenger state.
+     */
 
     public synchronized void setPassengerState(int id, int state){
         this.passengerState[id] = state;
@@ -116,9 +227,21 @@ public class Repository {
         reportStatus("   passenger");
     }
 
+    /**
+     *  Link a flight number to its occupation.
+     * @param inpl occupation.
+     */
+
     public synchronized void addFlightInfo(int inpl){
         flights_info.put(flight_number, inpl);
     }
+
+    /**
+     *  Write the header to the logging file.
+     *
+     *  The passengers are sleeping and the hostess and pilot are carrying out normal duties.
+     *  Internal operation.
+     */
 
     private void writeHeader(){
         TextFile log = new TextFile ();                      // instantiation of a text file handler
@@ -138,6 +261,13 @@ public class Repository {
         reportStatus("   header");
     }
 
+    /**
+     *  Write a state line at the beginning of the logging file with the initial states.
+     *
+     *  The current state of the pilot, hostess and passengers are organized in a line to be printed.
+     *  Internal operation.
+     */
+
     private void writeSmallHeader(int nFlight, String message){
         TextFile log = new TextFile ();                      // instantiation of a text file handler
 
@@ -154,6 +284,13 @@ public class Repository {
             System.exit (1);
         }
     }
+
+    /**
+     *  Write a state line at the end of the logging file.
+     *
+     *  The current state of the pilot, hostess and passengers are organized in a line to be printed.
+     *  Internal operation.
+     */
 
     private void reportStatus(String teste){
         TextFile log = new TextFile ();                      // instantiation of a text file handler
@@ -239,6 +376,13 @@ public class Repository {
             System.exit (1);
         }
     }
+
+    /**
+     *  Write a summary of the flights needed to transport all the passengers.
+     *
+     *  The current state of the pilot, hostess and passengers are organized in a line to be printed.
+     *  Internal operation.
+     */
 
     public synchronized void reportSummary(){
         TextFile log = new TextFile ();                      // instantiation of a text file handler

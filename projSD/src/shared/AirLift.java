@@ -6,16 +6,30 @@ import entities.Pilot;
 
 import java.util.Arrays;
 
+/**
+ * Simulation of the Air Lift Concurrent Implementation.
+ * Static solution.
+ */
+
 public class AirLift {
+
+    /**
+     *  Main method.
+     *
+     *  @param args runtime arguments
+     */
     public static void main(String [] args){
 
-        int nr=21;
-        Repository repos = new Repository(nr);
-        DepAirport depAirport= new DepAirport(repos);
-        DestAirport destAirport= new DestAirport(repos);
-        Airplane airplane = new Airplane(repos);
+        final int MAX=21;                                                                   // total number of passengers
+        Repository repos = new Repository(MAX);                                             // reference to rhe repository
+        DepAirport depAirport= new DepAirport(repos);                                       // reference to the departure airport
+        DestAirport destAirport= new DestAirport(repos);                                    // reference to the destination airport
+        Airplane airplane = new Airplane(repos);                                            // reference to the airplane
+        Passenger [] passageiros = new Passenger[MAX];                                      // array of passengers
 
-        Passenger [] passageiros = new Passenger[nr];
+
+        /* problem initialization */
+
         Pilot pilot= new Pilot(depAirport,destAirport,airplane,0);
         Hostess hostess= new Hostess(depAirport, destAirport, airplane, 0);
 
@@ -24,9 +38,13 @@ public class AirLift {
             passageiros[i]=new Passenger(depAirport, destAirport, airplane, i);
         }
 
+        /* start of the simulation */
+
         pilot.start();
         hostess.start();
         Arrays.stream(passageiros).forEach(x -> x.start());
+
+        /* waiting for the end of the simulation */
 
         Arrays.stream(passageiros).forEach(x -> {
             try {

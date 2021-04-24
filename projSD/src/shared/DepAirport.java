@@ -8,25 +8,69 @@ import static java.lang.Thread.sleep;
 
 public class DepAirport {
 
+    /**
+     * List of all of the passengers' IDs.
+     */
+
     private MemFIFO<Integer> passengerIDs;
-    private MemFIFO<Integer> calleds;
+
+    /**
+     * Id of the passenger called by the hostess.
+     */
+
     private int chamado = -1;
+
+    /**
+     * Status of the pilots' boarding process (ready for boarding or not).
+     */
+
     private boolean pilotReady = false;
-    private boolean available = false;
+
+    /**
+     * Status of the passengers' checking process (checked or not).
+     */
+
     private boolean checked = false;
+
+    /**
+     * Length of the Queue.
+     */
+
     private int fifoSize;
+
+    /**
+     * Status of the passengers' boarding process (boarded or not).
+     */
+
     private int boarded;
+
+    /**
+     * Number of passengers who have travalled.
+     */
+
     private int flew = 0;
+
+    /**
+     * Status of the take off action (ready or not).
+     */
+
     private boolean readyTakeOff = false;
-    private boolean planeReady = false;
+
+    /**
+     * Reference to the repository.
+     */
+
     private Repository repos;
 
-
+    /**
+     * Departure Airport instantiaton.
+     *
+     * @param repos reference to the repository.
+     */
     public DepAirport(Repository repos) {
 
         try {
             this.passengerIDs = new MemFIFO(new Integer[21]);
-            this.calleds = new MemFIFO<>(new Integer[21]);
             this.fifoSize = 0;
             this.boarded = 0;
             this.repos=repos;
@@ -35,33 +79,17 @@ public class DepAirport {
         }
     }
 
-
-//    public synchronized void travelToAirport() {
-//        int passengerId = ((Passenger) Thread.currentThread ()).getPassengerId();
-//        ((Passenger) Thread.currentThread ()).setPassengerState (PassengerStates.inQueue);
-//
-//
-//    }
-
-
-    public void setFlew(int flew) {
-        this.flew = flew;
-    }
-
     public int getFlew() {
         return this.flew;
     }
 
-    public boolean isPilotReady() {
-        return pilotReady;
-    }
 
-    public synchronized void setPilotReady(boolean pilotReady) {
-        this.pilotReady = pilotReady;
-        notifyAll();
-    }
-
-
+    /**
+     * Operation enter and wait in the Queue.
+     *
+     * It is called by a passenger after he arrives to the airport, while he waits to be called by the hostess.
+     *
+     */
     public synchronized void waitInQueue() {
         int passengerId = ((Passenger) Thread.currentThread()).getPassengerId();
         ((Passenger) Thread.currentThread()).setPassengerState(PassengerStates.inQueue);
@@ -90,11 +118,6 @@ public class DepAirport {
             }
         }
 
-        //available = true;
-//        ((Passenger) Thread.currentThread()).setavailable(true);
-//        System.out.println("Passageiro "+passengerId+" mostrou os docs");
-        //checkingDocs=true;
-
         notifyAll();
 
         while (!checked) {
@@ -109,12 +132,16 @@ public class DepAirport {
 
     }
 
+    /**
+     * Operation wait for the next passenger.
+     *
+     * It is called by the hostess while there are no passengers in the Queue for her to call.
+     */
     public synchronized void waitForNextPassenger() {
+
         int hostessId = ((Hostess) Thread.currentThread()).getHostessID();
         ((Hostess) Thread.currentThread()).setHostessState(HostessStates.waitForPassenger);
         repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
-//        available = true;
-//        notifyAll();
 
 
         while (fifoSize == 0 ) {
@@ -127,23 +154,18 @@ public class DepAirport {
 
     }
 
+    /**
+     * Operation check for documents.
+     *
+     * It is called by the hostess when she checks the documents of a passenger.
+     *
+     */
+
     public synchronized void checkDocuments() {
 
         int hostessId = ((Hostess) Thread.currentThread()).getHostessID();
 
         ((Hostess) Thread.currentThread()).setHostessState(HostessStates.checkPassenger);
-        //repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
-
-
-//        while (!available) {
-//            try {
-//                wait();
-//            } catch (Exception e) {
-//                System.out.println("Couldnt wait for next Passenger");
-//            }
-//        }
-//
-//        available=false;
 
         try {
             if (boarded < 10) {
@@ -153,7 +175,6 @@ public class DepAirport {
         } catch (MemException e) {
             e.printStackTrace();
         }
-        //        checkingDocs=true;
         try {
             sleep(500 * (long) Math.random()); //A LER OS DOCS
         } catch (InterruptedException e) {
@@ -169,58 +190,56 @@ public class DepAirport {
 
     }
 
+    /**
+     * Operation inform that the plane is ready to take off.
+     *
+     * It is called by the hostess when the plane is ready to board.
+     *
+     */
 
     public synchronized void informPlaneReadyToTakeOff() {
         int hostessId = ((Hostess) Thread.currentThread()).getHostessID();
 
-//        while (!planeReady) {
-//            try {
-//                wait();
-//            } catch (Exception e) {
-//                System.out.println("Plane not ready");
-//            }
-//        }
-//
-//        //if (((fifoSize == 0 && boarded >= 5 && boarded <= 10) || boarded == 10) || (flew >= 16 && boarded == 21 - flew)) {
-//        if(boarded==10){
         if (flew >= 16) {
             if (boarded == 21 - flew){
                 readyTakeOff = true;
-//            boarded=0;
                 pilotReady = false;
                 System.out.println("READY TO TAKE OFF");
                 notifyAll();
 
                 ((Hostess) Thread.currentThread()).setHostessState(HostessStates.readyToFly);
                 repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
-
-
             }
         }
         else {
                 if (boarded == 10) {
                     readyTakeOff = true;
-//            boarded=0;
                     pilotReady = false;
                     System.out.println("READY TO TAKE OFF");
                     notifyAll();
+
                     ((Hostess) Thread.currentThread()).setHostessState(HostessStates.readyToFly);
                     repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
                 } else {
                     if (fifoSize == 0 && boarded >= 5) {
                         readyTakeOff = true;
-//            boarded=0;
                         pilotReady = false;
                         System.out.println("READY TO TAKE OFF");
                         notifyAll();
+
                         ((Hostess) Thread.currentThread()).setHostessState(HostessStates.readyToFly);
                         repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
                     }
                 }
-
-
             }
     }
+
+    /**
+     * Operation wait for the next flight.
+     *
+     * It is called by the hostess while she waits for the next flight to happen.
+     *
+     */
 
     public synchronized void waitForNextFlight() {
         int hostessId = ((Hostess) Thread.currentThread()).getHostessID();
@@ -237,51 +256,12 @@ public class DepAirport {
 
     }
 
-//    public synchronized void checkPassenger() {
-//
-//        int hostessId = ((Hostess) Thread.currentThread()).getHostessID();
-//        ((Hostess) Thread.currentThread()).setHostessState(HostessStates.checkPassenger);
-//        repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
-//
-//        while (!pilotReady) {
-//            try {
-//                wait();
-//            } catch (Exception e) {
-//                System.out.println("Piloto not ready");
-//            }
-//        }
-//
-//        while (fifoSize == 0) {
-//            try {
-//                wait();
-//            } catch (Exception e) {
-//                System.out.println("OIOIOIOIO");
-//            }
-//        }
-//
-////        while(fifoSize < 1 && checkingDocs) {
-////            try {
-////                wait();
-////            } catch (InterruptedException e) {
-////                e.printStackTrace();
-////            }
-////        }
-//
-//        //   System.out.println("GENTE NA FILA");
-////        checked=false;
-//
-//
-////
-////        while (!available) {
-////            try {
-////                wait();
-////            } catch (Exception e) {
-////                System.out.println("Piloto not ready");
-////            }
-////        }
-//
-//
-//    }
+    /**
+     * Operation show documents.
+     *
+     * It is called by the passenger after being called by the hostess and before boarding the plane.
+     *
+     */
 
     public synchronized void showDocuments() {
         System.out.println("DETAILS:");
@@ -291,15 +271,13 @@ public class DepAirport {
         System.out.println();
 
         int passengerId = ((Passenger) Thread.currentThread()).getPassengerId();
-//        boarded++;
-//        flew++;
-
-//        try {
-//            sleep(200 * (long) Math.random()); //A LER OS DOCS
-//        } catch (InterruptedException e) {
-//            System.out.println("NÃO CONSEGUIU MOSTRAR OS DOCS");
-//        }
     }
+
+    /**
+     * Operation inform that passengers can start boarding the plane.
+     *
+     * It is called by the pilot after arriving to the transfer gate.
+     */
 
     public synchronized void informPlaneReadyForBoarding() {
         int pilotId = ((Pilot) Thread.currentThread()).getPilotID();
@@ -311,6 +289,11 @@ public class DepAirport {
         System.out.println("Piloto diz que tá ready");
     }
 
+    /**
+     * Operation wait for the passengers.
+     *
+     * It is called by the pilot while he waits for enough passengers to enter the plane.
+     */
 
     public synchronized void waitForAllInBoard() {
         int pilotId = ((Pilot) Thread.currentThread()).getPilotID();
@@ -320,7 +303,6 @@ public class DepAirport {
         System.out.println("\u001B[31m" + " TOU A ESPERA " + "\u001B[0m");
         System.out.println("ESTAO NA FILA " + fifoSize);
         while (!readyTakeOff) {
-            System.out.println("PRINT DO VALE");
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -328,6 +310,13 @@ public class DepAirport {
             }
         }
     }
+
+    /**
+     * Operation fly to destination.
+     *
+     * It is called by the pilot when the plane is ready to take off.
+     *
+     */
 
     public synchronized void flyToDestinationPoint() {
         repos.addFlightInfo(boarded);
