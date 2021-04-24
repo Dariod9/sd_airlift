@@ -15,6 +15,7 @@ public class Airplane {
     private boolean empty = false;
     private boolean arrived = false;
     //private int totalArrived;
+    private Repository repos;
 
 
     public Airplane(Repository repos) {
@@ -22,6 +23,8 @@ public class Airplane {
             this.passengerIDs = new MemFIFO<>(new Integer [21]);
             occupation=0;
             boarded=false;
+            this.repos=repos;
+
         } catch (MemException e) {
             e.printStackTrace();
         }
@@ -44,15 +47,11 @@ public class Airplane {
         this.boarded = boarded;
     }
 
-    public int getOccupation() {
-        return this.occupation;
-    }
+    public int getOccupation() { return this.occupation; }
 
     public void setOccupation(int occupation) {
         this.occupation=occupation;
     }
-
-
 
     public MemFIFO<Integer> getPassengerIDs() {
         return passengerIDs;
@@ -62,12 +61,10 @@ public class Airplane {
         this.passengerIDs = passengerIDs;
     }
 
-
-
     public synchronized void boardThePlane() {
         int passengerId = ((Passenger) Thread.currentThread()).getPassengerId();
         ((Passenger) Thread.currentThread()).setPassengerState(PassengerStates.inFlight);
-
+        repos.setPassengerState(passengerId,((Passenger) Thread.currentThread()).getPassengerState());
 //
 //        while (!boarded){
 //            try {
@@ -94,6 +91,7 @@ public class Airplane {
     public synchronized void waitForEndOfFlight(){
         int passengerId = ((Passenger) Thread.currentThread()).getPassengerId();
         ((Passenger) Thread.currentThread()).setPassengerState(PassengerStates.inFlight);
+        repos.setPassengerState(passengerId, ((Passenger) Thread.currentThread()).getPassengerState());
 
         while (!arrived) {
 //            System.out.println("PRINT DO VALE");
@@ -108,6 +106,7 @@ public class Airplane {
     public synchronized void leaveThePlane(){
         int passengerId = ((Passenger) Thread.currentThread()).getPassengerId();
         ((Passenger) Thread.currentThread()).setPassengerState(PassengerStates.atDestination);
+        repos.setPassengerState(passengerId, ((Passenger) Thread.currentThread()).getPassengerState());
 
         int passenger;
 
@@ -127,12 +126,12 @@ public class Airplane {
 
         }
         notifyAll();
-
     }
 
     public synchronized void announceArrival() {
         int pilotId = ((Pilot) Thread.currentThread()).getPilotID();
         ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.deBoarding);
+        repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
 
 //        totalArrived+= ((Pilot) Thread.currentThread()).getAirplane().getOccupation();
 //        System.out.println("CHEGUEI POTAS, COM "+totalArrived+" WIIS");
@@ -154,6 +153,7 @@ public class Airplane {
     public synchronized void parkAtTransferGate() {
         int pilotId = ((Pilot) Thread.currentThread()).getPilotID();
         ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.atTransferGate);
+        repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
 
         arrived=false;
         notifyAll();

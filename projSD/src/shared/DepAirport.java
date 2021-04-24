@@ -65,6 +65,7 @@ public class DepAirport {
     public synchronized void waitInQueue() {
         int passengerId = ((Passenger) Thread.currentThread()).getPassengerId();
         ((Passenger) Thread.currentThread()).setPassengerState(PassengerStates.inQueue);
+        repos.setPassengerState(passengerId,((Passenger) Thread.currentThread()).getPassengerState());
 
         try {
             passengerIDs.write(passengerId);
@@ -111,7 +112,7 @@ public class DepAirport {
     public synchronized void waitForNextPassenger() {
         int hostessId = ((Hostess) Thread.currentThread()).getHostessID();
         ((Hostess) Thread.currentThread()).setHostessState(HostessStates.waitForPassenger);
-
+        repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
 //        available = true;
 //        notifyAll();
 
@@ -129,7 +130,9 @@ public class DepAirport {
     public synchronized void checkDocuments() {
 
         int hostessId = ((Hostess) Thread.currentThread()).getHostessID();
+
         ((Hostess) Thread.currentThread()).setHostessState(HostessStates.checkPassenger);
+        //repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
 
 
 //        while (!available) {
@@ -157,7 +160,7 @@ public class DepAirport {
         } catch (InterruptedException e) {
             System.out.println("NÃO CONSEGUIU LER");
         }
-
+        repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState(), chamado);
         System.out.println("A LER");
 //        flew++;
 
@@ -171,6 +174,7 @@ public class DepAirport {
     public synchronized void informPlaneReadyToTakeOff() {
         int hostessId = ((Hostess) Thread.currentThread()).getHostessID();
         ((Hostess) Thread.currentThread()).setHostessState(HostessStates.readyToFly);
+        repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
 
 //        while (!planeReady) {
 //            try {
@@ -215,6 +219,7 @@ public class DepAirport {
     public synchronized void waitForNextFlight() {
         int hostessId = ((Hostess) Thread.currentThread()).getHostessID();
         ((Hostess) Thread.currentThread()).setHostessState(HostessStates.waitForFlight);
+        repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
 
         while (!pilotReady) {
             try {
@@ -226,50 +231,51 @@ public class DepAirport {
 
     }
 
-    public synchronized void checkPassenger() {
-
-        int hostessId = ((Hostess) Thread.currentThread()).getHostessID();
-        ((Hostess) Thread.currentThread()).setHostessState(HostessStates.checkPassenger);
-
-        while (!pilotReady) {
-            try {
-                wait();
-            } catch (Exception e) {
-                System.out.println("Piloto not ready");
-            }
-        }
-
-        while (fifoSize == 0) {
-            try {
-                wait();
-            } catch (Exception e) {
-                System.out.println("OIOIOIOIO");
-            }
-        }
-
-//        while(fifoSize < 1 && checkingDocs) {
-//            try {
-//                wait();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
-
-        //   System.out.println("GENTE NA FILA");
-//        checked=false;
-
-
+//    public synchronized void checkPassenger() {
 //
-//        while (!available) {
+//        int hostessId = ((Hostess) Thread.currentThread()).getHostessID();
+//        ((Hostess) Thread.currentThread()).setHostessState(HostessStates.checkPassenger);
+//        repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
+//
+//        while (!pilotReady) {
 //            try {
 //                wait();
 //            } catch (Exception e) {
 //                System.out.println("Piloto not ready");
 //            }
 //        }
-
-
-    }
+//
+//        while (fifoSize == 0) {
+//            try {
+//                wait();
+//            } catch (Exception e) {
+//                System.out.println("OIOIOIOIO");
+//            }
+//        }
+//
+////        while(fifoSize < 1 && checkingDocs) {
+////            try {
+////                wait();
+////            } catch (InterruptedException e) {
+////                e.printStackTrace();
+////            }
+////        }
+//
+//        //   System.out.println("GENTE NA FILA");
+////        checked=false;
+//
+//
+////
+////        while (!available) {
+////            try {
+////                wait();
+////            } catch (Exception e) {
+////                System.out.println("Piloto not ready");
+////            }
+////        }
+//
+//
+//    }
 
     public synchronized void showDocuments() {
         System.out.println("DETAILS:");
@@ -280,6 +286,7 @@ public class DepAirport {
 
         int passengerId = ((Passenger) Thread.currentThread()).getPassengerId();
         ((Passenger) Thread.currentThread()).setPassengerState(PassengerStates.inQueue);
+        repos.setPassengerState(passengerId, ((Passenger) Thread.currentThread()).getPassengerState());
 //        boarded++;
 //        flew++;
 
@@ -293,6 +300,7 @@ public class DepAirport {
     public synchronized void informPlaneReadyForBoarding() {
         int pilotId = ((Pilot) Thread.currentThread()).getPilotID();
         ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.readyForBoarding);
+        repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
 
         long a = 2000 + 10 * (long) Math.random();
         try {
@@ -310,6 +318,7 @@ public class DepAirport {
     public synchronized void waitForAllInBoard() {
         int pilotId = ((Pilot) Thread.currentThread()).getPilotID();
         ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.waitingForBoarding);
+        repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
 
         System.out.println("\u001B[31m" + " TOU A ESPERA " + "\u001B[0m");
         System.out.println("ESTAO NA FILA " + fifoSize);
@@ -326,6 +335,7 @@ public class DepAirport {
     public synchronized void flyToDestinationPoint() {
         int pilotId = ((Pilot) Thread.currentThread()).getPilotID();
         ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.flyingForward);
+        repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
 
         System.out.println("\u001B[32m" + " BORA BORAAAA " + "\u001B[0m");
         System.out.println("DETAILS:");

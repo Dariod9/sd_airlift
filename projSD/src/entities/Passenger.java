@@ -117,9 +117,7 @@ public class Passenger extends Thread {
         this.passengerState = passengerState;
     }
 
-    public int getpassengerState() {
-        return passengerState;
-    }
+
 
     public void setpassengerState(int passengerState) {
         passengerState = passengerState;

@@ -2,16 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="23bc17c4-f235-4341-9682-b505947b632b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projSD/src/entities/Hostess.java" beforeDir="false" afterPath="$PROJECT_DIR$/projSD/src/entities/Hostess.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/sd_assignment1/entities/Passenger.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/sd_assignment1/entities/Passenger.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/sd_assignment1/shared/AirLift.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/sd_assignment1/shared/AirLift.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/sd_assignment1/shared/Airplane.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/sd_assignment1/shared/Airplane.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/sd_assignment1/shared/DepAirport.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/sd_assignment1/shared/DepAirport.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/sd_assignment1/shared/DestAirport.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/sd_assignment1/shared/DestAirport.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/projSD/src/entities/Passenger.java" beforeDir="false" afterPath="$PROJECT_DIR$/projSD/src/entities/Passenger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projSD/src/entities/Pilot.java" beforeDir="false" afterPath="$PROJECT_DIR$/projSD/src/entities/Pilot.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/projSD/src/shared/Airplane.java" beforeDir="false" afterPath="$PROJECT_DIR$/projSD/src/shared/Airplane.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/projSD/src/shared/DepAirport.java" beforeDir="false" afterPath="$PROJECT_DIR$/projSD/src/shared/DepAirport.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/projSD/src/shared/DestAirport.java" beforeDir="false" afterPath="$PROJECT_DIR$/projSD/src/shared/DestAirport.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projSD/src/shared/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/projSD/src/shared/AirLift.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sd_assignment1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/sd_assignment1.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,9 +36,10 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="project.structure.last.edited" value="Project" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../genclass.jar" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
   <component name="RunManager">
@@ -79,7 +81,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1619193240552</updated>
-      <workItem from="1619193246024" duration="13376000" />
+      <workItem from="1619193246024" duration="21871000" />
     </task>
     <servers />
   </component>

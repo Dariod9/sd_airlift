@@ -14,7 +14,8 @@ public class DestAirport {
     public synchronized void flyToDeparturePoint() {
         int pilotId = ((Pilot) Thread.currentThread()).getPilotID();
         ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.flyingBack);
-
+        repos.setPilotState((((Pilot) Thread.currentThread()).getPilotstate()));
+        
         System.out.println("VOEI OH PRA CÁ");
     }
 }
