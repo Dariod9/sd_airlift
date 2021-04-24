@@ -4,123 +4,128 @@ import shared.Airplane;
 import shared.DepAirport;
 import shared.DestAirport;
 
+/**
+ *   Passenger thread.
+ *
+ *   It simulates the passenger life cycle.
+ *   Static solution.
+ */
+
+
 public class Passenger extends Thread {
 
+    /**
+     * Passenger identification.
+     */
     private int passengerId;
 
+    /**
+     * Passenger State.
+     */
+    private int passengerState;
+
+    /**
+     * Passenger called by the hostess.
+     */
     private boolean called;
+
+    /**
+     * Passenger checked by the hostess.
+     */
     private boolean checked;
+
+    /**
+     * Reference to the departure airport.
+     */
     private final DepAirport depAirport;
+
+    /**
+     * Reference to the departure airport.
+     */
     private final DestAirport destAirport;
+
+    /**
+     * Reference to the airplane.
+     */
     private final Airplane airplane;
 
+    /**
+     * Instantiation of a Airplane thread.
+     *
+     * @param depAirport
+     * @param destAirport
+     * @param airplane
+     * @param id
+     */
+    public Passenger(DepAirport depAirport, DestAirport destAirport, Airplane airplane, int id) {
 
-    public Passenger(DepAirport depAirport, DestAirport destAirport, Airplane airplane, int id){
-
-        this.called=false;
-        this.checked=false;
-        this.passengerId=id;
-        this.depAirport=depAirport;
-        this.destAirport=destAirport;
-        this.airplane=airplane;
-
+        this.called = false;
+        this.checked = false;
+        this.passengerId = id;
+        this.depAirport = depAirport;
+        this.destAirport = destAirport;
+        this.airplane = airplane;
     }
 
+    /**
+     * Get passenger id.
+     *
+     * @return passenger id.
+     */
+    public int getPassengerId() {
+        return passengerId;
+    }
 
+    /**
+     * Get passenger State.
+     *
+     * @return passenger state.
+     */
+    public int getPassengerState() {
+        return passengerState;
+    }
+
+    /**
+     * Set passenger state.
+     *
+     * @param passengerState new passenger state.
+     */
+    public void setPassengerState(int passengerState) {
+        this.passengerState = passengerState;
+    }
+
+    /**
+     * Life cycle of the Passenger.
+     */
     @Override
     public void run() {
         travelToAirport();
         depAirport.waitInQueue();
         depAirport.showDocuments();
-
-//        depAirport.boarded(true);
         airplane.boardThePlane();
         airplane.waitForEndOfFlight();
         airplane.leaveThePlane();
     }
 
-    private int passengerState;
-
+    /**
+     * Passenger travel to airport.
+     *
+     * Internal Operation.
+     */
     public void travelToAirport() {
         passengerState = PassengerStates.goingToAirport;
 
-        long a=0;
-        if(passengerId>18)
-            a =passengerId*1500;//long) Math.random();
-        else
-            a=4000* (long) Math.random();
+        long a = 0;
+//        if(passengerId>18)
+        a = passengerId * 1500;//long) Math.random();
+//        else
+//            a=4000* (long) Math.random();
         try {
             sleep(a);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("Passageiro "+this.passengerId+" chegou ao aeroporto");
-    }
-
-    public void waitInQueue() { passengerState = PassengerStates.inQueue; }
-
-    public void showDocuments() {
-        passengerState = PassengerStates.inQueue;
-    }
-
-    public void waitForEndOfFlight() { passengerState = PassengerStates.inFlight; }
-
-    public void boardThePlane() {
-        passengerState = PassengerStates.inFlight;
-    }
-
-    public void leaveThePlane() {
-        passengerState = PassengerStates.atDestination;
-    }
-
-    public boolean isChecked() {
-        return checked;
-    }
-
-    public void setChecked(boolean checked) {
-        this.checked = checked;
-    }
-
-    public boolean isCalled() {
-        return called;
-    }
-
-    public void setCalled(boolean called) {
-        this.called = called;
-    }
-
-    public int getPassengerId() {
-        return passengerId;
-    }
-
-    public void setPassengerId(int passengerId) {
-        this.passengerId = passengerId;
-    }
-
-    public DepAirport getDepAirport() {
-        return depAirport;
-    }
-
-    public DestAirport getDestAirport() {
-        return destAirport;
-    }
-
-    public Airplane getAirplane() {
-        return airplane;
-    }
-
-    public int getPassengerState() {
-        return passengerState;
-    }
-
-    public void setPassengerState(int passengerState) {
-        this.passengerState = passengerState;
-    }
-
-
-
-    public void setpassengerState(int passengerState) {
-        passengerState = passengerState;
+        System.out.println("Passageiro " + this.passengerId + " chegou ao aeroporto");
     }
 
 }

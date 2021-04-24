@@ -173,8 +173,6 @@ public class DepAirport {
 
     public synchronized void informPlaneReadyToTakeOff() {
         int hostessId = ((Hostess) Thread.currentThread()).getHostessID();
-        ((Hostess) Thread.currentThread()).setHostessState(HostessStates.readyToFly);
-        repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
 
 //        while (!planeReady) {
 //            try {
@@ -193,6 +191,9 @@ public class DepAirport {
                 pilotReady = false;
                 System.out.println("READY TO TAKE OFF");
                 notifyAll();
+                ((Hostess) Thread.currentThread()).setHostessState(HostessStates.readyToFly);
+                repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
+
             }
         }
         else {
@@ -202,6 +203,8 @@ public class DepAirport {
                     pilotReady = false;
                     System.out.println("READY TO TAKE OFF");
                     notifyAll();
+                    ((Hostess) Thread.currentThread()).setHostessState(HostessStates.readyToFly);
+                    repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
                 } else {
                     if (fifoSize == 0 && boarded >= 5) {
                         readyTakeOff = true;
@@ -209,6 +212,8 @@ public class DepAirport {
                         pilotReady = false;
                         System.out.println("READY TO TAKE OFF");
                         notifyAll();
+                        ((Hostess) Thread.currentThread()).setHostessState(HostessStates.readyToFly);
+                        repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
                     }
                 }
 
@@ -221,7 +226,7 @@ public class DepAirport {
         ((Hostess) Thread.currentThread()).setHostessState(HostessStates.waitForFlight);
         repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
 
-        while (!pilotReady) {
+        while (readyTakeOff) {
             try {
                 wait();
             } catch (Exception e) {
@@ -285,8 +290,6 @@ public class DepAirport {
         System.out.println();
 
         int passengerId = ((Passenger) Thread.currentThread()).getPassengerId();
-        ((Passenger) Thread.currentThread()).setPassengerState(PassengerStates.inQueue);
-        repos.setPassengerState(passengerId, ((Passenger) Thread.currentThread()).getPassengerState());
 //        boarded++;
 //        flew++;
 
@@ -301,13 +304,6 @@ public class DepAirport {
         int pilotId = ((Pilot) Thread.currentThread()).getPilotID();
         ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.readyForBoarding);
         repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
-
-        long a = 2000 + 10 * (long) Math.random();
-        try {
-            sleep(a);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         pilotReady = true;
         notifyAll();

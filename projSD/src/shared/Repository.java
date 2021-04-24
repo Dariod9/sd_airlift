@@ -180,6 +180,7 @@ public class Repository {
                 break;
             case PilotStates.flyingForward:
                 lineStatus += " FLFW ";
+                writeSmallHeader(flight_number, "departed with " + flights_info.get(flight_number) + " passengers");
                 break;
             case PilotStates.deBoarding:
                 lineStatus += " DRPP ";
@@ -202,7 +203,6 @@ public class Repository {
                 break;
             case HostessStates.readyToFly:
                 lineStatus += " RDTF ";
-                writeSmallHeader(flight_number, "departed with " + flights_info.get(flight_number) + " passengers");
                 break;
         }
 
