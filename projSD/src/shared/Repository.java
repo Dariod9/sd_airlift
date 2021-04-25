@@ -13,8 +13,9 @@ import java.util.Set;
 
 /**
  *  Repository
- *
- *      adasdasda
+ *  It is responsible to keep the visible internal state of the problem and print it in the logging file.
+ *  All public methods are executed in mutual exclusion.
+ *  It contains no internal synchronization points.
  */
 
 public class Repository {

@@ -7,6 +7,18 @@ import entities.PilotStates;
 import structs.MemException;
 import structs.MemFIFO;
 
+/**
+ *  Airplane
+ *
+ *  It is responsible to keep track of it's occupation, the IDs of the passengers inside and if it has arrived the
+ *  destination.
+ *  All public methods are executed in mutual exclusion.
+ *  There are two internal synchronization points: an array of blocking points, one per each passenger, where he
+ *  waits for the flight to end so that he can exit the airplane; and one single blocking point for the pilot,
+ *  where she waits for every passenger to leave the plane, in order to announce the arrival of the airplane.
+ *
+ */
+
 public class Airplane {
 
     /**

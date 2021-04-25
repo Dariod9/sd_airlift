@@ -6,6 +6,25 @@ import structs.MemFIFO;
 
 import static java.lang.Thread.sleep;
 
+/**
+ *  Departure Airport
+ *  It is responsible for many actions.
+ *  Regarding the passengers, it controls the process of waiting in Queue.
+ *  Regarding the hostess, it is responsible for the waiting for the next flight, the preparing of the boarding, the
+ *  process of waiting for more passengers, the action of checking documents and signaling the plane to take off.
+ *  Concerning the pilot, it is responsible for the process of informing that the plane is ready to board, waiting
+ *  for it to happen and flying to the destination.
+ *
+ *  All public methods are executed in mutual exclusion.
+ *
+ *  There are seven internal synchronization points: an array of blocking points for the passengers, where all of them
+ *  wait to be called by the hostess and wait while the documents aren't checked; four blocking points for the hostess,
+ *  while she waits while the Queue is empty, while the documents are not shown to her, while the plain is not ready to
+ *  fly and also while the pilot is not ready for the boarding process to start. Finally, one single blocking point for
+ *  the pilot, where he waits for the plane to be ready for take off.
+ *
+ */
+
 public class DepAirport {
 
     /**

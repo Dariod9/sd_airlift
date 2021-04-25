@@ -3,6 +3,14 @@ package shared;
 import entities.Pilot;
 import entities.PilotStates;
 
+/**
+ *  Destination Airport
+ *
+ *  It is responsible for the flight back to the departure airport.
+ *
+ *  It does not contain any blocking point.
+ */
+
 public class DestAirport {
 
     /**
