@@ -1,5 +1,6 @@
 package shared;
 
+import genclass.*;
 import entities.Pilot;
 import entities.PilotStates;
 
@@ -38,7 +39,7 @@ public class DestAirport {
         int pilotId = ((Pilot) Thread.currentThread()).getPilotID();
         ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.flyingBack);
         repos.setPilotState((((Pilot) Thread.currentThread()).getPilotstate()));
-        
-        System.out.println("VOEI OH PRA CÁ");
+
+        GenericIO.writelnString("Pilot "+Thread.currentThread().getName()+" is flying to departure point");
     }
 }

@@ -1,10 +1,9 @@
 package shared;
 
+import genclass.*;
 import entities.*;
 import structs.MemException;
 import structs.MemFIFO;
-
-import static java.lang.Thread.sleep;
 
 /**
  *  Departure Airport
@@ -61,7 +60,23 @@ public class DepAirport {
      * Status of the passengers' boarding process (boarded or not).
      */
 
+
     private int boarded;
+
+    /**
+     * Total number of passengers.
+     */
+    private int TOTAL;
+
+    /**
+     * minimum number of passengers.
+     */
+    private int MIN;
+
+    /**
+     * maximum number of passengers.
+     */
+    private int MAX;
 
     /**
      * Number of passengers who have travalled.
@@ -98,10 +113,13 @@ public class DepAirport {
      *
      * @param repos reference to the repository.
      */
-    public DepAirport(Repository repos) {
+    public DepAirport(Repository repos, int TOTAL, int MIN, int MAX) {
 
         try {
             this.passengerIDs = new MemFIFO(new Integer[21]);
+            this.TOTAL=TOTAL;
+            this.MIN=MIN;
+            this.MAX=MAX;
             this.fifoSize = 0;
             this.boarded = 0;
             this.repos=repos;
@@ -110,6 +128,11 @@ public class DepAirport {
         }
     }
 
+    /**
+     *  Get Passenger that flew
+     *
+     * @return flew
+     */
     public synchronized int getFlew() {
         return this.flew;
     }
@@ -129,7 +152,7 @@ public class DepAirport {
         try {
             passengerIDs.write(passengerId);
             fifoSize++;
-            System.out.println("Passageiro " + passengerId + " entrou na fila");
+            GenericIO.writelnString("Passenger "+ (Thread.currentThread()).getName() +" is Waiting in Queue");
         } catch (MemException e) {
             e.printStackTrace();
         }
@@ -140,7 +163,7 @@ public class DepAirport {
             try {
                 wait();
             } catch (Exception e) {
-                System.out.println("Erro na waitInQueue: " + e);
+                e.printStackTrace();
             }
         }
 
@@ -153,7 +176,7 @@ public class DepAirport {
             try {
                 wait();
             } catch (Exception e) {
-                System.out.println("Erro na waitInQueue: " + e);
+                e.printStackTrace();
             }
         }
 
@@ -172,38 +195,26 @@ public class DepAirport {
 
         ((Hostess) Thread.currentThread()).setHostessState(HostessStates.waitForPassenger);
         repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
-//        int hostessId = ((Hostess) Thread.currentThread()).getHostessID();
-//        ((Hostess) Thread.currentThread()).setHostessState(HostessStates.waitForPassenger);
-//        repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
-//
-//
-//        while (fifoSize == 0 ) {
-//            try {
-//                wait();
-//            } catch (Exception e) {
-//                System.out.println("Couldnt wait for next Passenger");
-//            }
-//        }
 
-        if (flew >= 16) {
-            if (boarded == 21 - flew){
+        if (flew >= TOTAL-MIN) {
+            if (boarded == TOTAL - flew){
                 planeReady = true;
                 pilotReady = false;
-                System.out.println("READY TO TAKE OFF");
+                GenericIO.writelnString("Plane ready to take off");
                 notifyAll();
             }
         }
         else {
-            if (boarded == 10) {
+            if (boarded == MAX) {
                 planeReady = true;
                 pilotReady = false;
-                System.out.println("READY TO TAKE OFF");
+                GenericIO.writelnString("Plane ready to take off");
                 notifyAll();
             } else {
-                if (fifoSize == 0 && boarded >= 5) {
+                if (fifoSize == 0 && boarded >= MIN) {
                     planeReady = true;
                     pilotReady = false;
-                    System.out.println("READY TO TAKE OFF");
+                    GenericIO.writelnString("Plane ready to take off");
                     notifyAll();
                 }
             }
@@ -227,21 +238,19 @@ public class DepAirport {
             try {
                 wait();
             } catch (Exception e) {
-                System.out.println("Couldnt wait for next Passenger");
+                e.printStackTrace();
             }
         }
 
         try {
-//            if (boarded < 10) {
             chamado = passengerIDs.read();
             fifoSize--;
 
             ((Hostess) Thread.currentThread()).setHostessState(HostessStates.checkPassenger);
             repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState(), chamado);
-//            checked = true;
+            GenericIO.writelnString("Hostess "+ Thread.currentThread().getName()+" called Passenger "+chamado);
 
             notifyAll();
-//            }
         } catch (MemException e) {
             e.printStackTrace();
         }
@@ -250,7 +259,7 @@ public class DepAirport {
             try {
                 wait();
             } catch (Exception e) {
-                System.out.println("Couldnt wait for next Passenger");
+                e.printStackTrace();
             }
         }
 
@@ -259,8 +268,7 @@ public class DepAirport {
         docsGiven=false;
         notifyAll();
 
-        System.out.println("A LER");
-//        flew++;
+
 
     }
 
@@ -278,7 +286,7 @@ public class DepAirport {
             try {
                 wait();
             } catch (Exception e) {
-                System.out.println("Couldnt wait for next Passenger");
+                e.printStackTrace();
             }
         }
 
@@ -287,41 +295,9 @@ public class DepAirport {
         readyTakeOff=true;
         flew = flew + boarded;
         notifyAll();
+        GenericIO.writelnString("Hostess: "+ Thread.currentThread().getName()+" everyone aboard");
 
 
-
-//        if (flew >= 16) {
-//            if (boarded == 21 - flew){
-//                readyTakeOff = true;
-//                pilotReady = false;
-//                System.out.println("READY TO TAKE OFF");
-//                notifyAll();
-//
-//                ((Hostess) Thread.currentThread()).setHostessState(HostessStates.readyToFly);
-//                repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
-//            }
-//        }
-//        else {
-//                if (boarded == 10) {
-//                    readyTakeOff = true;
-//                    pilotReady = false;
-//                    System.out.println("READY TO TAKE OFF");
-//                    notifyAll();
-//
-//                    ((Hostess) Thread.currentThread()).setHostessState(HostessStates.readyToFly);
-//                    repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
-//                } else {
-//                    if (fifoSize == 0 && boarded >= 5) {
-//                        readyTakeOff = true;
-//                        pilotReady = false;
-//                        System.out.println("READY TO TAKE OFF");
-//                        notifyAll();
-//
-//                        ((Hostess) Thread.currentThread()).setHostessState(HostessStates.readyToFly);
-//                        repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
-//                    }
-//                }
-//            }
     }
 
     /**
@@ -335,12 +311,13 @@ public class DepAirport {
         int hostessId = ((Hostess) Thread.currentThread()).getHostessID();
         ((Hostess) Thread.currentThread()).setHostessState(HostessStates.waitForFlight);
         repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
+        GenericIO.writelnString(flew+" Passengers flew!");
 
         while (!pilotReady) {
             try {
                 wait();
             } catch (Exception e) {
-                System.out.println("Piloto not ready");
+                e.printStackTrace();
             }
         }
 
@@ -359,7 +336,8 @@ public class DepAirport {
 
         pilotReady = true;
         notifyAll();
-        System.out.println("Piloto diz que tá ready");
+        GenericIO.writelnString("Pilot "+ Thread.currentThread().getName()+" is ready");
+
     }
 
     /**
@@ -373,8 +351,6 @@ public class DepAirport {
         ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.waitingForBoarding);
         repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
 
-        System.out.println("\u001B[31m" + " TOU A ESPERA " + "\u001B[0m");
-        System.out.println("ESTAO NA FILA " + fifoSize);
         while (!readyTakeOff) {
             try {
                 wait();
@@ -396,14 +372,7 @@ public class DepAirport {
         int pilotId = ((Pilot) Thread.currentThread()).getPilotID();
         ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.flyingForward);
         repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
-
-        System.out.println("\u001B[32m" + " BORA BORAAAA " + "\u001B[0m");
-        System.out.println("DETAILS:");
-        System.out.println(fifoSize);
-        System.out.println(boarded);
-        System.out.println(flew);
-        System.out.println();
-
+        GenericIO.writelnString("Pilot "+ Thread.currentThread().getName()+" is flying to destination point");
         boarded = 0;
         readyTakeOff = false;
         planeReady = false;

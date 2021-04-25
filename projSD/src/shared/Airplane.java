@@ -1,5 +1,6 @@
 package shared;
 
+import genclass.*;
 import entities.Passenger;
 import entities.PassengerStates;
 import entities.Pilot;
@@ -82,12 +83,13 @@ public class Airplane {
         try {
             passengerIDs.write(passengerId);
             this.occupation++;
-            System.out.println("PASSENGER ENTERED, TOTAL: " + occupation);
+
         } catch (MemException e) {
             e.printStackTrace();
         }
 
-        System.out.println("ENTROU NO AVIÃO O "+passengerId);
+        GenericIO.writelnString("Passenger "+ Thread.currentThread().getName()+" entered the plane");
+        GenericIO.writelnString("There are "+occupation+" passengers aboard");
         //notifyAll();
 
     }
@@ -126,7 +128,7 @@ public class Airplane {
         if(this.occupation==1){
             this.occupation--;
             empty=true;
-            System.out.println("SAIRAM TODOS");
+            GenericIO.writelnString("Every passenger left the plane!");
         }else {
             try {
                 passenger = passengerIDs.read();
@@ -135,7 +137,7 @@ public class Airplane {
             }
             empty=false;
             this.occupation--;
-            System.out.println("SAÍ do AVIAO, TAVAM LÁ "+ occupation);
+            GenericIO.writelnString("Passenger "+Thread.currentThread().getName()+" left the plane");
 
         }
         notifyAll();
@@ -151,18 +153,17 @@ public class Airplane {
         int pilotId = ((Pilot) Thread.currentThread()).getPilotID();
         ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.deBoarding);
         repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
-
         arrived=true;
         notifyAll();
+        GenericIO.writelnString("Pilot "+Thread.currentThread().getName()+" arrived at destination");
         while(!empty) {
             try {
                 wait();
             } catch (Exception e) {
-                System.out.println("Erro na waitInQueue: " + e);
+                e.printStackTrace();
             }
         }
 
-        //notifyAll();
 
     }
 
@@ -180,10 +181,7 @@ public class Airplane {
         arrived=false;
         notifyAll();
 
-        System.out.println("Cheguei chegnado bagun'ancdo a coisa toda");
-
-        if(((Pilot) Thread.currentThread()).getDepAirport().getFlew()==21)
-            System.out.println("\u001B[32m" + " TRANSAÇÃO COMPLETA <3<3 " + "\u001B[0m");
+        GenericIO.writelnString("Pilot "+Thread.currentThread().getName()+" parked at transfer gate");
 
 
     }

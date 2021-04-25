@@ -24,6 +24,11 @@ public class Hostess extends Thread {
     private int hostessID;
 
     /**
+     * Total number of passengers.
+     */
+    private int TOTAL;
+
+    /**
      * Reference to the departure airport.
      */
     private final DepAirport depAirport;
@@ -46,7 +51,8 @@ public class Hostess extends Thread {
      * @param airplane reference to airplane
      * @param hostessID hostess id
      */
-    public Hostess(DepAirport depAirport, DestAirport destAirport, Airplane airplane, int hostessID){
+    public Hostess(DepAirport depAirport, DestAirport destAirport, Airplane airplane, int hostessID, int TOTAL){
+        this.TOTAL = TOTAL;
         this.hostessID=hostessID;
         this.destAirport=destAirport;
         this.depAirport=depAirport;
@@ -94,13 +100,9 @@ public class Hostess extends Thread {
      */
     @Override
     public void run() {
-//        int i=0;
-        while(depAirport.getFlew()!=21){
-//            i++;
-//            System.out.println("corri "+i);
+        while(depAirport.getFlew()!=TOTAL){
             depAirport.waitForNextFlight();
             depAirport.prepareForPassBoarding();
-//            depAirport.informPlaneReadyToTakeOff();
             while(true) {
                 if(depAirport.waitForNextPassenger()) break;
                 depAirport.checkDocuments();

@@ -24,6 +24,11 @@ public class Pilot extends Thread{
     private int pilotID;
 
     /**
+     * Total number of passengers.
+     */
+    private int TOTAL;
+
+    /**
      * Reference to the departure airport.
      */
     private final DepAirport depAirport;
@@ -46,7 +51,8 @@ public class Pilot extends Thread{
      * @param airplane reference to airplane
      * @param pilotID pilot id
      */
-    public Pilot (DepAirport depAirport, DestAirport destAirport, Airplane airplane, int pilotID) {
+    public Pilot (DepAirport depAirport, DestAirport destAirport, Airplane airplane, int pilotID, int TOTAL) {
+        this.TOTAL=TOTAL;
         this.pilotID=pilotID;
         this.depAirport=depAirport;
         this.destAirport=destAirport;
@@ -104,7 +110,7 @@ public class Pilot extends Thread{
      */
     @Override
     public void run() {
-        while(depAirport.getFlew()<21) {
+        while(depAirport.getFlew()<TOTAL) {
             depAirport.informPlaneReadyForBoarding();
             depAirport.waitForAllInBoard();
             depAirport.flyToDestinationPoint();
@@ -127,7 +133,7 @@ public class Pilot extends Thread{
             e.printStackTrace();
         }
 
-        System.out.println("VOEI OH PRA LÁ");
+
     }
 
 }

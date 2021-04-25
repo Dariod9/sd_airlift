@@ -3,8 +3,7 @@ package shared;
 import entities.HostessStates;
 import entities.PassengerStates;
 import entities.PilotStates;
-import genclass.GenericIO;
-import genclass.TextFile;
+import genclass.*;
 
 import java.util.HashMap;
 import java.util.Iterator;

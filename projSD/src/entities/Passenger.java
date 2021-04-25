@@ -3,6 +3,7 @@ package entities;
 import shared.Airplane;
 import shared.DepAirport;
 import shared.DestAirport;
+import genclass.*;
 
 /**
  *   Passenger thread.
@@ -129,16 +130,14 @@ public class Passenger extends Thread {
         passengerState = PassengerStates.goingToAirport;
 
         long a = 0;
-//        if(passengerId>18)
-        a = (passengerId/5)*2 * 1500;//long) Math.random();
-//        else
-//            a=4000* (long) Math.random();
+        a = (passengerId/5)*2 * 1500;
+
         try {
             sleep(a);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("Passageiro " + this.passengerId + " chegou ao aeroporto");
+        GenericIO.writelnString("Passenger "+Thread.currentThread().getName()+" arrived at the airport");
     }
 
 }
