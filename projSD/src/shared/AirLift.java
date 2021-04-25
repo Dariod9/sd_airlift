@@ -54,16 +54,20 @@ public class AirLift {
             }
         });
 
+        System.out.println("1");
         try {
             hostess.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        System.out.println("2");
+
         try {
             pilot.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        System.out.println("3");
 
         repos.reportSummary();
     }

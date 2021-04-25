@@ -51,10 +51,22 @@ public class DepAirport {
     private int flew = 0;
 
     /**
+     * State of documents
+     */
+
+    private boolean docsGiven=false;
+
+    /**
      * Status of the take off action (ready or not).
      */
 
     private boolean readyTakeOff = false;
+
+    /**
+     * Status of the plane action (ready to fly or not).
+     */
+
+    private boolean planeReady = false;
 
     /**
      * Reference to the repository.
@@ -79,7 +91,7 @@ public class DepAirport {
         }
     }
 
-    public int getFlew() {
+    public synchronized int getFlew() {
         return this.flew;
     }
 
@@ -98,11 +110,6 @@ public class DepAirport {
         try {
             passengerIDs.write(passengerId);
             fifoSize++;
-            try {
-                sleep(2000 * (long) Math.random());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             System.out.println("Passageiro " + passengerId + " entrou na fila");
         } catch (MemException e) {
             e.printStackTrace();
@@ -118,6 +125,9 @@ public class DepAirport {
             }
         }
 
+        ((Passenger) Thread.currentThread()).showDocuments();
+        docsGiven=true;
+
         notifyAll();
 
         while (!checked) {
@@ -130,28 +140,57 @@ public class DepAirport {
 
         checked = false;
 
+
     }
 
     /**
      * Operation wait for the next passenger.
      *
      * It is called by the hostess while there are no passengers in the Queue for her to call.
+     * @return
      */
-    public synchronized void waitForNextPassenger() {
+    public synchronized boolean waitForNextPassenger() {
 
-        int hostessId = ((Hostess) Thread.currentThread()).getHostessID();
         ((Hostess) Thread.currentThread()).setHostessState(HostessStates.waitForPassenger);
         repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
+//        int hostessId = ((Hostess) Thread.currentThread()).getHostessID();
+//        ((Hostess) Thread.currentThread()).setHostessState(HostessStates.waitForPassenger);
+//        repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
+//
+//
+//        while (fifoSize == 0 ) {
+//            try {
+//                wait();
+//            } catch (Exception e) {
+//                System.out.println("Couldnt wait for next Passenger");
+//            }
+//        }
 
-
-        while (fifoSize == 0 ) {
-            try {
-                wait();
-            } catch (Exception e) {
-                System.out.println("Couldnt wait for next Passenger");
+        if (flew >= 16) {
+            if (boarded == 21 - flew){
+                planeReady = true;
+                pilotReady = false;
+                System.out.println("READY TO TAKE OFF");
+                notifyAll();
+            }
+        }
+        else {
+            if (boarded == 10) {
+                planeReady = true;
+                pilotReady = false;
+                System.out.println("READY TO TAKE OFF");
+                notifyAll();
+            } else {
+                if (fifoSize == 0 && boarded >= 5) {
+                    planeReady = true;
+                    pilotReady = false;
+                    System.out.println("READY TO TAKE OFF");
+                    notifyAll();
+                }
             }
         }
 
+        return planeReady;
     }
 
     /**
@@ -165,28 +204,44 @@ public class DepAirport {
 
         int hostessId = ((Hostess) Thread.currentThread()).getHostessID();
 
-        ((Hostess) Thread.currentThread()).setHostessState(HostessStates.checkPassenger);
+        while (fifoSize == 0 ) {
+            try {
+                wait();
+            } catch (Exception e) {
+                System.out.println("Couldnt wait for next Passenger");
+            }
+        }
 
         try {
-            if (boarded < 10) {
-                chamado = passengerIDs.read();
-                fifoSize--;
-            }
+//            if (boarded < 10) {
+            chamado = passengerIDs.read();
+            fifoSize--;
+
+            ((Hostess) Thread.currentThread()).setHostessState(HostessStates.checkPassenger);
+            repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState(), chamado);
+//            checked = true;
+
+            notifyAll();
+//            }
         } catch (MemException e) {
             e.printStackTrace();
         }
-        try {
-            sleep(500 * (long) Math.random()); //A LER OS DOCS
-        } catch (InterruptedException e) {
-            System.out.println("NÃO CONSEGUIU LER");
+
+        while (!docsGiven) {
+            try {
+                wait();
+            } catch (Exception e) {
+                System.out.println("Couldnt wait for next Passenger");
+            }
         }
+
+        checked=true;
+        boarded++;
+        docsGiven=false;
+        notifyAll();
+
         System.out.println("A LER");
 //        flew++;
-        repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState(), chamado);
-
-        checked = true;
-        boarded++;
-        notifyAll();
 
     }
 
@@ -200,38 +255,54 @@ public class DepAirport {
     public synchronized void informPlaneReadyToTakeOff() {
         int hostessId = ((Hostess) Thread.currentThread()).getHostessID();
 
-        if (flew >= 16) {
-            if (boarded == 21 - flew){
-                readyTakeOff = true;
-                pilotReady = false;
-                System.out.println("READY TO TAKE OFF");
-                notifyAll();
-
-                ((Hostess) Thread.currentThread()).setHostessState(HostessStates.readyToFly);
-                repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
+        while (!planeReady) {
+            try {
+                wait();
+            } catch (Exception e) {
+                System.out.println("Couldnt wait for next Passenger");
             }
         }
-        else {
-                if (boarded == 10) {
-                    readyTakeOff = true;
-                    pilotReady = false;
-                    System.out.println("READY TO TAKE OFF");
-                    notifyAll();
 
-                    ((Hostess) Thread.currentThread()).setHostessState(HostessStates.readyToFly);
-                    repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
-                } else {
-                    if (fifoSize == 0 && boarded >= 5) {
-                        readyTakeOff = true;
-                        pilotReady = false;
-                        System.out.println("READY TO TAKE OFF");
-                        notifyAll();
+        ((Hostess) Thread.currentThread()).setHostessState(HostessStates.readyToFly);
+        repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
+        readyTakeOff=true;
+        flew = flew + boarded;
+        notifyAll();
 
-                        ((Hostess) Thread.currentThread()).setHostessState(HostessStates.readyToFly);
-                        repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
-                    }
-                }
-            }
+
+
+//        if (flew >= 16) {
+//            if (boarded == 21 - flew){
+//                readyTakeOff = true;
+//                pilotReady = false;
+//                System.out.println("READY TO TAKE OFF");
+//                notifyAll();
+//
+//                ((Hostess) Thread.currentThread()).setHostessState(HostessStates.readyToFly);
+//                repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
+//            }
+//        }
+//        else {
+//                if (boarded == 10) {
+//                    readyTakeOff = true;
+//                    pilotReady = false;
+//                    System.out.println("READY TO TAKE OFF");
+//                    notifyAll();
+//
+//                    ((Hostess) Thread.currentThread()).setHostessState(HostessStates.readyToFly);
+//                    repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
+//                } else {
+//                    if (fifoSize == 0 && boarded >= 5) {
+//                        readyTakeOff = true;
+//                        pilotReady = false;
+//                        System.out.println("READY TO TAKE OFF");
+//                        notifyAll();
+//
+//                        ((Hostess) Thread.currentThread()).setHostessState(HostessStates.readyToFly);
+//                        repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
+//                    }
+//                }
+//            }
     }
 
     /**
@@ -246,7 +317,7 @@ public class DepAirport {
         ((Hostess) Thread.currentThread()).setHostessState(HostessStates.waitForFlight);
         repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
 
-        while (readyTakeOff) {
+        while (!pilotReady) {
             try {
                 wait();
             } catch (Exception e) {
@@ -254,23 +325,6 @@ public class DepAirport {
             }
         }
 
-    }
-
-    /**
-     * Operation show documents.
-     *
-     * It is called by the passenger after being called by the hostess and before boarding the plane.
-     *
-     */
-
-    public synchronized void showDocuments() {
-        System.out.println("DETAILS:");
-        System.out.println(fifoSize);
-        System.out.println(boarded);
-        System.out.println(flew);
-        System.out.println();
-
-        int passengerId = ((Passenger) Thread.currentThread()).getPassengerId();
     }
 
     /**
@@ -328,15 +382,28 @@ public class DepAirport {
         System.out.println("DETAILS:");
         System.out.println(fifoSize);
         System.out.println(boarded);
-        flew = flew + boarded;
         System.out.println(flew);
         System.out.println();
 
         boarded = 0;
         readyTakeOff = false;
+        planeReady = false;
         ((Pilot) Thread.currentThread()).fly();
         notifyAll();
     }
+
+
+    /**
+     * Hostess prepares for the passengers to board.
+     *
+     * Internal Operation.
+     */
+    public synchronized void prepareForPassBoarding() {
+        int hostessId = ((Hostess) Thread.currentThread()).getHostessID();
+        ((Hostess) Thread.currentThread()).setHostessState(HostessStates.waitForPassenger);
+        repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
+    }
+
 
 
 }

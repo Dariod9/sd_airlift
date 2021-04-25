@@ -63,6 +63,7 @@ public class Airplane {
 
     public synchronized void boardThePlane() {
         int passengerId = ((Passenger) Thread.currentThread()).getPassengerId();
+
         ((Passenger) Thread.currentThread()).setPassengerState(PassengerStates.inFlight);
         repos.setPassengerState(passengerId,((Passenger) Thread.currentThread()).getPassengerState());
 
@@ -75,7 +76,7 @@ public class Airplane {
         }
 
         System.out.println("ENTROU NO AVIÃO O "+passengerId);
-        notifyAll();
+        //notifyAll();
 
     }
 

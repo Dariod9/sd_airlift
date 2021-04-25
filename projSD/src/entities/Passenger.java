@@ -100,10 +100,24 @@ public class Passenger extends Thread {
     public void run() {
         travelToAirport();
         depAirport.waitInQueue();
-        depAirport.showDocuments();
         airplane.boardThePlane();
         airplane.waitForEndOfFlight();
         airplane.leaveThePlane();
+    }
+
+    /**
+     * Operation show documents.
+     *
+     * It is called by the passenger after being called by the hostess and before boarding the plane.
+     *
+     */
+
+    public void showDocuments() {
+        try {
+            sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -116,7 +130,7 @@ public class Passenger extends Thread {
 
         long a = 0;
 //        if(passengerId>18)
-        a = passengerId * 1500;//long) Math.random();
+        a = (passengerId/5)*2 * 1500;//long) Math.random();
 //        else
 //            a=4000* (long) Math.random();
         try {

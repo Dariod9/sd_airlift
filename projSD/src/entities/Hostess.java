@@ -94,35 +94,21 @@ public class Hostess extends Thread {
      */
     @Override
     public void run() {
-        prepareForPassBoarding();
-        int i=0;
+//        int i=0;
         while(depAirport.getFlew()!=21){
-            i++;
-            System.out.println("corri "+i);
-            depAirport.waitForNextPassenger();
-            depAirport.checkDocuments();
-            depAirport.informPlaneReadyToTakeOff();
+//            i++;
+//            System.out.println("corri "+i);
             depAirport.waitForNextFlight();
-
+            depAirport.prepareForPassBoarding();
+//            depAirport.informPlaneReadyToTakeOff();
+            while(true) {
+                if(depAirport.waitForNextPassenger()) break;
+                depAirport.checkDocuments();
+            }
+            depAirport.informPlaneReadyToTakeOff();
         }
-
     }
 
-    /**
-     * Hostess prepares for the passengers to board.
-     *
-     * Internal Operation.
-     */
-    public void prepareForPassBoarding() {
-        hostessState = HostessStates.waitForPassenger;
-        try {
-            sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-
-    }
 
 
 }

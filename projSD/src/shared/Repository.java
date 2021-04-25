@@ -212,15 +212,15 @@ public class Repository {
 
         switch (state){
             case PassengerStates.inQueue:
-                setInqe(getInqe() + 1);
+                inqe += 1;
                 break;
             case PassengerStates.inFlight:
-                setInpl(getInpl() + 1);
+                inpl += 1;
 
                 break;
             case PassengerStates.atDestination:
-                setAtds(getAtds() + 1);
-                setInpl(getInpl() - 1);
+                atds += 1;
+                inpl -= 1;
                 break;
         }
 
