@@ -86,8 +86,8 @@ public class Repository {
      *
      */
 
-    public Repository(int nPassangers) {
-        this.filename = "logger";
+    public Repository(int nPassangers, String filename) {
+        this.filename = filename;
         this.nPassengers = nPassangers;
         this.passengerState = new int [nPassangers];
         for(int i = 0; i < nPassangers; i++){

@@ -26,11 +26,7 @@ public class AirLift {
         final int TOTAL=21;                                                                     // total number of passengers
         final int MAX=5;                                                                        // max number of passengers
         final int MIN=5;                                                                        // min number of passengers
-        Repository repos = new Repository(TOTAL);                                               // reference to rhe repository
-        DepAirport depAirport= new DepAirport(repos,TOTAL,MIN,MAX);                             // reference to the departure airport
-        DestAirport destAirport= new DestAirport(repos);                                        // reference to the destination airport
-        Airplane airplane = new Airplane(repos);                                                // reference to the airplane
-        Passenger [] passageiros = new Passenger[TOTAL];                                        // array of passengers
+
         boolean success;                                                                        // flag
         String fileName;                                                                        // file name
         char opt;                                                                               // selected option
@@ -40,8 +36,6 @@ public class AirLift {
             fileName = GenericIO.readlnString ();
             if (fileName == null){
                 fileName = "logger";
-
-
             }
             if (FileOp.exists (".", fileName)) {
                 do {
@@ -54,6 +48,11 @@ public class AirLift {
 
         } while (!success);
 
+        Repository repos = new Repository(TOTAL, fileName);                                     // reference to rhe repository
+        DepAirport depAirport= new DepAirport(repos,TOTAL,MIN,MAX);                             // reference to the departure airport
+        DestAirport destAirport= new DestAirport(repos);                                        // reference to the destination airport
+        Airplane airplane = new Airplane(repos);                                                // reference to the airplane
+        Passenger [] passageiros = new Passenger[TOTAL];                                        // array of passengers
 
         /* problem initialization */
 

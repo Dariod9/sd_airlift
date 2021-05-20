@@ -296,6 +296,8 @@ public class DepAirport {
         flew = flew + boarded;
         notifyAll();
         GenericIO.writelnString("Hostess: "+ Thread.currentThread().getName()+" everyone aboard");
+        ((Hostess) Thread.currentThread()).setHostessState(HostessStates.waitForFlight);
+        repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
 
 
     }
@@ -308,11 +310,9 @@ public class DepAirport {
      */
 
     public synchronized void waitForNextFlight() {
-        int hostessId = ((Hostess) Thread.currentThread()).getHostessID();
-        ((Hostess) Thread.currentThread()).setHostessState(HostessStates.waitForFlight);
-        repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
-        GenericIO.writelnString(flew+" Passengers flew!");
 
+        GenericIO.writelnString(flew+" Passengers flew!");
+        //boarded=0;
         while (!pilotReady) {
             try {
                 wait();
@@ -338,6 +338,9 @@ public class DepAirport {
         notifyAll();
         GenericIO.writelnString("Pilot "+ Thread.currentThread().getName()+" is ready");
 
+        ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.waitingForBoarding);
+        repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
+
     }
 
     /**
@@ -347,9 +350,6 @@ public class DepAirport {
      */
 
     public synchronized void waitForAllInBoard() {
-        int pilotId = ((Pilot) Thread.currentThread()).getPilotID();
-        ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.waitingForBoarding);
-        repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
 
         while (!readyTakeOff) {
             try {
