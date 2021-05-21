@@ -1,6 +1,4 @@
 package entitiesInterfaces;
-
-
 /**
  *   Hostess thread.
  *
@@ -36,7 +34,5 @@ public Interface HostessInt{
      * @param hostessState new costumer id.
      */
     void setHostessState(int hostessState);
-
-
 
 }
