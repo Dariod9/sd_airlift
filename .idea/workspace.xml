@@ -2,8 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="23bc17c4-f235-4341-9682-b505947b632b" name="Default Changelist" comment="">
+<<<<<<< Updated upstream
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sd_assignment2/entitiesInterfaces/HostessInt.java" beforeDir="false" afterPath="$PROJECT_DIR$/sd_assignment2/entitiesInterfaces/HostessInt.java" afterDir="false" />
+=======
+      <change afterPath="$PROJECT_DIR$/sd_assignment2/ClientCom.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sd_assignment2/ClientKnockKnock.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sd_assignment2/KnockKnockStub.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sd_assignment2/entitiesStubs/DepartureAirportStub.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sd_assignment2/entitiesStubs/DestinationAirportStub.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sd_assignment2/entitiesStubs/GeneralReposStub.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sd_assignment2/entitiesStubs/PlaneStub.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sd_assignment2/entitiesStubs/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+>>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,11 +39,21 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../genclass.jar" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/sd_assignment2/entitiesStubs" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/sd_assignment2/entitiesStubs" />
+      <recent name="$PROJECT_DIR$/sd_assignment2" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="AirLift" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -43,6 +65,17 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -67,7 +100,13 @@
       <workItem from="1620386915219" duration="2422000" />
       <workItem from="1621251264780" duration="584000" />
       <workItem from="1621519417049" duration="1156000" />
+<<<<<<< Updated upstream
       <workItem from="1621520598648" duration="7163000" />
+=======
+      <workItem from="1621520598648" duration="5268000" />
+      <workItem from="1621615234409" duration="697000" />
+      <workItem from="1621626128259" duration="2183000" />
+>>>>>>> Stashed changes
     </task>
     <servers />
   </component>
