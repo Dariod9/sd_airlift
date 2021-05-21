@@ -2,20 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="23bc17c4-f235-4341-9682-b505947b632b" name="Default Changelist" comment="">
-<<<<<<< Updated upstream
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sd_assignment2/entitiesInterfaces/HostessInt.java" beforeDir="false" afterPath="$PROJECT_DIR$/sd_assignment2/entitiesInterfaces/HostessInt.java" afterDir="false" />
-=======
-      <change afterPath="$PROJECT_DIR$/sd_assignment2/ClientCom.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sd_assignment2/ClientKnockKnock.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sd_assignment2/KnockKnockStub.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sd_assignment2/entitiesStubs/DepartureAirportStub.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sd_assignment2/entitiesStubs/DestinationAirportStub.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sd_assignment2/entitiesStubs/GeneralReposStub.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sd_assignment2/entitiesStubs/PlaneStub.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sd_assignment2/entitiesStubs/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
->>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
