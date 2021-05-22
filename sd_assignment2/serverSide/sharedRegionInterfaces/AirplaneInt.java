@@ -1,8 +1,11 @@
 package serverSide.sharedRegionInterfaces;
 
+import clientSide.entities.Passenger;
+import serverSide.serverProxys.AirplaneProxy;
 import serverSide.sharedRegions.Airplane;
 import structs.Message;
 import structs.MessageException;
+import structs.MessageType;
 
 /**
  *  Airplane
@@ -40,6 +43,36 @@ public class AirplaneInt {
      */
     public Message processAndReply(Message inMessage) throws MessageException{
         Message outMessage = null;
+
+        switch(inMessage.getType()){
+            case BOARD_THE_PLANE:
+                ap.boardThePlane();
+                outMessage = new Message(MessageType.ACK);
+                break;
+            case WAIT_FOR_END_OF_FLIGHT:
+                ap.waitForEndOfFlight();
+                outMessage = new Message(MessageType.ACK);
+                break;
+            case LEAVE_THE_PLANE:
+                ap.leaveThePlane();
+                outMessage = new Message(MessageType.ACK);
+                break;
+            case ANNOUNCE_ARRIVAL:
+                ap.announceArrival();
+                outMessage = new Message(MessageType.ACK);
+                break;
+            case PARK_AT_TRANSFER_GATE:
+                ap.parkAtTransferGate();
+                outMessage = new Message(MessageType.ACK);
+                break;
+            case SHUTDOWN:
+                //ap.shutServer(); //TODO
+                outMessage = new Message(MessageType.ACK);
+                (((AirplaneProxy) (Thread.currentThread ())).getScon ()).setTimeout (10);
+                break;
+            default: throw new MessageException ("Message type invalid : ", inMessage);
+        }
+
         return (outMessage);
     }
 }

@@ -1,10 +1,13 @@
 package serverSide.sharedRegionInterfaces;
 
 
+import serverSide.serverProxys.AirplaneProxy;
+import serverSide.serverProxys.DestinationAirportProxy;
 import serverSide.sharedRegions.DepAirport;
 import serverSide.sharedRegions.DestAirport;
 import structs.Message;
 import structs.MessageException;
+import structs.MessageType;
 
 /**
  *  Destination Airport
@@ -37,6 +40,19 @@ public class DestAirportInt {
      */
     public Message processAndReply(Message inMessage) throws MessageException {
         Message outMessage = null;
+
+        switch (inMessage.getType()){
+            case FLY_TO_DEPARTURE_POINT:
+                destAirport.flyToDeparturePoint();
+                outMessage = new Message(MessageType.ACK);
+                break;
+            case SHUTDOWN:
+                //ap.shutServer(); //TODO
+                outMessage = new Message(MessageType.ACK);
+                (((DestinationAirportProxy) (Thread.currentThread ())).getScon ()).setTimeout (10);
+                break;
+            default: throw new MessageException ("Message type invalid : ", inMessage);
+        }
         return (outMessage);
     }
 }

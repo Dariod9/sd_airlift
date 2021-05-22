@@ -1,9 +1,12 @@
 package serverSide.sharedRegionInterfaces;
 
+import serverSide.serverProxys.AirplaneProxy;
+import serverSide.serverProxys.DepartureAirportProxy;
 import serverSide.sharedRegions.Airplane;
 import serverSide.sharedRegions.DepAirport;
 import structs.Message;
 import structs.MessageException;
+import structs.MessageType;
 
 /**
  *  Departure Airport
@@ -47,6 +50,55 @@ public class DepAirportInt {
      */
     public Message processAndReply(Message inMessage) throws MessageException {
         Message outMessage = null;
+
+        switch (inMessage.getType()){
+            case GET_FLEW:
+                int flew = depAirport.getFlew();
+                outMessage = new Message(MessageType.ACK, flew);
+                break;
+            case WAIT_IN_QUEUE:
+                depAirport.waitInQueue();
+                outMessage = new Message(MessageType.ACK);
+                break;
+            case WAIT_FOR_NEXT_PASSENGER:
+                boolean planeReady = depAirport.waitForNextPassenger();
+                outMessage = new Message(MessageType.ACK, planeReady);
+                break;
+            case CHECK_DOCUMENTS:
+                depAirport.checkDocuments();
+                outMessage = new Message(MessageType.ACK);
+                break;
+            case INFORM_PLANE_READY_TO_TAKEOFF:
+                depAirport.informPlaneReadyToTakeOff();
+                outMessage = new Message(MessageType.ACK);
+                break;
+            case WAIT_FOR_NEXT_FLIGHT:
+                depAirport.waitForNextFlight();
+                outMessage = new Message(MessageType.ACK);
+                break;
+            case INFORM_PLANE_READY_FOR_BOARDING:
+                depAirport.informPlaneReadyForBoarding();
+                outMessage = new Message(MessageType.ACK);
+                break;
+            case WAIT_FOR_ALL_IN_BOARD:
+                depAirport.waitForAllInBoard();
+                outMessage = new Message(MessageType.ACK);
+                break;
+            case FLY_TO_DESTINATION_POINT:
+                depAirport.flyToDestinationPoint();
+                outMessage = new Message(MessageType.ACK);
+                break;
+            case PREPARE_FOR_PASS_BOARDING:
+                depAirport.prepareForPassBoarding();
+                outMessage = new Message(MessageType.ACK);
+                break;
+            case SHUTDOWN:
+                //ap.shutServer(); //TODO
+                outMessage = new Message(MessageType.ACK);
+                (((DepartureAirportProxy) (Thread.currentThread ())).getScon ()).setTimeout (10);
+                break;
+            default: throw new MessageException ("Message type invalid : ", inMessage);
+        }
         return (outMessage);
     }
 }

@@ -3,6 +3,7 @@ package serverSide.serverProxys;
 import serverSide.Repository;
 import serverSide.ServerCom;
 import serverSide.sharedRegionInterfaces.AirplaneInt;
+import serverSide.sharedRegionInterfaces.RepositoryInt;
 import structs.Message;
 import structs.MessageException;
 
@@ -23,23 +24,23 @@ public class RepositoryProxy extends Thread{
     private ServerCom sconi;
 
     /**
-     *  Arrival Lounge Interfacea
+     *  Repository Interfacea
      *    @serialField alInter
      */
-    private AirplaneInt alInter;
+    private RepositoryInt repoInter;
 
     /**
-     *   Arrival Lounge Proxy Instantiation
+     *   Repository Proxy Instantiation
      *    @param sconi Communication channel
-     *    @param alInter Arrival Lounge Interface
+     *    @param repoInter Arrival Lounge Interface
      */
 
-    public RepositoryProxy (ServerCom sconi, AirplaneInt alInter)
+    public RepositoryProxy (ServerCom sconi, RepositoryInt repoInter)
     {
         super ("Proxy_" + getProxyId ());
 
         this.sconi = sconi;
-        this.alInter = alInter;
+        this.repoInter = repoInter;
     }
 
 
@@ -59,7 +60,7 @@ public class RepositoryProxy extends Thread{
         try
         {
             //Process message
-            outMessage = alInter.processAndReply (inMessage);
+            outMessage = repoInter.processAndReply (inMessage);
         }
         catch (MessageException e)
         { System.out.println ("Thread " + getName () + ": " + e.getMessage () + "!");
@@ -78,12 +79,12 @@ public class RepositoryProxy extends Thread{
      */
     private static int getProxyId ()
     {
-        Class<serverSide.Proxys.AirportProxy> cl = null;
+        Class<serverSide.serverProxys.RepositoryProxy> cl = null;
 
         int proxyId;
 
         try
-        { cl = (Class<serverSide.Proxys.AirportProxy>) Class.forName ("serverSide.Proxys.AirportProxy");
+        { cl = (Class<serverSide.serverProxys.RepositoryProxy>) Class.forName ("serverSide.Proxys.RepositoryProxy");
         }
         catch (ClassNotFoundException e)
         { System.out.println ("Proxy al data type not found!");

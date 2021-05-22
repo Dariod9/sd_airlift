@@ -31,7 +31,7 @@ public class AirplaneProxy extends Thread {
 	 *    Airplane Interfacea
 	 *    @serialField alInter
 	 */
-	private AirplaneInt alInter;
+	private AirplaneInt apInter;
 
 	/**
 	 *   Arrival Lounge Proxy Instantiation
@@ -44,7 +44,7 @@ public class AirplaneProxy extends Thread {
 		super ("Proxy_" + getProxyId ());
 
 		this.sconi = sconi;
-		this.alInter = alInter;
+		this.apInter = alInter;
 	}
 
 
@@ -64,7 +64,7 @@ public class AirplaneProxy extends Thread {
 		try
 		{
 			//Process message
-			outMessage = alInter.processAndReply (inMessage);
+			outMessage = apInter.processAndReply (inMessage);
 		}
 		catch (MessageException e)
 		{ System.out.println ("Thread " + getName () + ": " + e.getMessage () + "!");

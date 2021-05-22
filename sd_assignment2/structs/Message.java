@@ -120,10 +120,22 @@ public class Message implements Serializable {
     }
 
 
-
     public MessageType getType() {
         return msgType;
     }
+
+    public int getPassengerState(){
+        return this.passengerState;
+    }
+
+    public int getHostessState() {
+        return this.hostessState;
+    }
+
+    public int getPilotState(){
+        return this.pilotState;
+    }
+
 
     public void setMsgType(MessageType msgType) {
         this.msgType = msgType;

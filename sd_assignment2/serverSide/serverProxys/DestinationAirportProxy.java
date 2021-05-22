@@ -1,20 +1,11 @@
-package client.stubs;
+package serverSide.serverProxys;
 
 import genclass.GenericIO;
-
-import commInfra.ClientCom;
-import commInfra.MemException;
-import commInfra.Message;
-import commInfra.MessageType;
-import commInfra.ClientCom;
-import commInfra.SimulPar;
-
-import client.entities.Hostess;
-import client.entities.HostessStates;
-import client.entities.Pilot;
-import client.entities.PilotStates;
-import client.entities.Passenger;
-import client.entities.PassengerStates;
+import genclass.GenericIO;
+import serverSide.ServerCom;
+import serverSide.sharedRegionInterfaces.*;
+import structs.Message;
+import structs.MessageException;
 
 
 /**
@@ -40,23 +31,23 @@ public class DestinationAirportProxy extends Thread {
 	private ServerCom sconi;
 
 	/**
-	 *  Arrival Lounge Interfacea
+	 *  Destination AirportInterfacea
 	 *    @serialField alInter
 	 */
-	private DestinationAirportInterface alInter;
+	private DestAirportInt depApInter;
 
 	/**
-	 *   Arrival Lounge Proxy Instantiation
+	 *   Destination Airport Proxy Instantiation
 	 *    @param sconi Communication channel
-	 *    @param alInter Arrival Lounge Interface
+	 *    @param depApInter Arrival Lounge Interface
 	 */
 
-	public DestinationAirportProxy (ServerCom sconi, DestinationAirportInterface alInter)
+	public DestinationAirportProxy (ServerCom sconi, DestAirportInt depApInter)
 	{
 		super ("Proxy_" + getProxyId ());
 
 		this.sconi = sconi;
-		this.alInter = alInter;
+		this.depApInter = depApInter;
 	}
 
 
@@ -76,7 +67,7 @@ public class DestinationAirportProxy extends Thread {
 		try
 		{
 			//Process message
-			outMessage = alInter.processAndReply (inMessage);
+			outMessage = depApInter.processAndReply (inMessage);
 		}
 		catch (MessageException e)
 		{ System.out.println ("Thread " + getName () + ": " + e.getMessage () + "!");
@@ -95,12 +86,12 @@ public class DestinationAirportProxy extends Thread {
 	 */
 	private static int getProxyId ()
 	{
-		Class<serverSide.Proxys.DestinationAirportProxy> cl = null;
+		Class<serverSide.serverProxys.DestinationAirportProxy> cl = null;
 
 		int proxyId;
 
 		try
-		{ cl = (Class<serverSide.Proxys.DestinationAirportProxy>) Class.forName ("serverSide.Proxys.DestinationAirportProxy");
+		{ cl = (Class<serverSide.serverProxys.DestinationAirportProxy>) Class.forName ("serverSide.Proxys.DestinationAirportProxy");
 		}
 		catch (ClassNotFoundException e)
 		{ System.out.println ("Proxy al data type not found!");
