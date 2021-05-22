@@ -39,7 +39,7 @@ public class Message implements Serializable {
         this.msgType = type;
     }
 
-    public MessageType getMsgType() {
+    public MessageType getType() {
         return msgType;
     }
 

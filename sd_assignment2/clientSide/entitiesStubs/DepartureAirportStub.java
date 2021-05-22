@@ -1,5 +1,9 @@
 package clientSide.entitiesStubs;
 
+import clientSide.ClientCom;
+import clientSide.entities.Pilot;
+import entities.Passenger;
+import entities.Pilot;
 import genclass.GenericIO;
 
 import commInfra.ClientCom;
@@ -15,6 +19,8 @@ import client.entities.Pilot;
 import client.entities.PilotStates;
 import client.entities.Passenger;
 import client.entities.PassengerStates;
+import structs.Message;
+import structs.MessageType;
 import structs.SimulatorParam;
 
 
@@ -85,24 +91,51 @@ public class DepartureAirportStub{
 	*
 	*/	
 	
-	public void waitInQueue() {
-		
-		int passengerId; // passenger id
-		Passenger passenger = ((Passenger) Thread.currentThread());
-		passengerId = passenger.getPassengerId();
-		
-		ClientCom com = new ClientCom (serverHostName, serverPortNumb);           // communication channel
-	     String fromServer,                                                        // input sentence
-	            fromUser;                                                          // output sentence
+	public String waitInQueue() {
 
-	     while (!com.open ()) {                                                      // open the connection
-	      try{
-	        Thread.currentThread ().sleep ((long) (10));
-	       }
-	       catch (InterruptedException e) {}
-	     }
-	     fromUser = "";
-	     com.writeObject (fromUser);  
+		String decision = "";
+		//Open connection
+		ClientCom con = new ClientCom(serverHostName, serverPortNumb);
+		Message inMessage, outMessage;
+		Passenger p = (Passenger) Thread.currentThread();
+		//Waits for connection
+		while (!con.open()) {
+			try {
+				p.sleep((long) (10));
+			} catch (InterruptedException e) {
+			}
+		}
+
+		//What should i do message with the flight number
+		outMessage = new Message(MessageType.decision, flight, id, tripState, numBags);
+		con.writeObject(outMessage);
+		inMessage = (Message) con.readObject();
+
+		if ((inMessage.getType() != MessageType.BOARD_THE_PLANE)) {
+			System.out.println("Thread " + p.getName() + ": Invalid type!");
+			System.out.println(inMessage.toString());
+			System.exit(1);
+		}
+
+		switch (inMessage.getType()) {
+			//Passenger goes home
+			case BOARD_THE_PLANE:
+				decision = "board";
+				break;
+			//Passenger will take a bus
+			case WAIT_FOR_END_OF_FLIGHT:
+				decision = "wait";
+				break;
+			//Passenger will collect a bag at convoy belt
+			case LEAVE_THE_PLANE:
+				decision = "B";
+				break;
+			default:
+				break;
+		}
+		//Close connection
+		con.close();
+		return decision;
 		
 	}
 	
@@ -252,15 +285,40 @@ public class DepartureAirportStub{
 	*/
 	
 	public void informPlaneReadyForBoarding() {
-		 //TODO
-//		flightNumber++;
-//		repos.reportSpecificStatus("\nFlight " + flightNumber + ": boarding started."); 
-//		 
-//		((Pilot) Thread.currentThread()).setPilotState(PilotStates.READYFORBOARDING);
-//		repos.setPilotState (((Pilot) Thread.currentThread ()).getPilotState ());
-//		plane_ready_boarding = true;
-//		GenericIO.writelnString("Plane ready to flight");
-//		notifyAll();
+
+//		String decision = "";
+		//Open connection
+		ClientCom con = new ClientCom(serverHostName, serverPortNumb);
+		Message inMessage, outMessage;
+		Pilot p = (Pilot) Thread.currentThread();
+		//Waits for connection
+		while (!con.open()) {
+			try {
+				p.sleep((long) (10));
+			} catch (InterruptedException e) {
+			}
+		}
+
+		//What should i do message with the flight number
+		outMessage = new Message(MessageType.INFORM_PLANE_READY_FOR_BOARDING);
+		con.writeObject(outMessage);
+		inMessage = (Message) con.readObject();
+
+		if ((inMessage.getType() != MessageType.ACK)) {
+			System.out.println("Thread " + p.getName() + ": Invalid type!");
+			System.out.println(inMessage.toString());
+			System.exit(1);
+		}
+
+//		switch (inMessage.getType()) {
+//			//Passenger goes home
+//			case ACK:
+//				decision = "board";
+//				break;
+//		}
+		//Close connection
+		con.close();
+//		return decision;
 
 	}
 
