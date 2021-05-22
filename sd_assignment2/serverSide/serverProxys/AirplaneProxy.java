@@ -15,6 +15,7 @@ import client.entities.Pilot;
 import client.entities.PilotStates;
 import client.entities.Passenger;
 import client.entities.PassengerStates;
+import serverSide.ServerCom;
 
 
 /**
@@ -22,7 +23,7 @@ import client.entities.PassengerStates;
  *
  *   It provides means to the setup of a communication channel and the message exchange.
  */
-public class AirportProxy extends Thread {
+public class AirplaneProxy extends Thread {
 
 	/**
 	 *  Launched threads counter
@@ -51,7 +52,7 @@ public class AirportProxy extends Thread {
 	 *    @param alInter Arrival Lounge Interface
 	 */
 
-	public AirportProxy (ServerCom sconi, AirportInterface alInter)
+	public AirplaneProxy(ServerCom sconi, AirportInterface alInter)
 	{
 		super ("Proxy_" + getProxyId ());
 

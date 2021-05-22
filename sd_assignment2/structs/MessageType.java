@@ -20,11 +20,11 @@ public enum MessageType {
      */
     BOARD_THE_PLANE,
     /**
-     * Operation wait for the end of the flight
+     * Operation get number of passenger at the destination
      */
     GET_FLEW,
     /**
-     * Operation get the number of passengers at the destination airport
+     * Operation wait for the end of the flight
      */
     WAIT_FOR_END_OF_FLIGHT,
     /**
@@ -79,6 +79,42 @@ public enum MessageType {
      * Operation fly to the departure airport.
      */
     FLY_TO_DEPARTURE_POINT,
+    /**
+     * Operation set pilot state.
+     */
+    SET_PILOT_STATE,
+    /**
+     * Operation set hostess state.
+     */
+    SET_HOSTESS_STATE,
+    /**
+     * Operation set hostess state with passenger ID.
+     */
+    SET_HOSTESS_STATE_ID,
+    /**
+     * Operation set passenger state.
+     */
+    SET_PASSENGER_STATE,
+    /**
+     * Operation add flight info.
+     */
+    ADD_FLIGHT_INFO,
+    /**
+     * Operation write header.
+     */
+    WRITE_HEADER,
+    /**
+     * Operation write small header.
+     */
+    WRITE_SMALL_HEADER,
+    /**
+     * Operation report status.
+     */
+    REPORT_STATUS,
+    /**
+     * Operation report summary.
+     */
+    REPORT_SUMMARY,
     /**
      * Shuts down the server (client solicitation).
      */

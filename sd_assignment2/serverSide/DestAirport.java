@@ -1,8 +1,8 @@
 package serverSide;
 
+import clientSide.entities.Pilot;
+import clientSide.entities.PilotStates;
 import genclass.*;
-import entities.Pilot;
-import entities.PilotStates;
 
 /**
  *  Destination Airport

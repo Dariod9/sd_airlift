@@ -1,8 +1,8 @@
 package serverSide;
 
-import entities.HostessStates;
-import entities.PassengerStates;
-import entities.PilotStates;
+import clientSide.entities.HostessStates;
+import clientSide.entities.PassengerStates;
+import clientSide.entities.PilotStates;
 import genclass.*;
 
 import java.util.HashMap;

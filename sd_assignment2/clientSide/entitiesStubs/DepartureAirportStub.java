@@ -42,35 +42,6 @@ public class DepartureAirportStub{
       serverPortNumb = SimulatorParam.DepAirportPort;
    }
 
-  /**
-   *  Message exchange with the remote object.
-   */
-
-   public void exchange () {
- 
-     ClientCom com = new ClientCom (serverHostName, serverPortNumb);           // communication channel
-     String fromServer,                                                        // input sentence
-            fromUser;                                                          // output sentence
-
-     while (!com.open ()) {                                                      // open the connection
-      try{
-        Thread.currentThread ().sleep ((long) (10));
-       }
-       catch (InterruptedException e) {}
-     }
-     
-     while ((fromServer = (String) com.readObject ()) != null){                 // check receiving message
-    	 GenericIO.writelnString ("Server: " + fromServer);                      // print receiving message
-       if (fromServer.equals ("Bye.")) break;                                  // check for continuation
-       GenericIO.writeString ("Client: ");                                     // read user reply
-       do {
-        fromUser = GenericIO.readlnString ();
-       } while (fromUser == null);
-       com.writeObject (fromUser);                                             // send reply
-     }
-     com.close ();                                                             // close the connection
-   }
-   
    /**
 	*  Operation wait in queue.
 	*

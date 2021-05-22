@@ -1,10 +1,11 @@
 package serverSide;
 
+import clientSide.entities.Passenger;
+import clientSide.entities.PassengerStates;
+import clientSide.entities.Pilot;
+import clientSide.entities.PilotStates;
 import genclass.*;
-import entities.Passenger;
-import entities.PassengerStates;
-import entities.Pilot;
-import entities.PilotStates;
+
 import structs.MemException;
 import structs.MemFIFO;
 

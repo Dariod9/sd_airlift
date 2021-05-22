@@ -24,7 +24,6 @@ public class SimulatorParam {
      * Number of passengers
      */
     public static final int NUM_PASSANGERS = 25;
-     */
     public static final int PLANE_CAPACITY_MAX = 10;
 
     public static final int PLANE_CAPACITY_MIN = 5;

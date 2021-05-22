@@ -1,8 +1,7 @@
 package serverSide;
 
-import clientSide.entities.Hostess;
+import clientSide.entities.*;
 import genclass.*;
-import entities.*;
 import structs.MemException;
 import structs.MemFIFO;
 
