@@ -1,11 +1,19 @@
 package structs;
 
+/**
+ * This enumerate data type specifies the various messages that the clients and servers exchange between them in a Distributed solution
+ * for the AirLift Problem . Each message is tied to a function or an action crucial for the implementation.
+ */
 public enum MessageType {
     /**
      * Initialization parameter
      *    @serialField NO_MESSAGE
      */
     NO_MESSAGE,
+    /**
+     * Message Acknowledge
+     */
+    ACK,
     /**
      * Operation board the plane
      *

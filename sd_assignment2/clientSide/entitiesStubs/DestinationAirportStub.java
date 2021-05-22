@@ -1,13 +1,10 @@
-package client.stubs;
+package clientSide.entitiesStubs;
 
-import client.entities.Pilot;
-import client.entities.PilotStates;
-import commInfra.ClientCom;
-import commInfra.Message;
-import commInfra.MessageType;
-import commInfra.SimulPar;
 import genclass.GenericIO;
 import structs.SimulatorParam;
+import clientSide.ClientCom;
+import structs.Message;
+import structs.MessageType;
 
 public class DestinationAirportStub {
 	/**
@@ -26,11 +23,10 @@ public class DestinationAirportStub {
   /**
    *  Instantiation of a remote reference
    *
-   *    @param hostName name of the computational system where the server is located
-   *    @param portNumb number of the listening port at the computational system where the server is located
+   *    @param serverHostName name of the computational system where the server is located
+   *    @param serverPortNumb number of the listening port at the computational system where the server is located
   */
-
-   public DestinationAirportStub (){
+  public DestinationAirportStub (){
       serverHostName = SimulatorParam.DestAirportHostName;
       serverPortNumb = SimulatorParam.DestAirportPort;
    }
@@ -66,7 +62,7 @@ public class DestinationAirportStub {
 		inMessage = (Message) con.readObject ();
 		
 		//Message OK
-		if ((inMessage.getType () != MessageType.ACK)){
+		if ((inMessage.getMsgType () != MessageType.ACK)){
 			System.out.println ("Thread " + p.getName () + ": Invalid type!");
 			System.out.println (inMessage.toString ());
 			System.exit (1);

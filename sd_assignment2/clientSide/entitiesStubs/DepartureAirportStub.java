@@ -1,4 +1,4 @@
-package client.stubs;
+package clientSide.entitiesStubs;
 
 import genclass.GenericIO;
 
@@ -41,10 +41,9 @@ public class DepartureAirportStub{
   /**
    *  Instantiation of a remote reference
    *
-   *    @param hostName name of the computational system where the server is located
-   *    @param portNumb number of the listening port at the computational system where the server is located
+   *    @param serverHostName name of the computational system where the server is located
+   *    @param serverPortNumb number of the listening port at the computational system where the server is located
   */
-
    public DepartureAirportStub (){
       serverHostName = SimulatorParam.DepAirportHostName;
       serverPortNumb = SimulatorParam.DepAirportPort;
@@ -113,7 +112,9 @@ public class DepartureAirportStub{
 	*  It is called by the passenger when the hostess wants to check his documents.
 	*
 	*/	
-	
+	public int getFlew(){
+		return 1;
+	}
 	public void showDocuments() {
 //		TODO
 //		Passenger passenger = ((Passenger) Thread.currentThread());
@@ -140,7 +141,7 @@ public class DepartureAirportStub{
 	*  @return passengerId returns the Id from the passenger that is in front of the queue.
 	*/	
 	
-	public int waitForNextPassenger() { 
+	public boolean waitForNextPassenger() {
 //		TODO
 //		GenericIO.writelnString("\033[41mPassengers in line " + nLine + "\033[0m");
 //		((Hostess) Thread.currentThread()).setHostessState(HostessStates.WAITFORPASSENGER);
@@ -182,7 +183,7 @@ public class DepartureAirportStub{
 //		notifyAll();
 //
 //		return passengerId;
-		return 1;
+		return true;
 		
 	 }
 
@@ -219,7 +220,7 @@ public class DepartureAirportStub{
 	*  @param waitPassengerId receives the id of the passenger that is having his documents checked
 	*/
 
-	public void checkDocuments(int waitPassengerId) {
+	public void checkDocuments() {
 		//TODO
 //		GenericIO.writelnString("\n\033[42m----Enter Check Documents----\033[0m");
 //
@@ -333,22 +334,6 @@ public class DepartureAirportStub{
 	}
 
 	public void waitForAllInBoard() {
-		//TODO
-		//		((Hostess) Thread.currentThread()).setHostessState(HostessStates.WAITFORFLIGHT);
-//		repos.setHostessState (((Hostess) Thread.currentThread ()).getHostessState ());
-//		while (!next_fly) {
-//
-//			try {
-//				wait();
-//			}
-//			catch (Exception e) {
-//				return;
-//			}
-//
-//		}
-
-	}
-	public void prepareForPassBoarding() {
 		//TODO
 		//		((Hostess) Thread.currentThread()).setHostessState(HostessStates.WAITFORFLIGHT);
 //		repos.setHostessState (((Hostess) Thread.currentThread ()).getHostessState ());
