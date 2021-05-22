@@ -1,4 +1,4 @@
-package entitiesInterfaces;
+package clientSide.entitiesInterfaces;
 /**
  *   Hostess thread.
  *
@@ -6,7 +6,7 @@ package entitiesInterfaces;
  *   Static solution.
  */
 
-public Interface HostessInt{
+public interface HostessInt{
 
     /**
      * Get Hostess state.

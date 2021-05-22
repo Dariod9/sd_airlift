@@ -1,4 +1,4 @@
-package entitiesInterfaces;
+package clientSide.entitiesInterfaces;
 
 
 import genclass.*;
@@ -11,7 +11,7 @@ import genclass.*;
  */
 
 
-public Interface PassengerInt {
+public interface PassengerInt {
 
     /**
      * Get passenger id.

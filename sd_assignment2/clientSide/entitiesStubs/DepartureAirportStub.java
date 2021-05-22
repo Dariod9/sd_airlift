@@ -15,6 +15,7 @@ import client.entities.Pilot;
 import client.entities.PilotStates;
 import client.entities.Passenger;
 import client.entities.PassengerStates;
+import structs.SimulatorParam;
 
 
 /**
@@ -45,8 +46,8 @@ public class DepartureAirportStub{
   */
 
    public DepartureAirportStub (){
-      serverHostName = SimulPar.DepartureAirportHostName;
-      serverPortNumb = SimulPar.DepartureAirportPort;
+      serverHostName = SimulatorParam.DepAirportHostName;
+      serverPortNumb = SimulatorParam.DepAirportPort;
    }
 
   /**

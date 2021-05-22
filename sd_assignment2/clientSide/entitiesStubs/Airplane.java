@@ -1,20 +1,11 @@
-package client.stubs;
+package clientSide.entitiesStubs;
 
+import clientSide.ClientCom;
 import genclass.GenericIO;
+import structs.Message;
+import structs.SimulatorParam;
+import clientSide.*;
 
-import commInfra.ClientCom;
-import commInfra.MemException;
-import commInfra.Message;
-import commInfra.MessageType;
-import commInfra.ClientCom;
-import commInfra.SimulPar;
-
-import client.entities.Hostess;
-import client.entities.HostessStates;
-import client.entities.Pilot;
-import client.entities.PilotStates;
-import client.entities.Passenger;
-import client.entities.PassengerStates;
 
 
 /**
@@ -23,7 +14,7 @@ import client.entities.PassengerStates;
  *   It provides means to the setup of a communication channel and the message exchange.
  */
 
-public class AirportStub{
+public class AirplaneStub{
 
 	/**
 	 *  Name of the computational system where the server is located.
@@ -44,9 +35,9 @@ public class AirportStub{
 	 *    @param portNumb number of the listening port at the computational system where the server is located
 	 */
 
-	public PilotStub (){
-		serverHostName = SimulPar.PilotHostName;
-		serverPortNumb = SimulPar.PilotPort;
+	public AirplaneStub (){
+		serverHostName = SimulatorParam.AirplaneHostName;
+		serverPortNumb = SimulatorParam.AirplanePort;
 	}
 
 	/**
@@ -56,7 +47,7 @@ public class AirportStub{
 	public void exchange () {
 
 		ClientCom com = new ClientCom (serverHostName, serverPortNumb);           // communication channel
-		String fromServer,                                                        // input sentence
+		Message fromClient,                                                        // input sentence
 				fromUser;                                                          // output sentence
 
 		while (!com.open ()) {                                                      // open the connection
@@ -66,7 +57,7 @@ public class AirportStub{
 			catch (InterruptedException e) {}
 		}
 
-		while ((fromClient = (String) com.readObject ()) != null){                 // check receiving message
+		while ((fromClient = (Message) com.readObject ()) != null){                 // check receiving message
 			GenericIO.writelnString ("Clien: " + fromClient);                      // print receiving message
 			if (fromClient.equals ("Bye.")) break;                                  // check for continuation
 			GenericIO.writeString ("Stub: ");                                     // read user reply
@@ -79,9 +70,9 @@ public class AirportStub{
 	}
 
 
-	public synchronized void parkAtTransferGate() {
+	public   void parkAtTransferGate() {
 		ClientCom com = new ClientCom (serverHostName, serverPortNumb);           // communication channel
-		String fromServer,                                                        // input sentence
+		Message fromServer,                                                        // input sentence
 				fromUser;                                                          // output sentence
 
 		while (!com.open ()) {                                                      // open the connection
@@ -103,34 +94,9 @@ public class AirportStub{
 		com.close ();
 	}
 
-	public synchronized void announceArrival() {
+	public void announceArrival() {
 		ClientCom com = new ClientCom (serverHostName, serverPortNumb);           // communication channel
-		String fromServer,                                                        // input sentence
-				fromUser;                                                          // output sentence
-
-		while (!com.open ()) {                                                      // open the connection
-			try{
-				Thread.currentThread ().sleep ((long) (10));
-			}
-			catch (InterruptedException e) {}
-		}
-
-		while ((fromServer = (String) com.readObject ()) != null){                 // check receiving message
-			GenericIO.writelnString ("Clien: " + fromServer);                      // print receiving message
-			if (fromServer.equals ("Bye.")) break;                                  // check for continuation
-			GenericIO.writeString ("Stub: ");                                     // read user reply
-			do {
-				fromUser = GenericIO.readlnString ();
-			} while (fromUser == null);
-			com.writeObject (fromUser);                                             // send reply
-		}
-		com.close ();
-
-	}
-
-	public synchronized void leaveThePlane(){
-		ClientCom com = new ClientCom (serverHostName, serverPortNumb);           // communication channel
-		String fromServer,                                                        // input sentence
+		Message fromServer,                                                        // input sentence
 				fromUser;                                                          // output sentence
 
 		while (!com.open ()) {                                                      // open the connection
@@ -153,9 +119,9 @@ public class AirportStub{
 
 	}
 
-	public synchronized void waitForEndOfFlight(){
+	public void leaveThePlane(){
 		ClientCom com = new ClientCom (serverHostName, serverPortNumb);           // communication channel
-		String fromServer,                                                        // input sentence
+		Message fromServer,                                                        // input sentence
 				fromUser;                                                          // output sentence
 
 		while (!com.open ()) {                                                      // open the connection
@@ -178,9 +144,34 @@ public class AirportStub{
 
 	}
 
-	public synchronized void boardThePlane() {
+	public   void waitForEndOfFlight(){
 		ClientCom com = new ClientCom (serverHostName, serverPortNumb);           // communication channel
-		String fromServer,                                                        // input sentence
+		Message fromServer,                                                        // input sentence
+				fromUser;                                                          // output sentence
+
+		while (!com.open ()) {                                                      // open the connection
+			try{
+				Thread.currentThread ().sleep ((long) (10));
+			}
+			catch (InterruptedException e) {}
+		}
+
+		while ((fromServer = (String) com.readObject ()) != null){                 // check receiving message
+			GenericIO.writelnString ("Clien: " + fromServer);                      // print receiving message
+			if (fromServer.equals ("Bye.")) break;                                  // check for continuation
+			GenericIO.writeString ("Stub: ");                                     // read user reply
+			do {
+				fromUser = GenericIO.readlnString ();
+			} while (fromUser == null);
+			com.writeObject (fromUser);                                             // send reply
+		}
+		com.close ();
+
+	}
+
+	public   void boardThePlane() {
+		ClientCom com = new ClientCom (serverHostName, serverPortNumb);           // communication channel
+		Message fromServer,                                                        // input sentence
 				fromUser;                                                          // output sentence
 
 		while (!com.open ()) {                                                      // open the connection

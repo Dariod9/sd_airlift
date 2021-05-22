@@ -7,6 +7,7 @@ import commInfra.Message;
 import commInfra.MessageType;
 import commInfra.SimulPar;
 import genclass.GenericIO;
+import structs.SimulatorParam;
 
 public class DestinationAirportStub {
 	/**
@@ -30,8 +31,8 @@ public class DestinationAirportStub {
   */
 
    public DestinationAirportStub (){
-      serverHostName = SimulPar.DestianionAirportHostName;
-      serverPortNumb = SimulPar.DestianionAirportPort;
+      serverHostName = SimulatorParam.DestAirportHostName;
+      serverPortNumb = SimulatorParam.DestAirportPort;
    }
    
    public  void flyToDeparturePoint () {  //hostess function

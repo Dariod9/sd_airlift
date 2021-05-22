@@ -1,4 +1,4 @@
-package shared;
+package serverSide.sharedRegionInterfaces;
 
 import entities.HostessStates;
 import entities.PassengerStates;
@@ -17,7 +17,7 @@ import java.util.Set;
  *  It contains no internal synchronization points.
  */
 
-public class Repository {
+public interface RepositoryInt {
 
     /**
      *  Get number of passengers in Queue

@@ -1,4 +1,4 @@
-package shared;
+package serverSide.sharedRegionInterfaces;
 
 import genclass.*;
 import entities.*;
@@ -24,7 +24,7 @@ import structs.MemFIFO;
  *
  */
 
-public Interface DepAirportInt {
+public interface DepAirportInt {
 
     /**
      *  Get Passenger that flew

@@ -1,4 +1,4 @@
-package shared;
+package serverSide.sharedRegionInterfaces;
 
 import genclass.*;
 import entities.Pilot;
@@ -12,7 +12,7 @@ import entities.PilotStates;
  *  It does not contain any blocking point.
  */
 
-public Interface DestAirportint {
+public interface DestAirportint {
 
     /**
      * Operation fly to the departure airport.

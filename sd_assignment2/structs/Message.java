@@ -1,3 +1,5 @@
+package structs;
+
 import structs.MessageType;
 
 import java.io.Serializable;

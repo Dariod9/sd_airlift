@@ -1,4 +1,4 @@
-package shared;
+package serverSide.sharedRegionInterfaces;
 
 import genclass.*;
 import entities.Passenger;
@@ -20,7 +20,7 @@ import structs.MemFIFO;
  *
  */
 
-public Interface AirplaneInt {
+public interface AirplaneInt {
 
     /**
      *  Operation board the plane

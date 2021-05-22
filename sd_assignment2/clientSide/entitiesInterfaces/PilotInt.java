@@ -1,4 +1,4 @@
-package entitiesInterfaces;
+package clientSide.entitiesInterfaces;
 
 
 /**
@@ -8,7 +8,7 @@ package entitiesInterfaces;
  *   Static solution.
  */
 
-public Interface PilotInt{
+public interface PilotInt{
 
     /**
      * Get pilot state.
