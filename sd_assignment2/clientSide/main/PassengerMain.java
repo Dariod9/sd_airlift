@@ -4,13 +4,9 @@ import clientSide.entitiesStubs.DestinationAirportStub;
 import clientSide.entitiesStubs.AirplaneStub;
 import clientSide.entities.*;
 
+import java.util.Arrays;
 
-/**
- * This class implements the Pilot Main. It instantiates the shared region Stubs which the Pilot interacts with
- * and most importantly it instantiates the Pilot entity, starts its thread and finally joins it and shutdowns the servers related
- * to the Stubs previously instantiated.
- */
-public class PilotMain {
+public class PassengerMain {
     public static void main(String args[]) {
         final int TOTAL=21;                                                                     // total number of passengers
         final int MAX=5;                                                                        // max number of passengers
@@ -19,14 +15,22 @@ public class PilotMain {
         DepartureAirportStub depAirportStub = new DepartureAirportStub();
         DestinationAirportStub destAirportStub = new DestinationAirportStub();
         AirplaneStub airplaneStub = new AirplaneStub();
+        Passenger[] passengers = new Passenger[TOTAL];
 
-        Pilot pilot = new Pilot(depAirportStub,destAirportStub,airplaneStub,0,TOTAL);
+        for(int i=0;i<passengers.length;i++){
+            passengers[i] = new Passenger(depAirportStub, destAirportStub, airplaneStub,i);
+        }
 
-        pilot.start();
 
-        try{
-            pilot.join();
-        } catch(InterruptedException e){}
+        Arrays.stream(passengers).forEach(x -> x.start());
+
+        Arrays.stream(passengers).forEach(x -> {
+            try {
+                x.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
 
         depAirportStub.shutServer();
         destAirportStub.shutServer();

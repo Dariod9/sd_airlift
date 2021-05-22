@@ -1,6 +1,5 @@
 /**
- * Client Stub
+ * Client Stubs
  */
-
-package client.stubs;
+package clientSide.entitiesStubs;
 

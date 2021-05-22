@@ -1,7 +1,7 @@
 package clientSide.entities;
-import shared.Airplane;
-import shared.DepAirport;
-import shared.DestAirport;
+import clientSide.entitiesStubs.DepartureAirportStub;
+import clientSide.entitiesStubs.DestinationAirportStub;
+import clientSide.entitiesStubs.AirplaneStub;
 
 /**
  *   Pilot thread.
@@ -30,32 +30,32 @@ public class Pilot extends Thread{
     /**
      * Reference to the departure airport.
      */
-    private final DepAirport depAirport;
+    private final DepartureAirportStub depAirportStub;
 
     /**
      * Reference to the departure airport.
      */
-    private final DestAirport destAirport;
+    private final DestinationAirportStub destAirportStub;
 
     /**
      * Reference to the airplane.
      */
-    private final Airplane airplane;
+    private final AirplaneStub airplaneStub;
 
     /**
      * Instantiation of a Pilot thread.
      *
-     * @param depAirport reference to departure airport
-     * @param destAirport reference to destination airport
-     * @param airplane reference to airplane
+     * @param depAirportStub reference to departure airport
+     * @param destAirportStub reference to destination airport
+     * @param airplaneStub reference to airplane
      * @param pilotID pilot id
      */
-    public Pilot (DepAirport depAirport, DestAirport destAirport, Airplane airplane, int pilotID, int TOTAL) {
+    public Pilot (DepartureAirportStub depAirportStub, DestinationAirportStub destAirportStub, AirplaneStub airplaneStub, int pilotID, int TOTAL) {
         this.TOTAL=TOTAL;
         this.pilotID=pilotID;
-        this.depAirport=depAirport;
-        this.destAirport=destAirport;
-        this.airplane=airplane;
+        this.depAirportStub=depAirportStub;
+        this.destAirportStub=destAirportStub;
+        this.airplaneStub=airplaneStub;
         Pilotstate=PilotStates.atTransferGate;
     }
 
@@ -100,8 +100,8 @@ public class Pilot extends Thread{
      *
      * @return departure airport
      */
-    public DepAirport getDepAirport() {
-        return depAirport;
+    public DepartureAirportStub getDepAirport() {
+        return depAirportStub;
     }
 
     /**
@@ -109,13 +109,13 @@ public class Pilot extends Thread{
      */
     @Override
     public void run() {
-        while(depAirport.getFlew()<TOTAL) {
-            depAirport.informPlaneReadyForBoarding();
-            depAirport.waitForAllInBoard();
-            depAirport.flyToDestinationPoint();
-            airplane.announceArrival();
-            destAirport.flyToDeparturePoint();
-            airplane.parkAtTransferGate();
+        while(depAirportStub.getFlew()<TOTAL) {
+            depAirportStub.informPlaneReadyForBoarding();
+            depAirportStub.waitForAllInBoard();
+            depAirportStub.flyToDestinationPoint();
+            airplaneStub.announceArrival();
+            destAirportStub.flyToDeparturePoint();
+            airplaneStub.parkAtTransferGate();
 
         }
     }

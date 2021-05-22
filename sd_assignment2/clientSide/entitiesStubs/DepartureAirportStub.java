@@ -249,8 +249,6 @@ public class DepartureAirportStub{
 	*  Operation check documents.
 	*
 	*  It is called by the hostess to check the documents of the first passenger of the queue.
-	*
-	*  @param waitPassengerId receives the id of the passenger that is having his documents checked
 	*/
 
 	public void checkDocuments() {
@@ -406,6 +404,10 @@ public class DepartureAirportStub{
 //
 //		}
 
+	}
+
+	public void flyToDestinationPoint(){
+		//TODO
 	}
 
 	

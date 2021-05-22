@@ -1,7 +1,8 @@
 package clientSide.entities;
-import shared.Airplane;
-import shared.DepAirport;
-import shared.DestAirport;
+
+import clientSide.entitiesStubs.AirplaneStub;
+import clientSide.entitiesStubs.DepartureAirportStub;
+import clientSide.entitiesStubs.DestinationAirportStub;
 import genclass.*;
 
 /**
@@ -27,31 +28,31 @@ public class Passenger extends Thread {
     /**
      * Reference to the departure airport.
      */
-    private final DepAirport depAirport;
+    private final DepartureAirportStub depAirportStub;
 
     /**
      * Reference to the departure airport.
      */
-    private final DestAirport destAirport;
+    private final DestinationAirportStub destAirportStub;
 
     /**
      * Reference to the airplane.
      */
-    private final Airplane airplane;
+    private final AirplaneStub airplaneStub;
 
     /**
      * Instantiation of a Airplane thread.
      *
-     * @param depAirport reference to departure airport
-     * @param destAirport reference to destination airport
-     * @param airplane reference to airplane
+     * @param depAirportStub reference to departure airport
+     * @param destAirportStub reference to destination airport
+     * @param airplaneStub reference to airplane
      * @param id passenger id
      */
-    public Passenger(DepAirport depAirport, DestAirport destAirport, Airplane airplane, int id) {
+    public Passenger(DepartureAirportStub depAirportStub, DestinationAirportStub destAirportStub, AirplaneStub airplaneStub, int id) {
         this.passengerId = id;
-        this.depAirport = depAirport;
-        this.destAirport = destAirport;
-        this.airplane = airplane;
+        this.depAirportStub = depAirportStub;
+        this.destAirportStub = destAirportStub;
+        this.airplaneStub = airplaneStub;
     }
 
 
@@ -99,10 +100,10 @@ public class Passenger extends Thread {
     @Override
     public void run() {
         travelToAirport();
-        depAirport.waitInQueue();
-        airplane.boardThePlane();
-        airplane.waitForEndOfFlight();
-        airplane.leaveThePlane();
+        depAirportStub.waitInQueue();
+        airplaneStub.boardThePlane();
+        airplaneStub.waitForEndOfFlight();
+        airplaneStub.leaveThePlane();
     }
 
     /**
