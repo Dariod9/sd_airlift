@@ -1,7 +1,7 @@
-package clientSide.entitiesInterfaces;
+package structs.entitiesInterfaces;
 
 
-import serverSide.DepAirport;
+import clientSide.entitiesStubs.DepartureAirportStub;
 
 /**
  *   Pilot thread.
@@ -39,13 +39,6 @@ public interface PilotInt{
      * @param pilotID pilot id
      */
     void setPilotID(int pilotID);
-
-    /**
-     * Get Departure Airport
-     *
-     * @return departure airport
-     */
-    DepAirport getDepAirport();
 
 
     /**

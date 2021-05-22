@@ -1,9 +1,9 @@
 package serverSide.sharedRegionInterfaces;
 
-import genclass.*;
-import entities.*;
-import structs.MemException;
-import structs.MemFIFO;
+import serverSide.sharedRegions.Airplane;
+import serverSide.sharedRegions.DepAirport;
+import structs.Message;
+import structs.MessageException;
 
 /**
  *  Departure Airport
@@ -24,92 +24,29 @@ import structs.MemFIFO;
  *
  */
 
-public interface DepAirportInt {
+public class DepAirportInt {
+    /**
+     * Departure Airport shared region
+     *
+     * @serial Field depAirport
+     */
+    private DepAirport depAirport;
 
     /**
-     *  Get Passenger that flew
-     *
-     * @return flew
+     * Departure Airport Interface instantiation
+     * @param depAirport shared region
      */
-    int getFlew();
-
+    public DepAirportInt(DepAirport depAirport){
+        this.depAirport=depAirport;
+    }
 
     /**
-     * Operation enter and wait in the Queue.
-     *
-     * It is called by a passenger after he arrives to the airport, while he waits to be called by the hostess.
-     *
+     * This function receives the incoming message and executes the correct function from the Departure Airport shared region and then
+     * generates the reply message.
+     * @param inMessage incoming message from the main
      */
-    void waitInQueue();
-
-    /**
-     * Operation wait for the next passenger.
-     *
-     * It is called by the hostess while there are no passengers in the Queue for her to call.
-     * @return
-     */
-    boolean waitForNextPassenger();
-
-    /**
-     * Operation check for documents.
-     *
-     * It is called by the hostess when she checks the documents of a passenger.
-     *
-     */
-
-    void checkDocuments();
-
-    /**
-     * Operation inform that the plane is ready to take off.
-     *
-     * It is called by the hostess when the plane is ready to board.
-     *
-     */
-
-    void informPlaneReadyToTakeOff();
-
-    /**
-     * Operation wait for the next flight.
-     *
-     * It is called by the hostess while she waits for the next flight to happen.
-     *
-     */
-
-    void waitForNextFlight();
-
-    /**
-     * Operation inform that passengers can start boarding the plane.
-     *
-     * It is called by the pilot after arriving to the transfer gate.
-     */
-
-    void informPlaneReadyForBoarding();
-
-    /**
-     * Operation wait for the passengers.
-     *
-     * It is called by the pilot while he waits for enough passengers to enter the plane.
-     */
-
-    void waitForAllInBoard();
-
-    /**
-     * Operation fly to destination.
-     *
-     * It is called by the pilot when the plane is ready to take off.
-     *
-     */
-
-    void flyToDestinationPoint();
-
-
-    /**
-     * Hostess prepares for the passengers to board.
-     *
-     * Internal Operation.
-     */
-    void prepareForPassBoarding();
-
-
-
+    public Message processAndReply(Message inMessage) throws MessageException {
+        Message outMessage = null;
+        return (outMessage);
+    }
 }

@@ -1,4 +1,4 @@
-package clientSide.entitiesInterfaces;
+package structs.entitiesInterfaces;
 /**
  *   Hostess thread.
  *

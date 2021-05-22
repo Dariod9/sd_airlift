@@ -2,6 +2,7 @@ package clientSide.entities;
 import clientSide.entitiesStubs.DepartureAirportStub;
 import clientSide.entitiesStubs.DestinationAirportStub;
 import clientSide.entitiesStubs.AirplaneStub;
+import structs.entitiesInterfaces.PilotInt;
 
 /**
  *   Pilot thread.
@@ -10,7 +11,7 @@ import clientSide.entitiesStubs.AirplaneStub;
  *   Static solution.
  */
 
-public class Pilot extends Thread{
+public class Pilot extends Thread implements PilotInt {
 
     /**
      * pilot state.
@@ -95,14 +96,6 @@ public class Pilot extends Thread{
         this.pilotID = pilotID;
     }
 
-    /**
-     * Get Departure Airport
-     *
-     * @return departure airport
-     */
-    public DepartureAirportStub getDepAirport() {
-        return depAirportStub;
-    }
 
     /**
      * Life cycle of the Pilot

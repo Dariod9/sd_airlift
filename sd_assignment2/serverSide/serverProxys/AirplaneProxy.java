@@ -1,23 +1,10 @@
-package client.stubs;
+package serverSide.serverProxys;
 
 import genclass.GenericIO;
-
-import commInfra.ClientCom;
-import commInfra.MemException;
-import commInfra.Message;
-import commInfra.MessageType;
-import commInfra.ClientCom;
-import commInfra.SimulPar;
-
-import client.entities.Hostess;
-import client.entities.HostessStates;
-import client.entities.Pilot;
-import client.entities.PilotStates;
-import client.entities.Passenger;
-import client.entities.PassengerStates;
 import serverSide.ServerCom;
-
-
+import serverSide.sharedRegionInterfaces.*;
+import structs.Message;
+import structs.MessageException;
 /**
  *   Reference to a remote object.
  *
@@ -41,10 +28,10 @@ public class AirplaneProxy extends Thread {
 	private ServerCom sconi;
 
 	/**
-	 *  Arrival Lounge Interfacea
+	 *    Airplane Interfacea
 	 *    @serialField alInter
 	 */
-	private AirportInterface alInter;
+	private AirplaneInt alInter;
 
 	/**
 	 *   Arrival Lounge Proxy Instantiation
@@ -52,7 +39,7 @@ public class AirplaneProxy extends Thread {
 	 *    @param alInter Arrival Lounge Interface
 	 */
 
-	public AirplaneProxy(ServerCom sconi, AirportInterface alInter)
+	public AirplaneProxy(ServerCom sconi, AirplaneInt alInter)
 	{
 		super ("Proxy_" + getProxyId ());
 
@@ -96,12 +83,12 @@ public class AirplaneProxy extends Thread {
 	 */
 	private static int getProxyId ()
 	{
-		Class<serverSide.Proxys.AirportProxy> cl = null;
+		Class<serverSide.serverProxys.AirplaneProxy> cl = null;
 
 		int proxyId;
 
 		try
-		{ cl = (Class<serverSide.Proxys.AirportProxy>) Class.forName ("serverSide.Proxys.AirportProxy");
+		{ cl = (Class<serverSide.serverProxys.AirplaneProxy>) Class.forName ("serverSide.Proxys.AirplaneProxy");
 		}
 		catch (ClassNotFoundException e)
 		{ System.out.println ("Proxy al data type not found!");

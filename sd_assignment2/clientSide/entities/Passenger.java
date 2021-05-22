@@ -4,6 +4,7 @@ import clientSide.entitiesStubs.AirplaneStub;
 import clientSide.entitiesStubs.DepartureAirportStub;
 import clientSide.entitiesStubs.DestinationAirportStub;
 import genclass.*;
+import structs.entitiesInterfaces.PassengerInt;
 
 /**
  *   Passenger thread.
@@ -13,7 +14,7 @@ import genclass.*;
  */
 
 
-public class Passenger extends Thread {
+public class Passenger extends Thread implements PassengerInt {
 
     /**
      * Passenger identification.

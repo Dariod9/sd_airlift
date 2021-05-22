@@ -1,7 +1,5 @@
-package clientSide.entitiesInterfaces;
+package structs.entitiesInterfaces;
 
-
-import genclass.*;
 
 /**
  *   Passenger thread.

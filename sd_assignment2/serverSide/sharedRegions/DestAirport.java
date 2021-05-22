@@ -1,8 +1,7 @@
-package serverSide;
+package serverSide.sharedRegions;
 
 import genclass.*;
-import entities.Pilot;
-import entities.PilotStates;
+import clientSide.entities.*;
 
 /**
  *  Destination Airport

@@ -2,6 +2,7 @@ package clientSide.entities;
 
 
 import clientSide.entitiesStubs.*;
+import structs.entitiesInterfaces.HostessInt;
 
 /**
  *   Hostess thread.
@@ -10,7 +11,7 @@ import clientSide.entitiesStubs.*;
  *   Static solution.
  */
 
-public class Hostess extends Thread {
+public class Hostess extends Thread implements HostessInt {
 
     /**
      * Hostess state.

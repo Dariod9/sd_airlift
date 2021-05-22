@@ -1,8 +1,6 @@
-package serverSide;
+package serverSide.sharedRegions;
 
-import entities.HostessStates;
-import entities.PassengerStates;
-import entities.PilotStates;
+import clientSide.entities.*;
 import genclass.*;
 
 import java.util.HashMap;

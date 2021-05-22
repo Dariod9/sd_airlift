@@ -1,12 +1,8 @@
 package serverSide.sharedRegionInterfaces;
 
-import genclass.*;
-import entities.Passenger;
-import entities.PassengerStates;
-import entities.Pilot;
-import entities.PilotStates;
-import structs.MemException;
-import structs.MemFIFO;
+import serverSide.sharedRegions.Airplane;
+import structs.Message;
+import structs.MessageException;
 
 /**
  *  Airplane
@@ -20,45 +16,30 @@ import structs.MemFIFO;
  *
  */
 
-public interface AirplaneInt {
+public class AirplaneInt {
 
     /**
-     *  Operation board the plane
+     * Airplane shared region
      *
-     *  It is called by the passenger after having the documents checked
+     * @serial Field ap
      */
-
-    void boardThePlane();
+    private Airplane ap;
 
     /**
-     * Operation wait for the end of the flight
-     *
-     * It is called by a Passenger while it doesn't reach its destination
+     * Airplane Interface instantiation
+     * @param ap Airplane shared region
      */
-
-    void waitForEndOfFlight();
+    public AirplaneInt(Airplane ap){
+        this.ap=ap;
+    }
 
     /**
-     * Operation leave the airplane
-     *
-     * It is called by the passenger after the flight lands
+     * This function receives the incoming message and executes the correct function from the Airplane shared region and then
+     * generates the reply message.
+     * @param inMessage incoming message from the main
      */
-
-    void leaveThePlane();
-
-    /**
-     * Operation announce arrival.
-     *
-     * It is called by the pilot after the airplane lands at the destination.
-     */
-
-    void announceArrival();
-
-    /**
-     * Operation park at the transfer gate.
-     *
-     * It is called by the pilot once it has landed back at the departure airport.
-     */
-
-    void parkAtTransferGate();
+    public Message processAndReply(Message inMessage) throws MessageException{
+        Message outMessage = null;
+        return (outMessage);
+    }
 }

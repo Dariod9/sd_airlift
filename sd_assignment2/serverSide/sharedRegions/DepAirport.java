@@ -1,8 +1,8 @@
-package serverSide;
+package serverSide.sharedRegions;
 
 import clientSide.entities.Hostess;
 import genclass.*;
-import entities.*;
+import clientSide.entities.*;
 import structs.MemException;
 import structs.MemFIFO;
 

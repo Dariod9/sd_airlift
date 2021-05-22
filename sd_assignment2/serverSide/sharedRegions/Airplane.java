@@ -1,10 +1,7 @@
-package serverSide;
+package serverSide.sharedRegions;
 
 import genclass.*;
-import entities.Passenger;
-import entities.PassengerStates;
-import entities.Pilot;
-import entities.PilotStates;
+import clientSide.entities.*;
 import structs.MemException;
 import structs.MemFIFO;
 
