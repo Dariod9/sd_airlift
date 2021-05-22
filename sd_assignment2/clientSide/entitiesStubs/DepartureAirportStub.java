@@ -1,24 +1,13 @@
 package clientSide.entitiesStubs;
 
 import clientSide.ClientCom;
+import clientSide.entities.Hostess;
+import clientSide.entities.Passenger;
 import clientSide.entities.Pilot;
-import entities.Passenger;
-import entities.Pilot;
+
 import genclass.GenericIO;
 
-import commInfra.ClientCom;
-import commInfra.MemException;
-import commInfra.Message;
-import commInfra.MessageType;
-import commInfra.ClientCom;
-import commInfra.SimulPar;
 
-import client.entities.Hostess;
-import client.entities.HostessStates;
-import client.entities.Pilot;
-import client.entities.PilotStates;
-import client.entities.Passenger;
-import client.entities.PassengerStates;
 import structs.Message;
 import structs.MessageType;
 import structs.SimulatorParam;
@@ -47,8 +36,6 @@ public class DepartureAirportStub{
   /**
    *  Instantiation of a remote reference
    *
-   *    @param serverHostName name of the computational system where the server is located
-   *    @param serverPortNumb number of the listening port at the computational system where the server is located
   */
    public DepartureAirportStub (){
       serverHostName = SimulatorParam.DepAirportHostName;
@@ -91,13 +78,11 @@ public class DepartureAirportStub{
 	*
 	*/	
 	
-	public String waitInQueue() {
+	public void waitInQueue() {
 
-		String decision = "";
-		//Open connection
 		ClientCom con = new ClientCom(serverHostName, serverPortNumb);
 		Message inMessage, outMessage;
-		Passenger p = (Passenger) Thread.currentThread();
+		Pilot p = (Pilot) Thread.currentThread();
 		//Waits for connection
 		while (!con.open()) {
 			try {
@@ -107,36 +92,18 @@ public class DepartureAirportStub{
 		}
 
 		//What should i do message with the flight number
-		outMessage = new Message(MessageType.decision, flight, id, tripState, numBags);
+		outMessage = new Message(MessageType.WAIT_IN_QUEUE);
 		con.writeObject(outMessage);
 		inMessage = (Message) con.readObject();
 
-		if ((inMessage.getType() != MessageType.BOARD_THE_PLANE)) {
+		if ((inMessage.getType() != MessageType.ACK)) {
 			System.out.println("Thread " + p.getName() + ": Invalid type!");
 			System.out.println(inMessage.toString());
 			System.exit(1);
 		}
 
-		switch (inMessage.getType()) {
-			//Passenger goes home
-			case BOARD_THE_PLANE:
-				decision = "board";
-				break;
-			//Passenger will take a bus
-			case WAIT_FOR_END_OF_FLIGHT:
-				decision = "wait";
-				break;
-			//Passenger will collect a bag at convoy belt
-			case LEAVE_THE_PLANE:
-				decision = "B";
-				break;
-			default:
-				break;
-		}
 		//Close connection
 		con.close();
-		return decision;
-		
 	}
 	
 	/**
@@ -145,8 +112,62 @@ public class DepartureAirportStub{
 	*  It is called by the passenger when the hostess wants to check his documents.
 	*
 	*/	
-	public int getFlew(){
-		return 1;
+	public int getFlewPilot(){
+
+		ClientCom con = new ClientCom(serverHostName, serverPortNumb);
+		Message inMessage, outMessage;
+		Pilot p = (Pilot) Thread.currentThread();
+		//Waits for connection
+		while (!con.open()) {
+			try {
+				p.sleep((long) (10));
+			} catch (InterruptedException e) {
+			}
+		}
+
+		//What should i do message with the flight number
+		outMessage = new Message(MessageType.GET_FLEW);
+		con.writeObject(outMessage);
+		inMessage = (Message) con.readObject();
+
+		if ((inMessage.getType() != MessageType.ACK)) {
+			System.out.println("Thread " + p.getName() + ": Invalid type!");
+			System.out.println(inMessage.toString());
+			System.exit(1);
+		}
+
+		//Close connection
+		con.close();
+		return inMessage.getFlew();
+	}
+
+	public int getFlewHostess(){
+
+		ClientCom con = new ClientCom(serverHostName, serverPortNumb);
+		Message inMessage, outMessage;
+		Hostess p = (Hostess) Thread.currentThread();
+		//Waits for connection
+		while (!con.open()) {
+			try {
+				p.sleep((long) (10));
+			} catch (InterruptedException e) {
+			}
+		}
+
+		//What should i do message with the flight number
+		outMessage = new Message(MessageType.GET_FLEW);
+		con.writeObject(outMessage);
+		inMessage = (Message) con.readObject();
+
+		if ((inMessage.getType() != MessageType.ACK)) {
+			System.out.println("Thread " + p.getName() + ": Invalid type!");
+			System.out.println(inMessage.toString());
+			System.exit(1);
+		}
+
+		//Close connection
+		con.close();
+		return inMessage.getFlew();
 	}
 	public void showDocuments() {
 //		TODO
@@ -390,26 +411,60 @@ public class DepartureAirportStub{
 	}
 
 	public void waitForAllInBoard() {
-		//TODO
-		//		((Hostess) Thread.currentThread()).setHostessState(HostessStates.WAITFORFLIGHT);
-//		repos.setHostessState (((Hostess) Thread.currentThread ()).getHostessState ());
-//		while (!next_fly) {
-//
-//			try {
-//				wait();
-//			}
-//			catch (Exception e) {
-//				return;
-//			}
-//
-//		}
+
+		ClientCom con = new ClientCom(serverHostName, serverPortNumb);
+		Message inMessage, outMessage;
+		Pilot p = (Pilot) Thread.currentThread();
+		//Waits for connection
+		while (!con.open()) {
+			try {
+				p.sleep((long) (10));
+			} catch (InterruptedException e) {
+			}
+		}
+
+		//What should i do message with the flight number
+		outMessage = new Message(MessageType.WAIT_FOR_ALL_IN_BOARD);
+		con.writeObject(outMessage);
+		inMessage = (Message) con.readObject();
+
+		if ((inMessage.getType() != MessageType.ACK)) {
+			System.out.println("Thread " + p.getName() + ": Invalid type!");
+			System.out.println(inMessage.toString());
+			System.exit(1);
+		}
+
+		//Close connection
+		con.close();
 
 	}
 
-	public void flyToDestinationPoint(){
-		//TODO
-	}
+	public void flyToDestinationPoint() {
+		ClientCom con = new ClientCom(serverHostName, serverPortNumb);
+		Message inMessage, outMessage;
+		Pilot p = (Pilot) Thread.currentThread();
+		//Waits for connection
+		while (!con.open()) {
+			try {
+				p.sleep((long) (10));
+			} catch (InterruptedException e) {
+			}
+		}
 
+		//What should i do message with the flight number
+		outMessage = new Message(MessageType.FLY_TO_DESTINATION_POINT);
+		con.writeObject(outMessage);
+		inMessage = (Message) con.readObject();
+
+		if ((inMessage.getType() != MessageType.ACK)) {
+			System.out.println("Thread " + p.getName() + ": Invalid type!");
+			System.out.println(inMessage.toString());
+			System.exit(1);
+		}
+
+		//Close connection
+		con.close();
+	}
 	
 	public void shutServer() {
     	//Open connection

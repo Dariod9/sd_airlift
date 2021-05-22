@@ -20,6 +20,26 @@ public class Message implements Serializable {
      */
     private MessageType msgType = MessageType.NO_MESSAGE;
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public int getFlew() {
+        return flew;
+    }
+
+    public void setFlew(int flew) {
+        this.flew = flew;
+    }
+
+    public boolean isPlaneReady() {
+        return planeReady;
+    }
+
+    public void setPlaneReady(boolean planeReady) {
+        this.planeReady = planeReady;
+    }
+
     /**
      * Number of passengers that already flew
      */
@@ -37,6 +57,10 @@ public class Message implements Serializable {
      */
     public Message(MessageType type) {
         this.msgType = type;
+    }
+    public Message(MessageType type, int flew) {
+        this.msgType = type;
+        this.flew=flew;
     }
 
     public MessageType getType() {

@@ -109,7 +109,7 @@ public class Pilot extends Thread{
      */
     @Override
     public void run() {
-        while(depAirportStub.getFlew()<TOTAL) {
+        while(depAirportStub.getFlewPilot()<TOTAL) {
             depAirportStub.informPlaneReadyForBoarding();
             depAirportStub.waitForAllInBoard();
             depAirportStub.flyToDestinationPoint();

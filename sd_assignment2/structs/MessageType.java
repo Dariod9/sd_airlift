@@ -22,6 +22,10 @@ public enum MessageType {
     /**
      * Operation wait for the end of the flight
      */
+    GET_FLEW,
+    /**
+     * Operation get the number of passengers at the destination airport
+     */
     WAIT_FOR_END_OF_FLIGHT,
     /**
      * Operation leave the airplane

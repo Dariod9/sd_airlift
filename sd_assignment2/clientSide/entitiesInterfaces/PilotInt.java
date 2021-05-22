@@ -1,6 +1,8 @@
 package clientSide.entitiesInterfaces;
 
 
+import serverSide.DepAirport;
+
 /**
  *   Pilot thread.
  *

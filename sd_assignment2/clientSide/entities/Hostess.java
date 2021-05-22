@@ -99,7 +99,7 @@ public class Hostess extends Thread {
      */
     @Override
     public void run() {
-        while(depAirportStub.getFlew()!=TOTAL){
+        while(depAirportStub.getFlewHostess()!=TOTAL){
             depAirportStub.waitForNextFlight();
             depAirportStub.prepareForPassBoarding();
             while(true) {
