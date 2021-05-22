@@ -100,22 +100,6 @@ public enum MessageType {
      */
     ADD_FLIGHT_INFO,
     /**
-     * Operation write header.
-     */
-    WRITE_HEADER,
-    /**
-     * Operation write small header.
-     */
-    WRITE_SMALL_HEADER,
-    /**
-     * Operation report status.
-     */
-    REPORT_STATUS,
-    /**
-     * Operation report summary.
-     */
-    REPORT_SUMMARY,
-    /**
      * Shuts down the server (client solicitation).
      */
     SHUTDOWN,

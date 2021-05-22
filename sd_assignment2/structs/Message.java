@@ -1,5 +1,6 @@
 package structs;
 
+import clientSide.entities.*;
 import structs.MessageType;
 
 import java.io.Serializable;
@@ -49,6 +50,26 @@ public class Message implements Serializable {
      * Plane ready to fly
      */
     private boolean planeReady;
+    /**
+     * Pilot State
+     */
+    private int pilotState;
+    /**
+     * Passenger State
+     */
+    private int passengerState;
+    /**
+     * Passenger ID
+     */
+    private int passengerID;
+    /**
+     * Hostess State
+     */
+    private int hostessState;
+    /**
+     * Number of Passengers
+     */
+    private int numPassengers;
 
     /**
      * Message instantiaton.
@@ -58,14 +79,47 @@ public class Message implements Serializable {
     public Message(MessageType type) {
         this.msgType = type;
     }
+
     public Message(MessageType type, int flew) {
         this.msgType = type;
         this.flew=flew;
     }
+
     public Message(MessageType type, boolean planeReady) {
         this.msgType = type;
         this.planeReady=planeReady;
     }
+
+    public Message(MessageType type, int state, String entity) {
+        this.msgType = type;
+        switch (entity){
+            case "pilot": this.pilotState=state;
+                            break;
+            case "hostess": this.hostessState=state;
+                            break;
+            case "passenger": this.passengerState=state;
+                                break;
+            case "flight": this.numPassengers=state;
+                            break;
+            default:break;
+        }
+    }
+
+
+    public Message(MessageType type, int state, int id_passenger, String entity) {
+        this.msgType = type;
+        if(entity.equalsIgnoreCase("passenger")){
+            this.passengerState=state;
+        }
+        else{
+            this.hostessState=state;
+        }
+
+        this.passengerID=id_passenger;
+
+    }
+
+
 
     public MessageType getType() {
         return msgType;

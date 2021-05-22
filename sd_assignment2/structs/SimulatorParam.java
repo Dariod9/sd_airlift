@@ -62,4 +62,12 @@ public class SimulatorParam {
      */
     public static final int AirplanePort = 22332 ;
 
+    public static final String RepositoryHostName = "localhost";
+
+    /**
+     * Arrival lounge port number
+     * @serial arrivalLoungePort
+     */
+    public static final int RepositoryPort = 22333 ;
+
 }
