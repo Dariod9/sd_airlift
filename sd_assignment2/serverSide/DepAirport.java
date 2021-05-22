@@ -1,5 +1,6 @@
 package serverSide;
 
+import clientSide.entities.Hostess;
 import genclass.*;
 import entities.*;
 import structs.MemException;
@@ -292,7 +293,7 @@ public class DepAirport {
 
         ((Hostess) Thread.currentThread()).setHostessState(HostessStates.readyToFly);
         repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
-        readyTakeOff=true;
+
         flew = flew + boarded;
         notifyAll();
         GenericIO.writelnString("Hostess: "+ Thread.currentThread().getName()+" everyone aboard");

@@ -196,49 +196,32 @@ public class DepartureAirportStub{
 	*/	
 	
 	public boolean waitForNextPassenger() {
-//		TODO
-//		GenericIO.writelnString("\033[41mPassengers in line " + nLine + "\033[0m");
-//		((Hostess) Thread.currentThread()).setHostessState(HostessStates.WAITFORPASSENGER);
-//		repos.setHostessState (((Hostess) Thread.currentThread ()).getHostessState ());
-//		GenericIO.writelnString("\033[41mPassengers in nleft " + nLeft + "\033[0m");
-//		GenericIO.writelnString("\033[41mPassengers in passengersOnBoard " + passengersOnBoard + "\033[0m");
-//		
-//		if ((passengersOnBoard >= SimulPar.minInPlane && nLine == 0) || passengersOnBoard == SimulPar.maxInPlane
-//				|| ( nLine == 0 && nLeft==0)) {
-//			notifyAll();
-//			return -passengersOnBoard;
-//		}
-//		while (nLine == 0) {
-//			try {
-//				wait();
-//			} 
-//			catch (Exception e) {
-//				return -SimulPar.nPassengers-1;
-//			}
-//		}
-//		
-//		if (nLine > 0)
-//			nLine -= 1;
-//
-//		int passengerId;
-//		
-//		try {
-//			passengerId = waitingLine.read();
-//			if ((passengerId < 0) || (passengerId >= SimulPar.nPassengers))
-//				throw new MemException("illegal customer id!");
-//		} 
-//		catch (MemException e) {
-//			GenericIO.writelnString("Retrieval of customer id from waiting FIFO failed: " + e.getMessage());
-//			passengerId = -SimulPar.nPassengers-1;
-//			System.exit(1);
-//		}
-//		
-//		calledPassengerId = passengerId;
-//		notifyAll();
-//
-//		return passengerId;
-		return true;
-		
+
+		ClientCom con = new ClientCom(serverHostName, serverPortNumb);
+		Message inMessage, outMessage;
+		Pilot p = (Pilot) Thread.currentThread();
+		//Waits for connection
+		while (!con.open()) {
+			try {
+				p.sleep((long) (10));
+			} catch (InterruptedException e) {
+			}
+		}
+
+		//What should i do message with the flight number
+		outMessage = new Message(MessageType.WAIT_FOR_NEXT_PASSENGER);
+		con.writeObject(outMessage);
+		inMessage = (Message) con.readObject();
+
+		if ((inMessage.getType() != MessageType.ACK)) {
+			System.out.println("Thread " + p.getName() + ": Invalid type!");
+			System.out.println(inMessage.toString());
+			System.exit(1);
+		}
+
+		//Close connection
+		con.close();
+		return inMessage.isPlaneReady();
 	 }
 
    /**
@@ -249,21 +232,30 @@ public class DepartureAirportStub{
 	*/
 	
 	public void prepareForPassBoarding() {
-		//TODO
-//		while (!plane_ready_boarding){
-//			
-//			try {
-//				GenericIO.writelnString("\n\033[0;34mHostess Waiting for Plane\033[0m\n");
-//				wait();
-//			} 
-//			catch (Exception e) {}
-//			
-//		}
-//		
-//		next_fly = false;
-//		plane_ready_boarding = false;
-//		passengersOnBoard = 0;
-		
+		ClientCom con = new ClientCom(serverHostName, serverPortNumb);
+		Message inMessage, outMessage;
+		Pilot p = (Pilot) Thread.currentThread();
+		//Waits for connection
+		while (!con.open()) {
+			try {
+				p.sleep((long) (10));
+			} catch (InterruptedException e) {
+			}
+		}
+
+		//What should i do message with the flight number
+		outMessage = new Message(MessageType.PREPARE_FOR_PASS_BOARDING);
+		con.writeObject(outMessage);
+		inMessage = (Message) con.readObject();
+
+		if ((inMessage.getType() != MessageType.ACK)) {
+			System.out.println("Thread " + p.getName() + ": Invalid type!");
+			System.out.println(inMessage.toString());
+			System.exit(1);
+		}
+
+		//Close connection
+		con.close();
 	}
 	
    /**
@@ -273,27 +265,30 @@ public class DepartureAirportStub{
 	*/
 
 	public void checkDocuments() {
-		//TODO
-//		GenericIO.writelnString("\n\033[42m----Enter Check Documents----\033[0m");
-//
-//		while (waitPassengerId != calledPassengerDocuments) {
-//			try {
-//				wait();
-//			} 
-//			catch (InterruptedException e) {}
-//		}	
-//		
-//		((Hostess) Thread.currentThread()).setHostessState(HostessStates.CHECKPASSENGER);
-//		repos.setHostessState (((Hostess) Thread.currentThread ()).getHostessState (),waitPassengerId );
-//
-//		GenericIO.writelnString("Checking Doccuments of passenger " + waitPassengerId);
-//		passen[waitPassengerId].setPassengerState(PassengerStates.INFLIGHT);
-//		passengersOnBoard++;
-//		nLeft--;
-//		notifyAll();
-//				
-//		GenericIO.writelnString("Passengers on Board " + passengersOnBoard);
+		ClientCom con = new ClientCom(serverHostName, serverPortNumb);
+		Message inMessage, outMessage;
+		Pilot p = (Pilot) Thread.currentThread();
+		//Waits for connection
+		while (!con.open()) {
+			try {
+				p.sleep((long) (10));
+			} catch (InterruptedException e) {
+			}
+		}
 
+		//What should i do message with the flight number
+		outMessage = new Message(MessageType.CHECK_DOCUMENTS);
+		con.writeObject(outMessage);
+		inMessage = (Message) con.readObject();
+
+		if ((inMessage.getType() != MessageType.ACK)) {
+			System.out.println("Thread " + p.getName() + ": Invalid type!");
+			System.out.println(inMessage.toString());
+			System.exit(1);
+		}
+
+		//Close connection
+		con.close();
 	}
 
    /**
@@ -342,25 +337,32 @@ public class DepartureAirportStub{
 	}
 
 	public void informPlaneReadyToTakeOff() {
-		//TODO
-//		flightNumber++;
-//		repos.reportSpecificStatus("\nFlight " + flightNumber + ": boarding started.");
-//
-//		((Pilot) Thread.currentThread()).setPilotState(PilotStates.READYFORBOARDING);
-//		repos.setPilotState (((Pilot) Thread.currentThread ()).getPilotState ());
-//		plane_ready_boarding = true;
-//		GenericIO.writelnString("Plane ready to flight");
-//		notifyAll();
+		ClientCom con = new ClientCom(serverHostName, serverPortNumb);
+		Message inMessage, outMessage;
+		Pilot p = (Pilot) Thread.currentThread();
+		//Waits for connection
+		while (!con.open()) {
+			try {
+				p.sleep((long) (10));
+			} catch (InterruptedException e) {
+			}
+		}
 
+		//What should i do message with the flight number
+		outMessage = new Message(MessageType.INFORM_PLANE_READY_TO_TAKEOFF);
+		con.writeObject(outMessage);
+		inMessage = (Message) con.readObject();
+
+		if ((inMessage.getType() != MessageType.ACK)) {
+			System.out.println("Thread " + p.getName() + ": Invalid type!");
+			System.out.println(inMessage.toString());
+			System.exit(1);
+		}
+
+		//Close connection
+		con.close();
 	}
 
-   /**
-	*  Operation park at transfer gate.
-	*
-	*  It is called by the pilot after the flight back to park the plane at the transfer gate.
-	*
-	*/
-	
 	public void parkAtTransferGate() {
 		//TODO
 //		((Pilot) Thread.currentThread()).setPilotState(PilotStates.ATTRANSFERGATE);
@@ -394,19 +396,31 @@ public class DepartureAirportStub{
 	*/
 
 	public void waitForNextFlight() {
-		//TODO 
-		//		((Hostess) Thread.currentThread()).setHostessState(HostessStates.WAITFORFLIGHT);
-//		repos.setHostessState (((Hostess) Thread.currentThread ()).getHostessState ()); 
-//		while (!next_fly) {
-//			
-//			try {
-//				wait();
-//			} 
-//			catch (Exception e) {
-//				return;
-//			}
-//			
-//		}
+
+		ClientCom con = new ClientCom(serverHostName, serverPortNumb);
+		Message inMessage, outMessage;
+		Pilot p = (Pilot) Thread.currentThread();
+		//Waits for connection
+		while (!con.open()) {
+			try {
+				p.sleep((long) (10));
+			} catch (InterruptedException e) {
+			}
+		}
+
+		//What should i do message with the flight number
+		outMessage = new Message(MessageType.WAIT_FOR_NEXT_FLIGHT);
+		con.writeObject(outMessage);
+		inMessage = (Message) con.readObject();
+
+		if ((inMessage.getType() != MessageType.ACK)) {
+			System.out.println("Thread " + p.getName() + ": Invalid type!");
+			System.out.println(inMessage.toString());
+			System.exit(1);
+		}
+
+		//Close connection
+		con.close();
 		
 	}
 

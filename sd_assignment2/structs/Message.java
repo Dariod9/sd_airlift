@@ -62,6 +62,10 @@ public class Message implements Serializable {
         this.msgType = type;
         this.flew=flew;
     }
+    public Message(MessageType type, boolean planeReady) {
+        this.msgType = type;
+        this.planeReady=planeReady;
+    }
 
     public MessageType getType() {
         return msgType;

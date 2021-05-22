@@ -70,7 +70,7 @@ public class AirplaneStub {
 //    }
 
 
-    public String parkAtTransferGate() {
+    public void parkAtTransferGate() {
 
         ClientCom con = new ClientCom(serverHostName, serverPortNumb);
         Message inMessage, outMessage;
