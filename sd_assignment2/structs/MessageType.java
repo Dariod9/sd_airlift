@@ -100,6 +100,10 @@ public enum MessageType {
      */
     ADD_FLIGHT_INFO,
     /**
+     * Operation report summary
+     */
+    REPORT_SUMMARY,
+    /**
      * Shuts down the server (client solicitation).
      */
     SHUTDOWN,

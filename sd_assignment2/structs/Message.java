@@ -136,6 +136,14 @@ public class Message implements Serializable {
         return this.pilotState;
     }
 
+    public int getNumPassengers(){
+        return this.numPassengers;
+    }
+
+    public int getPassengerID(){
+        return this.passengerID;
+    }
+
 
     public void setMsgType(MessageType msgType) {
         this.msgType = msgType;
