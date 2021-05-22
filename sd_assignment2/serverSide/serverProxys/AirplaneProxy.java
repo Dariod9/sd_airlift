@@ -1,6 +1,5 @@
 package serverSide.serverProxys;
 
-import genclass.GenericIO;
 import serverSide.ServerCom;
 import serverSide.sharedRegionInterfaces.*;
 import structs.Message;

@@ -111,6 +111,9 @@ public class Pilot extends Thread implements PilotInt {
             airplaneStub.parkAtTransferGate();
 
         }
+        depAirportStub.shutServer();
+        destAirportStub.shutServer();
+        airplaneStub.shutServer();
     }
 
     /**

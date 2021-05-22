@@ -1,7 +1,9 @@
 package serverSide.sharedRegions;
 
+import clientSide.entitiesStubs.RepositoryStub;
 import genclass.*;
 import clientSide.entities.*;
+import serverSide.main.DepAirportMain;
 
 /**
  *  Destination Airport
@@ -17,14 +19,14 @@ public class DestAirport {
      * Reference to the repository.
      */
 
-    private Repository repos;
+    private RepositoryStub repos;
 
     /**
      * Destination Airport instantiation.
      * @param repos reference to the repository
      */
 
-    public DestAirport(Repository repos) {
+    public DestAirport(RepositoryStub repos) {
         this.repos=repos;
     }
 
@@ -40,5 +42,9 @@ public class DestAirport {
         repos.setPilotState((((Pilot) Thread.currentThread()).getPilotstate()));
 
         GenericIO.writelnString("Pilot "+Thread.currentThread().getName()+" is flying to departure point");
+    }
+
+    public void shutServer() {
+        DepAirportMain.finished=true;
     }
 }

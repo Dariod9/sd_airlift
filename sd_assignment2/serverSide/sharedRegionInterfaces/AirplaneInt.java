@@ -66,7 +66,7 @@ public class AirplaneInt {
                 outMessage = new Message(MessageType.ACK);
                 break;
             case SHUTDOWN:
-                //ap.shutServer(); //TODO
+                ap.shutServer(); //TODO
                 outMessage = new Message(MessageType.ACK);
                 (((AirplaneProxy) (Thread.currentThread ())).getScon ()).setTimeout (10);
                 break;

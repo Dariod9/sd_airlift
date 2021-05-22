@@ -1,38 +1,37 @@
 package serverSide.main;
 
-import clientSide.entitiesStubs.AirplaneStub;
+import clientSide.entitiesStubs.DepartureAirportStub;
 import clientSide.entitiesStubs.RepositoryStub;
-import serverSide.sharedRegions.Airplane;
+import serverSide.serverProxys.DepartureAirportProxy;
+import serverSide.sharedRegions.DepAirport;
 import serverSide.sharedRegions.Repository;
 import serverSide.ServerCom;
-import serverSide.serverProxys.AirplaneProxy;
-import serverSide.serverProxys.RepositoryProxy;
-import serverSide.sharedRegionInterfaces.AirplaneInt;
+import serverSide.sharedRegionInterfaces.DepAirportInt;
 import structs.SimulatorParam;
 
 import java.net.SocketTimeoutException;
 
-public class AirplaneMain {
+public class DepAirportMain {
     public static boolean finished;
 
     public static void main(String[] args) {
 
-            //Arrival lounge port
-            final int portNumb = SimulatorParam.AirplanePort;
+        //Arrival lounge port
+        final int portNumb = SimulatorParam.DepAirportPort;
 
-            ServerCom scon, sconi;
+        ServerCom scon, sconi;
 
-        AirplaneProxy alProxy;
+        DepartureAirportProxy depAirportProxy;
         scon = new ServerCom(portNumb);
         scon.start();
 
-        AirplaneStub alStub = new AirplaneStub();
+        DepartureAirportStub daStub = new DepartureAirportStub();
         RepositoryStub repository = new RepositoryStub();
 
-        Airplane airplane = new Airplane(repository);
+        DepAirport depAirport = new DepAirport(repository, SimulatorParam.NUM_PASSANGERS, 5, 10);
 
 
-        AirplaneInt airplaneInt = new AirplaneInt(airplane);
+        DepAirportInt depAirportInt = new DepAirportInt(depAirport);
 
         //Create listening channel
 
@@ -43,8 +42,8 @@ public class AirplaneMain {
                 //listening
                 sconi = scon.accept();
                 //Launch proxy
-                alProxy = new AirplaneProxy(sconi, airplaneInt);
-                alProxy.start();
+                depAirportProxy = new DepartureAirportProxy(sconi, depAirportInt);
+                depAirportProxy.start();
             } catch (SocketTimeoutException e) {
             }
         }

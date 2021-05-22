@@ -1,7 +1,10 @@
 package serverSide.sharedRegions;
 
-import genclass.*;
 import clientSide.entities.*;
+import clientSide.entitiesStubs.RepositoryStub;
+import genclass.GenericIO;
+import serverSide.main.AirplaneMain;
+import serverSide.main.RepositoryMain;
 import structs.MemException;
 import structs.MemFIFO;
 
@@ -47,14 +50,14 @@ public class Airplane {
      * Reference to the repository.
      */
 
-    private Repository repos;
+    private RepositoryStub repos;
 
     /**
      *  Airplane instantiation
      * @param repos reference to the repository.
      */
 
-    public Airplane(Repository repos) {
+    public Airplane(RepositoryStub repos) {
         try {
             this.passengerIDs = new MemFIFO<>(new Integer [21]);
             occupation=0;
@@ -183,4 +186,8 @@ public class Airplane {
 
     }
 
+    public synchronized void shutServer() {
+        AirplaneMain.finished=true;
+        RepositoryMain.finished=true; //?????????
+    }
 }

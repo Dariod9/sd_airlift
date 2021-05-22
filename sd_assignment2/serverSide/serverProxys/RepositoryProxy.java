@@ -1,6 +1,6 @@
 package serverSide.serverProxys;
 
-import serverSide.Repository;
+import serverSide.sharedRegions.Repository;
 import serverSide.ServerCom;
 import serverSide.sharedRegionInterfaces.AirplaneInt;
 import serverSide.sharedRegionInterfaces.RepositoryInt;

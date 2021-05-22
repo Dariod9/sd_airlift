@@ -1,8 +1,10 @@
 package serverSide.sharedRegions;
 
 import clientSide.entities.Hostess;
+import clientSide.entitiesStubs.RepositoryStub;
 import genclass.*;
 import clientSide.entities.*;
+import serverSide.main.DepAirportMain;
 import structs.MemException;
 import structs.MemFIFO;
 
@@ -107,14 +109,14 @@ public class DepAirport {
      * Reference to the repository.
      */
 
-    private Repository repos;
+    private RepositoryStub repos;
 
     /**
      * Departure Airport instantiaton.
      *
      * @param repos reference to the repository.
      */
-    public DepAirport(Repository repos, int TOTAL, int MIN, int MAX) {
+    public DepAirport(RepositoryStub repos, int TOTAL, int MIN, int MAX) {
 
         try {
             this.passengerIDs = new MemFIFO(new Integer[21]);
@@ -391,6 +393,10 @@ public class DepAirport {
         int hostessId = ((Hostess) Thread.currentThread()).getHostessID();
         ((Hostess) Thread.currentThread()).setHostessState(HostessStates.waitForPassenger);
         repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
+    }
+
+    public synchronized void shutServer() {
+        DepAirportMain.finished=true;
     }
 
 

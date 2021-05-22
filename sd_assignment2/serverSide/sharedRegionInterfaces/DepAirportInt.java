@@ -93,7 +93,7 @@ public class DepAirportInt {
                 outMessage = new Message(MessageType.ACK);
                 break;
             case SHUTDOWN:
-                //ap.shutServer(); //TODO
+                depAirport.shutServer(); //TODO
                 outMessage = new Message(MessageType.ACK);
                 (((DepartureAirportProxy) (Thread.currentThread ())).getScon ()).setTimeout (10);
                 break;
