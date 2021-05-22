@@ -6,9 +6,9 @@ import clientSide.entities.*;
 
 
 /**
- * This class implements the Pilot Main. It instantiates the shared region Stubs which the Pilot interacts with
- * and most importantly it instantiates the Pilot entity, starts its thread and finally joins it and shutdowns the servers related
- * to the Stubs previously instantiated.
+ * This class implements the Pilot Main
+ * instantiates the shared region Stubs which the Pilot interacts with
+ * instantiates the Pilot entity, starts it thread and, in the end, joins it
  */
 public class PilotMain {
     public static void main(String args[]) {

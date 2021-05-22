@@ -4,6 +4,11 @@ import clientSide.entitiesStubs.DestinationAirportStub;
 import clientSide.entitiesStubs.AirplaneStub;
 import clientSide.entities.*;
 
+/**
+ * This class implements the Hostess Main
+ * instantiates the shared region Stubs which the Hostess interacts with
+ * instantiates the Hostess entity, starts it thread and, in the end, joins it
+ */
 public class HostessMain {
     public static void main(String args[]) {
         final int TOTAL=21;                                                                     // total number of passengers

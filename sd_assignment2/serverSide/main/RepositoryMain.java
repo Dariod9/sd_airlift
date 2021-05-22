@@ -51,6 +51,8 @@ public class RepositoryMain {
         }
         //Terminate operations
         scon.end();
+
+        repo.reportSummary();
     }
 
 }

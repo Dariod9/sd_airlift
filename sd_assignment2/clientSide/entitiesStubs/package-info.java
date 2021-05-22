@@ -1,5 +1,5 @@
 /**
- * Client Stubs
+ * Client Side Stubs
  */
 package clientSide.entitiesStubs;
 

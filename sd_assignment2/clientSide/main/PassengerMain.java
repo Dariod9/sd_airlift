@@ -6,6 +6,11 @@ import clientSide.entities.*;
 
 import java.util.Arrays;
 
+/**
+ * This class implements the Passenger Main
+ * instantiates the shared region Stubs which the Passenger interacts with
+ * instantiates the Passenger entity, starts it thread and, in the end, joins it
+ */
 public class PassengerMain {
     public static void main(String args[]) {
         final int TOTAL=21;                                                                     // total number of passengers

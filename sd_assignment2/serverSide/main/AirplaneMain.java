@@ -3,15 +3,20 @@ package serverSide.main;
 import clientSide.entitiesStubs.AirplaneStub;
 import clientSide.entitiesStubs.RepositoryStub;
 import serverSide.sharedRegions.Airplane;
-import serverSide.sharedRegions.Repository;
 import serverSide.ServerCom;
 import serverSide.serverProxys.AirplaneProxy;
-import serverSide.serverProxys.RepositoryProxy;
 import serverSide.sharedRegionInterfaces.AirplaneInt;
 import structs.SimulatorParam;
 
 import java.net.SocketTimeoutException;
 
+/**
+ * This class implements the Airplane Main
+ * instantiates the Repository Stub
+ * instantiates the Airplane entity
+ * instantiates the Airplane Interface
+ * and launches the Airplane Proxy
+ */
 public class AirplaneMain {
     public static boolean finished;
 

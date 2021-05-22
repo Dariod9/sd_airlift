@@ -14,6 +14,13 @@ import java.net.SocketTimeoutException;
 public class DepAirportMain {
     public static boolean finished;
 
+    /**
+     * This class implements the Departure Airport Main
+     * instantiates the Repository Stub
+     * instantiates the Departure Airport entity
+     * instantiates the Departure Airport Interface
+     * and launches the Departure Airport Proxy
+     */
     public static void main(String[] args) {
 
         //Arrival lounge port

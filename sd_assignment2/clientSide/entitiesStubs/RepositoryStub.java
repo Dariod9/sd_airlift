@@ -36,7 +36,7 @@ public class RepositoryStub {
       serverPortNumb = SimulatorParam.RepositoryPort;
    }
 
-	public synchronized void setPilotState(int state){
+	public void setPilotState(int state){
 		ClientCom con = new ClientCom(serverHostName, serverPortNumb);
 		Message inMessage, outMessage;
 		Thread p = (Thread) Thread.currentThread();
@@ -69,7 +69,7 @@ public class RepositoryStub {
 	 * @param state hostess state.
 	 */
 
-	public synchronized void setHostessState(int state){
+	public void setHostessState(int state){
 		ClientCom con = new ClientCom(serverHostName, serverPortNumb);
 		Message inMessage, outMessage;
 		Thread p = (Thread) Thread.currentThread();
@@ -103,7 +103,7 @@ public class RepositoryStub {
 	 * @param id_passenger ID of the passenger checked.
 	 */
 
-	public synchronized void setHostessState(int state, int id_passenger){
+	public void setHostessState(int state, int id_passenger){
 		ClientCom con = new ClientCom(serverHostName, serverPortNumb);
 		Message inMessage, outMessage;
 		Thread p = (Thread) Thread.currentThread();
@@ -137,7 +137,7 @@ public class RepositoryStub {
 	 * @param state passenger state.
 	 */
 
-	public synchronized void setPassengerState(int id, int state){
+	public void setPassengerState(int id, int state){
 		ClientCom con = new ClientCom(serverHostName, serverPortNumb);
 		Message inMessage, outMessage;
 		Thread p = (Thread) Thread.currentThread();
@@ -170,7 +170,7 @@ public class RepositoryStub {
 	 * @param inpl occupation.
 	 */
 
-	public synchronized void addFlightInfo(int inpl){
+	public void addFlightInfo(int inpl){
 
 		ClientCom con = new ClientCom(serverHostName, serverPortNumb);
 		Message inMessage, outMessage;
@@ -198,6 +198,34 @@ public class RepositoryStub {
 		//Close connection
 		con.close();
 	}
+
+	public void reportSummary(){
+		ClientCom con = new ClientCom(serverHostName, serverPortNumb);
+		Message inMessage, outMessage;
+		Thread p = (Thread) Thread.currentThread();
+		//Waits for connection
+		while (!con.open()) {
+			try {
+				p.sleep((long) (10));
+			} catch (InterruptedException e) {
+			}
+		}
+
+		//What should i do message with the flight number
+		outMessage = new Message(MessageType.REPORT_SUMMARY);
+		con.writeObject(outMessage);
+		inMessage = (Message) con.readObject();
+
+		if ((inMessage.getType() != MessageType.ACK)) {
+			System.out.println("Thread " + p.getName() + ": Invalid type!");
+			System.out.println(inMessage.toString());
+			System.exit(1);
+		}
+
+		//Close connection
+		con.close();
+	}
+
 
 
    public void shutServer() {
