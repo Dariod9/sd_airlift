@@ -5,6 +5,7 @@ import clientSide.entitiesStubs.RepositoryStub;
 import genclass.GenericIO;
 import serverSide.main.AirplaneMain;
 import serverSide.main.RepositoryMain;
+import serverSide.serverProxys.AirplaneProxy;
 import structs.MemException;
 import structs.MemFIFO;
 
@@ -75,10 +76,10 @@ public class Airplane {
      */
 
     public synchronized void boardThePlane() {
-        int passengerId = ((Passenger) Thread.currentThread()).getPassengerId();
+        int passengerId = ((AirplaneProxy) Thread.currentThread()).getPassengerId();
 
-        ((Passenger) Thread.currentThread()).setPassengerState(PassengerStates.inFlight);
-        repos.setPassengerState(passengerId,((Passenger) Thread.currentThread()).getPassengerState());
+        ((AirplaneProxy) Thread.currentThread()).setPassengerState(PassengerStates.inFlight);
+        repos.setPassengerState(passengerId,PassengerStates.inFlight);
 
         try {
             passengerIDs.write(passengerId);
@@ -101,8 +102,6 @@ public class Airplane {
      */
 
     public synchronized void waitForEndOfFlight(){
-        int passengerId = ((Passenger) Thread.currentThread()).getPassengerId();
-
         while (!arrived) {
             try {
                 wait();
@@ -119,9 +118,9 @@ public class Airplane {
      */
 
     public synchronized void leaveThePlane(){
-        int passengerId = ((Passenger) Thread.currentThread()).getPassengerId();
-        ((Passenger) Thread.currentThread()).setPassengerState(PassengerStates.atDestination);
-        repos.setPassengerState(passengerId, ((Passenger) Thread.currentThread()).getPassengerState());
+        int passengerId = ((AirplaneProxy) Thread.currentThread()).getPassengerId();
+        ((AirplaneProxy) Thread.currentThread()).setPassengerState(PassengerStates.atDestination);
+        repos.setPassengerState(passengerId, PassengerStates.atDestination);
 
         int passenger;
 
@@ -150,9 +149,8 @@ public class Airplane {
      */
 
     public synchronized void announceArrival() {
-        int pilotId = ((Pilot) Thread.currentThread()).getPilotID();
-        ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.deBoarding);
-        repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
+        ((AirplaneProxy) Thread.currentThread()).setPilotstate(PilotStates.deBoarding);
+        repos.setPilotState(PilotStates.deBoarding);
         arrived=true;
         notifyAll();
         GenericIO.writelnString("Pilot "+Thread.currentThread().getName()+" arrived at destination");
@@ -174,9 +172,8 @@ public class Airplane {
      */
 
     public synchronized void parkAtTransferGate() {
-        int pilotId = ((Pilot) Thread.currentThread()).getPilotID();
-        ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.atTransferGate);
-        repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
+        ((AirplaneProxy) Thread.currentThread()).setPilotstate(PilotStates.atTransferGate);
+        repos.setPilotState(PilotStates.atTransferGate);
 
         arrived=false;
         notifyAll();

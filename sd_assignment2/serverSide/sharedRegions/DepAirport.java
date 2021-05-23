@@ -5,6 +5,7 @@ import clientSide.entitiesStubs.RepositoryStub;
 import genclass.*;
 import clientSide.entities.*;
 import serverSide.main.DepAirportMain;
+import serverSide.serverProxys.DepartureAirportProxy;
 import structs.MemException;
 import structs.MemFIFO;
 
@@ -148,9 +149,9 @@ public class DepAirport {
      *
      */
     public synchronized void waitInQueue() {
-        int passengerId = ((Passenger) Thread.currentThread()).getPassengerId();
-        ((Passenger) Thread.currentThread()).setPassengerState(PassengerStates.inQueue);
-        repos.setPassengerState(passengerId,((Passenger) Thread.currentThread()).getPassengerState());
+        int passengerId = ((DepartureAirportProxy) Thread.currentThread()).getPassengerId();
+        ((DepartureAirportProxy) Thread.currentThread()).setPassengerState(PassengerStates.inQueue);
+        repos.setPassengerState(passengerId,PassengerStates.inQueue);
 
         try {
             passengerIDs.write(passengerId);
@@ -170,7 +171,7 @@ public class DepAirport {
             }
         }
 
-        ((Passenger) Thread.currentThread()).showDocuments();
+        ((DepartureAirportProxy) Thread.currentThread()).showDocuments();
         docsGiven=true;
 
         notifyAll();
@@ -196,8 +197,8 @@ public class DepAirport {
      */
     public synchronized boolean waitForNextPassenger() {
 
-        ((Hostess) Thread.currentThread()).setHostessState(HostessStates.waitForPassenger);
-        repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
+        ((DepartureAirportProxy) Thread.currentThread()).setHostessState(HostessStates.waitForPassenger);
+        repos.setHostessState(HostessStates.waitForPassenger);
 
         if (flew >= TOTAL-MIN) {
             if (boarded == TOTAL - flew){
@@ -235,7 +236,7 @@ public class DepAirport {
 
     public synchronized void checkDocuments() {
 
-        int hostessId = ((Hostess) Thread.currentThread()).getHostessID();
+        int hostessId = ((DepartureAirportProxy) Thread.currentThread()).getHostessID();
 
         while (fifoSize == 0 ) {
             try {
@@ -249,8 +250,8 @@ public class DepAirport {
             chamado = passengerIDs.read();
             fifoSize--;
 
-            ((Hostess) Thread.currentThread()).setHostessState(HostessStates.checkPassenger);
-            repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState(), chamado);
+            ((DepartureAirportProxy) Thread.currentThread()).setHostessState(HostessStates.checkPassenger);
+            repos.setHostessState(HostessStates.checkPassenger, chamado);
             GenericIO.writelnString("Hostess "+ Thread.currentThread().getName()+" called Passenger "+chamado);
 
             notifyAll();
@@ -283,7 +284,7 @@ public class DepAirport {
      */
 
     public synchronized void informPlaneReadyToTakeOff() {
-        int hostessId = ((Hostess) Thread.currentThread()).getHostessID();
+        int hostessId = ((DepartureAirportProxy) Thread.currentThread()).getHostessID();
 
         while (!planeReady) {
             try {
@@ -293,14 +294,14 @@ public class DepAirport {
             }
         }
 
-        ((Hostess) Thread.currentThread()).setHostessState(HostessStates.readyToFly);
-        repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
+        ((DepartureAirportProxy) Thread.currentThread()).setHostessState(HostessStates.readyToFly);
+        repos.setHostessState(HostessStates.readyToFly);
 
         flew = flew + boarded;
         notifyAll();
         GenericIO.writelnString("Hostess: "+ Thread.currentThread().getName()+" everyone aboard");
-        ((Hostess) Thread.currentThread()).setHostessState(HostessStates.waitForFlight);
-        repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
+        ((DepartureAirportProxy) Thread.currentThread()).setHostessState(HostessStates.waitForFlight);
+        repos.setHostessState(HostessStates.waitForFlight);
 
 
     }
@@ -333,16 +334,16 @@ public class DepAirport {
      */
 
     public synchronized void informPlaneReadyForBoarding() {
-        int pilotId = ((Pilot) Thread.currentThread()).getPilotID();
-        ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.readyForBoarding);
-        repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
+        int pilotId = ((DepartureAirportProxy) Thread.currentThread()).getPilotID();
+        ((DepartureAirportProxy) Thread.currentThread()).setPilotstate(PilotStates.readyForBoarding);
+        repos.setPilotState(PilotStates.readyForBoarding);
 
         pilotReady = true;
         notifyAll();
         GenericIO.writelnString("Pilot "+ Thread.currentThread().getName()+" is ready");
 
-        ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.waitingForBoarding);
-        repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
+        ((DepartureAirportProxy) Thread.currentThread()).setPilotstate(PilotStates.waitingForBoarding);
+        repos.setPilotState(PilotStates.waitingForBoarding);
 
     }
 
@@ -372,14 +373,14 @@ public class DepAirport {
 
     public synchronized void flyToDestinationPoint() {
         repos.addFlightInfo(boarded);
-        int pilotId = ((Pilot) Thread.currentThread()).getPilotID();
-        ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.flyingForward);
-        repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
+        int pilotId = ((DepartureAirportProxy) Thread.currentThread()).getPilotID();
+        ((DepartureAirportProxy) Thread.currentThread()).setPilotstate(PilotStates.flyingForward);
+        repos.setPilotState(PilotStates.flyingForward);
         GenericIO.writelnString("Pilot "+ Thread.currentThread().getName()+" is flying to destination point");
         boarded = 0;
         readyTakeOff = false;
         planeReady = false;
-        ((Pilot) Thread.currentThread()).fly();
+        ((DepartureAirportProxy) Thread.currentThread()).fly();
         notifyAll();
     }
 
@@ -390,9 +391,9 @@ public class DepAirport {
      * Internal Operation.
      */
     public synchronized void prepareForPassBoarding() {
-        int hostessId = ((Hostess) Thread.currentThread()).getHostessID();
-        ((Hostess) Thread.currentThread()).setHostessState(HostessStates.waitForPassenger);
-        repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
+        int hostessId = ((DepartureAirportProxy) Thread.currentThread()).getHostessID();
+        ((DepartureAirportProxy) Thread.currentThread()).setHostessState(HostessStates.waitForPassenger);
+        repos.setHostessState(HostessStates.waitForPassenger);
     }
 
     public synchronized void shutServer() {

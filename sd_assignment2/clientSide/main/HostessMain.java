@@ -3,6 +3,7 @@ import clientSide.entitiesStubs.DepartureAirportStub;
 import clientSide.entitiesStubs.DestinationAirportStub;
 import clientSide.entitiesStubs.AirplaneStub;
 import clientSide.entities.*;
+import genclass.GenericIO;
 
 /**
  * This class implements the Hostess Main
@@ -22,6 +23,7 @@ public class HostessMain {
         Hostess hostess = new Hostess(depAirportStub,destAirportStub,airplaneStub,0,TOTAL);
 
         hostess.start();
+        GenericIO.writelnString("Hostess thread" + Thread.currentThread().getName() + "Started");
 
         try{
             hostess.join();

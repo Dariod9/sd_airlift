@@ -4,6 +4,7 @@ import clientSide.entitiesStubs.RepositoryStub;
 import genclass.*;
 import clientSide.entities.*;
 import serverSide.main.DepAirportMain;
+import serverSide.serverProxys.DestinationAirportProxy;
 
 /**
  *  Destination Airport
@@ -37,9 +38,9 @@ public class DestAirport {
      */
 
     public synchronized void flyToDeparturePoint() {
-        int pilotId = ((Pilot) Thread.currentThread()).getPilotID();
-        ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.flyingBack);
-        repos.setPilotState((((Pilot) Thread.currentThread()).getPilotstate()));
+        int pilotId = ((DestinationAirportProxy) Thread.currentThread()).getPilotID();
+        ((DestinationAirportProxy) Thread.currentThread()).setPilotstate(PilotStates.flyingBack);
+        repos.setPilotState(PilotStates.flyingBack);
 
         GenericIO.writelnString("Pilot "+Thread.currentThread().getName()+" is flying to departure point");
     }

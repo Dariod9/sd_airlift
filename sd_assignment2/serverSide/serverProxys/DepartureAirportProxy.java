@@ -190,6 +190,11 @@ public class DepartureAirportProxy extends Thread implements PilotInt, HostessIn
 
 	@Override
 	public void fly() {
+		try {
+			sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
 	}
 }
