@@ -5,6 +5,7 @@ import clientSide.entitiesStubs.AirplaneStub;
 import clientSide.entities.*;
 
 import java.util.Arrays;
+import genclass.GenericIO;
 
 /**
  * This class implements the Passenger Main
@@ -28,6 +29,8 @@ public class PassengerMain {
 
 
         Arrays.stream(passengers).forEach(x -> x.start());
+        GenericIO.writelnString("Passengers threads Started");
+
 
         Arrays.stream(passengers).forEach(x -> {
             try {

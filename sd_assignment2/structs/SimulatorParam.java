@@ -27,6 +27,18 @@ public class SimulatorParam {
     public static final int PLANE_CAPACITY_MAX = 10;
 
     public static final int PLANE_CAPACITY_MIN = 5;
+    /**
+     * Number of pilot states
+     */
+    public static final int PILOT_STATES = 6;
+    /**
+     * Number of hostess states
+     */
+    public static final int HOSTESS_STATES = 4;
+    /**
+     * Number of passenger states
+     */
+    public static final int PASSENGER_STATES = 4;
 
     /**
      * Log file name to store the status of the program
