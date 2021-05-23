@@ -4,6 +4,7 @@ import serverSide.sharedRegions.Repository;
 import structs.Message;
 import structs.MessageException;
 import structs.MessageType;
+import structs.SimulatorParam;
 
 /**
  *  Repository
@@ -38,37 +39,37 @@ public class RepositoryInt {
 
         switch (inMessage.getType()){
             case SET_PILOT_STATE:
-                if(inMessage.getPilotState() < 0 || inMessage.getPilotState() > 5) throw new MessageException("Number of pilot state invalid!",inMessage);
+                if(inMessage.getPilotState() < 0 || inMessage.getPilotState() > SimulatorParam.PILOT_STATES) throw new MessageException("Number of pilot state invalid!",inMessage);
                 else{
                     repo.setPilotState(inMessage.getPilotState());
                     outMessage = new Message(MessageType.ACK);
                 }
                 break;
             case SET_HOSTESS_STATE:
-                if(inMessage.getHostessState() < 0 || inMessage.getHostessState() > 3) throw new MessageException("Number of hostess state invalid!",inMessage);
+                if(inMessage.getHostessState() < 0 || inMessage.getHostessState() > SimulatorParam.HOSTESS_STATES) throw new MessageException("Number of hostess state invalid!",inMessage);
                 else{
                     repo.setHostessState(inMessage.getHostessState());
                     outMessage = new Message(MessageType.ACK);
                 }
                 break;
             case SET_HOSTESS_STATE_ID:
-                if(inMessage.getHostessState() < 0 || inMessage.getHostessState() > 3 ||
-                        inMessage.getPassengerID()<0 || inMessage.getPassengerID()>21) throw new MessageException("Number of hostess state or passenger ID invalid!",inMessage);
+                if(inMessage.getHostessState() < 0 || inMessage.getHostessState() > SimulatorParam.HOSTESS_STATES ||
+                        inMessage.getPassengerID()<0 || inMessage.getPassengerID()> SimulatorParam.NUM_PASSANGERS) throw new MessageException("Number of hostess state or passenger ID invalid!",inMessage);
                 else{
                     repo.setHostessState(inMessage.getHostessState(),inMessage.getPassengerID());
                     outMessage = new Message(MessageType.ACK);
                 }
                 break;
             case SET_PASSENGER_STATE:
-                if(inMessage.getPassengerState()<0 || inMessage.getPassengerState()>3 ||
-                        inMessage.getPassengerID()<0 || inMessage.getPassengerID()>21) throw new MessageException("Number of passenger state or passenger ID invalid!",inMessage);
+                if(inMessage.getPassengerState()<0 || inMessage.getPassengerState()>SimulatorParam.PASSENGER_STATES ||
+                        inMessage.getPassengerID()<0 || inMessage.getPassengerID()>SimulatorParam.NUM_PASSANGERS) throw new MessageException("Number of passenger state or passenger ID invalid!",inMessage);
                 else{
                     repo.setPassengerState(inMessage.getPassengerID(), inMessage.getPassengerState());
                     outMessage = new Message(MessageType.ACK);
                 }
                 break;
             case ADD_FLIGHT_INFO:
-                if(inMessage.getNumPassengers()<0 || inMessage.getNumPassengers()>10) throw new MessageException("Number of passengers in plane invalid!",inMessage);
+                if(inMessage.getNumPassengers()<0 || inMessage.getNumPassengers()>SimulatorParam.PLANE_CAPACITY_MAX) throw new MessageException("Number of passengers in plane invalid!",inMessage);
                 else{
                     repo.addFlightInfo(inMessage.getNumPassengers());
                     outMessage = new Message(MessageType.ACK);

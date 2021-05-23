@@ -3,6 +3,7 @@ import clientSide.entitiesStubs.DepartureAirportStub;
 import clientSide.entitiesStubs.DestinationAirportStub;
 import clientSide.entitiesStubs.AirplaneStub;
 import clientSide.entities.*;
+import genclass.GenericIO;
 
 
 /**
@@ -23,6 +24,8 @@ public class PilotMain {
         Pilot pilot = new Pilot(depAirportStub,destAirportStub,airplaneStub,0,TOTAL);
 
         pilot.start();
+        GenericIO.writelnString("Pilot thread" + Thread.currentThread().getName() + "Started");
+
 
         try{
             pilot.join();
