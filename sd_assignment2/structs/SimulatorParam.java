@@ -43,7 +43,7 @@ public class SimulatorParam {
      * Arrival lounge port number
      * @serial arrivalLoungePort
      */
-    public static final int DepAirportPort = 4001;//22330 ;
+    public static final int DepAirportPort = 4004;//22330 ;
 
 
     public static final String DestAirportHostName = "localhost";
@@ -51,7 +51,7 @@ public class SimulatorParam {
      * Arrival lounge port number
      * @serial arrivalLoungePort
      */
-    public static final int DestAirportPort = 4002;//22331 ;
+    public static final int DestAirportPort = 4005;//22331 ;
 
 
     public static final String AirplaneHostName = "localhost";
@@ -60,7 +60,7 @@ public class SimulatorParam {
      * Arrival lounge port number
      * @serial arrivalLoungePort
      */
-    public static final int AirplanePort = 4003;//22332 ;
+    public static final int AirplanePort = 4006;//22332 ;
 
     public static final String RepositoryHostName = "localhost";
 
@@ -68,6 +68,6 @@ public class SimulatorParam {
      * Arrival lounge port number
      * @serial arrivalLoungePort
      */
-    public static final int RepositoryPort = 4004;//22333 ;
+    public static final int RepositoryPort = 4007;//22333 ;
 
 }

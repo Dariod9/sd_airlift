@@ -84,7 +84,7 @@ public class RepositoryProxy extends Thread{
         int proxyId;
 
         try
-        { cl = (Class<serverSide.serverProxys.RepositoryProxy>) Class.forName ("serverSide.Proxys.RepositoryProxy");
+        { cl = (Class<serverSide.serverProxys.RepositoryProxy>) Class.forName ("serverSide.serverProxys.RepositoryProxy");
         }
         catch (ClassNotFoundException e)
         { System.out.println ("Proxy al data type not found!");

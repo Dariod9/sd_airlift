@@ -4,13 +4,16 @@ import serverSide.ServerCom;
 import serverSide.sharedRegionInterfaces.*;
 import structs.Message;
 import structs.MessageException;
+import structs.entitiesInterfaces.HostessInt;
+import structs.entitiesInterfaces.PassengerInt;
+import structs.entitiesInterfaces.PilotInt;
 
 /**
  *   Reference to a remote object.
  *
  *   It provides means to the setup of a communication channel and the message exchange.
  */
-public class DepartureAirportProxy extends Thread {
+public class DepartureAirportProxy extends Thread implements PilotInt, HostessInt, PassengerInt {
 
 	/**
 	 *  Launched threads counter
@@ -19,6 +22,12 @@ public class DepartureAirportProxy extends Thread {
 
 	private static int nProxy;
 
+	private int hostessID;
+	private int hostessState;
+	private int pilotID;
+	private int pilotState;
+	private int passengerID;
+	private int passengerState;
 
 	/**
 	 *  Communication channel
@@ -88,7 +97,7 @@ public class DepartureAirportProxy extends Thread {
 		int proxyId;
 
 		try
-		{ cl = (Class<serverSide.serverProxys.DepartureAirportProxy>) Class.forName ("serverSide.Proxys.DepartureAirportProxy");
+		{ cl = (Class<serverSide.serverProxys.DepartureAirportProxy>) Class.forName ("serverSide.serverProxys.DepartureAirportProxy");
 		}
 		catch (ClassNotFoundException e)
 		{ System.out.println ("Proxy al data type not found!");
@@ -107,5 +116,80 @@ public class DepartureAirportProxy extends Thread {
 	public ServerCom getScon ()
 	{
 		return sconi;
+	}
+
+	@Override
+	public int getHostessState() {
+		return this.hostessState;
+	}
+
+	@Override
+	public void setHostessState(int hostessState) {
+		this.hostessState=hostessState;
+	}
+
+	@Override
+	public void setHostessID(int hostessID) {
+		this.hostessID=hostessID;
+	}
+
+	@Override
+	public int getHostessID() {
+		return this.hostessID;
+	}
+
+	@Override
+	public int getPassengerId() {
+		return this.passengerID;
+	}
+
+	@Override
+	public void setpassengerId(int passengerId) {
+		this.passengerID=passengerId;
+	}
+
+	@Override
+	public int getPassengerState() {
+		return this.passengerState;
+	}
+
+	@Override
+	public void setPassengerState(int passengerState) {
+		this.passengerState=passengerState;
+	}
+
+	@Override
+	public void showDocuments() {
+
+	}
+
+	@Override
+	public void travelToAirport() {
+
+	}
+
+	@Override
+	public int getPilotstate() {
+		return this.pilotState;
+	}
+
+	@Override
+	public void setPilotstate(int pilotstate) {
+		this.pilotState=pilotstate;
+	}
+
+	@Override
+	public int getPilotID() {
+		return this.pilotID;
+	}
+
+	@Override
+	public void setPilotID(int pilotID) {
+		this.pilotID=pilotID;
+	}
+
+	@Override
+	public void fly() {
+
 	}
 }

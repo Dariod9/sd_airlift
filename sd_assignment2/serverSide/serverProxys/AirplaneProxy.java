@@ -4,12 +4,15 @@ import serverSide.ServerCom;
 import serverSide.sharedRegionInterfaces.*;
 import structs.Message;
 import structs.MessageException;
+import structs.entitiesInterfaces.PassengerInt;
+import structs.entitiesInterfaces.PilotInt;
+
 /**
  *   Reference to a remote object.
  *
  *   It provides means to the setup of a communication channel and the message exchange.
  */
-public class AirplaneProxy extends Thread {
+public class AirplaneProxy extends Thread implements PilotInt, PassengerInt {
 
 	/**
 	 *  Launched threads counter
@@ -18,6 +21,11 @@ public class AirplaneProxy extends Thread {
 
 	private static int nProxy;
 
+
+	private int pilotID;
+	private int pilotState;
+	private int passengerID;
+	private int passengerState;
 
 	/**
 	 *  Communication channel
@@ -87,7 +95,7 @@ public class AirplaneProxy extends Thread {
 		int proxyId;
 
 		try
-		{ cl = (Class<serverSide.serverProxys.AirplaneProxy>) Class.forName ("serverSide.Proxys.AirplaneProxy");
+		{ cl = (Class<serverSide.serverProxys.AirplaneProxy>) Class.forName ("serverSide.serverProxys.AirplaneProxy");
 		}
 		catch (ClassNotFoundException e)
 		{ System.out.println ("Proxy al data type not found!");
@@ -106,5 +114,60 @@ public class AirplaneProxy extends Thread {
 	public ServerCom getScon ()
 	{
 		return sconi;
+	}
+
+	@Override
+	public int getPassengerId() {
+		return this.passengerID;
+	}
+
+	@Override
+	public void setpassengerId(int passengerId) {
+		this.passengerID=passengerId;
+	}
+
+	@Override
+	public int getPassengerState() {
+		return this.passengerState;
+	}
+
+	@Override
+	public void setPassengerState(int passengerState) {
+		this.passengerState=passengerState;
+	}
+
+	@Override
+	public void showDocuments() {
+
+	}
+
+	@Override
+	public void travelToAirport() {
+
+	}
+
+	@Override
+	public int getPilotstate() {
+		return this.pilotState;
+	}
+
+	@Override
+	public void setPilotstate(int pilotstate) {
+		this.pilotState=pilotstate;
+	}
+
+	@Override
+	public int getPilotID() {
+		return this.pilotID;
+	}
+
+	@Override
+	public void setPilotID(int pilotID) {
+		this.pilotID=pilotID;
+	}
+
+	@Override
+	public void fly() {
+
 	}
 }

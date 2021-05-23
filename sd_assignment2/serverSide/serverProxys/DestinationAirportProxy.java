@@ -6,6 +6,7 @@ import serverSide.ServerCom;
 import serverSide.sharedRegionInterfaces.*;
 import structs.Message;
 import structs.MessageException;
+import structs.entitiesInterfaces.PilotInt;
 
 
 /**
@@ -13,7 +14,7 @@ import structs.MessageException;
  *
  *   It provides means to the setup of a communication channel and the message exchange.
  */
-public class DestinationAirportProxy extends Thread {
+public class DestinationAirportProxy extends Thread implements PilotInt {
 
 	/**
 	 *  Launched threads counter
@@ -22,6 +23,8 @@ public class DestinationAirportProxy extends Thread {
 
 	private static int nProxy;
 
+	private int pilotID;
+	private int pilotState;
 
 	/**
 	 *  Communication channel
@@ -91,7 +94,7 @@ public class DestinationAirportProxy extends Thread {
 		int proxyId;
 
 		try
-		{ cl = (Class<serverSide.serverProxys.DestinationAirportProxy>) Class.forName ("serverSide.Proxys.DestinationAirportProxy");
+		{ cl = (Class<serverSide.serverProxys.DestinationAirportProxy>) Class.forName ("serverSide.serverProxys.DestinationAirportProxy");
 		}
 		catch (ClassNotFoundException e)
 		{ System.out.println ("Proxy al data type not found!");
@@ -110,5 +113,30 @@ public class DestinationAirportProxy extends Thread {
 	public ServerCom getScon ()
 	{
 		return sconi;
+	}
+
+	@Override
+	public int getPilotstate() {
+		return this.pilotState;
+	}
+
+	@Override
+	public void setPilotstate(int pilotstate) {
+		this.pilotState=pilotstate;
+	}
+
+	@Override
+	public int getPilotID() {
+		return this.pilotID;
+	}
+
+	@Override
+	public void setPilotID(int pilotID) {
+		this.pilotID=pilotID;
+	}
+
+	@Override
+	public void fly() {
+
 	}
 }
