@@ -3,9 +3,9 @@ package clientSide.entitiesStubs;
 import clientSide.ClientCom;
 import clientSide.entities.Passenger;
 import clientSide.entities.Pilot;
-import structs.Message;
-import structs.MessageType;
-import structs.SimulatorParam;
+import commInfra.Message;
+import commInfra.MessageType;
+import commInfra.SimulatorParam;
 
 
 /**

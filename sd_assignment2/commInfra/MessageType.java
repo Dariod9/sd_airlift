@@ -1,4 +1,4 @@
-package structs;
+package commInfra;
 
 /**
  * This enumerate data type specifies the various messages that the clients and servers exchange between them in a Distributed solution

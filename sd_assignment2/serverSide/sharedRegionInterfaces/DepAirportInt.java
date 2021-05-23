@@ -1,13 +1,11 @@
 package serverSide.sharedRegionInterfaces;
 
-import serverSide.serverProxys.AirplaneProxy;
 import serverSide.serverProxys.DepartureAirportProxy;
-import serverSide.sharedRegions.Airplane;
 import serverSide.sharedRegions.DepAirport;
-import structs.Message;
-import structs.MessageException;
-import structs.MessageType;
-import structs.SimulatorParam;
+import commInfra.Message;
+import commInfra.MessageException;
+import commInfra.MessageType;
+import commInfra.SimulatorParam;
 
 /**
  *  Departure Airport Interface

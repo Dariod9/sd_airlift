@@ -1,13 +1,12 @@
 package serverSide.sharedRegions;
 
-import clientSide.entities.Hostess;
 import clientSide.entitiesStubs.RepositoryStub;
 import genclass.*;
 import clientSide.entities.*;
 import serverSide.main.DepAirportMain;
 import serverSide.serverProxys.DepartureAirportProxy;
-import structs.MemException;
-import structs.MemFIFO;
+import commInfra.MemException;
+import commInfra.MemFIFO;
 
 /**
  *  Departure Airport
@@ -290,7 +289,6 @@ public class DepAirport {
      */
 
     public synchronized void informPlaneReadyToTakeOff() {
-
         while (!planeReady || !canFly) {
             try {
                 wait();
@@ -345,6 +343,7 @@ public class DepAirport {
         repos.setPilotState(PilotStates.readyForBoarding);
 
         pilotReady = true;
+
         notifyAll();
         GenericIO.writelnString("Pilot "+ Thread.currentThread().getName()+" is ready");
 
@@ -360,7 +359,6 @@ public class DepAirport {
      */
 
     public synchronized void waitForAllInBoard() {
-
         while (!readyTakeOff) {
             try {
                 wait();
@@ -401,6 +399,11 @@ public class DepAirport {
         repos.setHostessState(HostessStates.waitForPassenger);
     }
 
+    /**
+     * Check if the last passenger as entered the plane
+     *
+     * @param passengerID
+     */
     public synchronized void passengerEnteredPlane(int passengerID){
         if(lastPassenger == passengerID) canFly=true;
         notifyAll();

@@ -1,9 +1,9 @@
 package clientSide.entitiesStubs;
 
 import clientSide.ClientCom;
-import structs.Message;
-import structs.MessageType;
-import structs.SimulatorParam;
+import commInfra.Message;
+import commInfra.MessageType;
+import commInfra.SimulatorParam;
 
 public class RepositoryStub {
 	/**

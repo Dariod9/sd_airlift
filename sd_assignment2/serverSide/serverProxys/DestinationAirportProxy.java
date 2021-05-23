@@ -1,12 +1,10 @@
 package serverSide.serverProxys;
 
-import genclass.GenericIO;
-import genclass.GenericIO;
 import serverSide.ServerCom;
 import serverSide.sharedRegionInterfaces.*;
-import structs.Message;
-import structs.MessageException;
-import structs.entitiesInterfaces.PilotInt;
+import commInfra.Message;
+import commInfra.MessageException;
+import commInfra.entitiesInterfaces.PilotInt;
 
 
 /**

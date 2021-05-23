@@ -1,4 +1,4 @@
-package structs;
+package commInfra;
 
 /**
  *    Parametric FIFO derived from a parametric memory.

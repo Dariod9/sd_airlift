@@ -1,7 +1,4 @@
-package structs;
-
-import clientSide.entities.*;
-import structs.MessageType;
+package commInfra;
 
 import java.io.Serializable;
 /**

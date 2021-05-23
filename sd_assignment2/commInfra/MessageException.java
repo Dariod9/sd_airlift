@@ -1,4 +1,4 @@
-package structs;
+package commInfra;
 
 /**
  *  This class specifies an exception to be thrown if a message is invalid.

@@ -1,10 +1,10 @@
 package serverSide.sharedRegionInterfaces;
 
 import serverSide.sharedRegions.Repository;
-import structs.Message;
-import structs.MessageException;
-import structs.MessageType;
-import structs.SimulatorParam;
+import commInfra.Message;
+import commInfra.MessageException;
+import commInfra.MessageType;
+import commInfra.SimulatorParam;
 
 /**
  *  Repository Interface

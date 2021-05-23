@@ -1,5 +1,0 @@
-/**
- * Package Structs
- */
-package structs;
-

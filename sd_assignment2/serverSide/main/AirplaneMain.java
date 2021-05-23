@@ -6,7 +6,7 @@ import serverSide.sharedRegions.Airplane;
 import serverSide.ServerCom;
 import serverSide.serverProxys.AirplaneProxy;
 import serverSide.sharedRegionInterfaces.AirplaneInt;
-import structs.SimulatorParam;
+import commInfra.SimulatorParam;
 
 import java.net.SocketTimeoutException;
 

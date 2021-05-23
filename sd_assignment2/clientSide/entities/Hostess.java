@@ -2,7 +2,6 @@ package clientSide.entities;
 
 
 import clientSide.entitiesStubs.*;
-import structs.entitiesInterfaces.HostessInt;
 
 /**
  *   Hostess thread.

@@ -1,4 +1,4 @@
-package structs.entitiesInterfaces;
+package commInfra.entitiesInterfaces;
 
 
 /**

@@ -2,7 +2,6 @@ package clientSide.entities;
 import clientSide.entitiesStubs.DepartureAirportStub;
 import clientSide.entitiesStubs.DestinationAirportStub;
 import clientSide.entitiesStubs.AirplaneStub;
-import structs.entitiesInterfaces.PilotInt;
 
 /**
  *   Pilot thread.

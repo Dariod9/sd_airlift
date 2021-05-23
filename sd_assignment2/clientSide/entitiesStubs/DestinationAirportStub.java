@@ -2,9 +2,9 @@ package clientSide.entitiesStubs;
 
 import clientSide.ClientCom;
 import clientSide.entities.Pilot;
-import structs.SimulatorParam;
-import structs.Message;
-import structs.MessageType;
+import commInfra.SimulatorParam;
+import commInfra.Message;
+import commInfra.MessageType;
 
 public class DestinationAirportStub {
 	/**

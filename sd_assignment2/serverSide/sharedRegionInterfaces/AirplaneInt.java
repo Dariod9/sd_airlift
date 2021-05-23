@@ -1,12 +1,11 @@
 package serverSide.sharedRegionInterfaces;
 
-import clientSide.entities.Passenger;
 import serverSide.serverProxys.AirplaneProxy;
 import serverSide.sharedRegions.Airplane;
-import structs.Message;
-import structs.MessageException;
-import structs.MessageType;
-import structs.SimulatorParam;
+import commInfra.Message;
+import commInfra.MessageException;
+import commInfra.MessageType;
+import commInfra.SimulatorParam;
 
 /**
  *  Airplane Interface

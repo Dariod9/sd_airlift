@@ -2,11 +2,11 @@ package serverSide.serverProxys;
 
 import serverSide.ServerCom;
 import serverSide.sharedRegionInterfaces.*;
-import structs.Message;
-import structs.MessageException;
-import structs.entitiesInterfaces.HostessInt;
-import structs.entitiesInterfaces.PassengerInt;
-import structs.entitiesInterfaces.PilotInt;
+import commInfra.Message;
+import commInfra.MessageException;
+import commInfra.entitiesInterfaces.HostessInt;
+import commInfra.entitiesInterfaces.PassengerInt;
+import commInfra.entitiesInterfaces.PilotInt;
 
 /**
  *   Reference to a remote object.

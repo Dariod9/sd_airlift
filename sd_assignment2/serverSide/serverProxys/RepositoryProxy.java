@@ -1,11 +1,9 @@
 package serverSide.serverProxys;
 
-import serverSide.sharedRegions.Repository;
 import serverSide.ServerCom;
-import serverSide.sharedRegionInterfaces.AirplaneInt;
 import serverSide.sharedRegionInterfaces.RepositoryInt;
-import structs.Message;
-import structs.MessageException;
+import commInfra.Message;
+import commInfra.MessageException;
 
 public class RepositoryProxy extends Thread{
     /**

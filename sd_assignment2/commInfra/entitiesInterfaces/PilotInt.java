@@ -1,7 +1,5 @@
-package structs.entitiesInterfaces;
+package commInfra.entitiesInterfaces;
 
-
-import clientSide.entitiesStubs.DepartureAirportStub;
 
 /**
  *   Pilot thread.

@@ -1,13 +1,12 @@
 package serverSide.main;
 
-import java.io.FileNotFoundException;
 import java.net.SocketTimeoutException;
 
 import serverSide.ServerCom;
 import serverSide.serverProxys.RepositoryProxy;
 import serverSide.sharedRegionInterfaces.RepositoryInt;
 import serverSide.sharedRegions.Repository;
-import structs.SimulatorParam;
+import commInfra.SimulatorParam;
 
 
 /**

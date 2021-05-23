@@ -6,8 +6,8 @@ import genclass.GenericIO;
 import serverSide.main.AirplaneMain;
 import serverSide.main.RepositoryMain;
 import serverSide.serverProxys.AirplaneProxy;
-import structs.MemException;
-import structs.MemFIFO;
+import commInfra.MemException;
+import commInfra.MemFIFO;
 
 /**
  *  Airplane
@@ -115,14 +115,12 @@ public class Airplane {
      */
 
     public synchronized void leaveThePlane(int passengerId){
-        ((AirplaneProxy) Thread.currentThread()).setPassengerState(PassengerStates.atDestination);
-        repos.setPassengerState(passengerId, PassengerStates.atDestination);
-
         int passenger;
 
         if(this.occupation==1){
             this.occupation--;
             empty=true;
+            notifyAll();
             GenericIO.writelnString("Every passenger left the plane!");
         }else {
             try {
@@ -133,9 +131,10 @@ public class Airplane {
             empty=false;
             this.occupation--;
             GenericIO.writelnString("Passenger "+Thread.currentThread().getName()+" left the plane");
-
         }
-        notifyAll();
+
+        ((AirplaneProxy) Thread.currentThread()).setPassengerState(PassengerStates.atDestination);
+        repos.setPassengerState(passengerId, PassengerStates.atDestination);
     }
 
     /**

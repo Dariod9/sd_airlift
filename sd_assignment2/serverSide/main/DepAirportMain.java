@@ -4,10 +4,9 @@ import clientSide.entitiesStubs.DepartureAirportStub;
 import clientSide.entitiesStubs.RepositoryStub;
 import serverSide.serverProxys.DepartureAirportProxy;
 import serverSide.sharedRegions.DepAirport;
-import serverSide.sharedRegions.Repository;
 import serverSide.ServerCom;
 import serverSide.sharedRegionInterfaces.DepAirportInt;
-import structs.SimulatorParam;
+import commInfra.SimulatorParam;
 
 import java.net.SocketTimeoutException;
 
