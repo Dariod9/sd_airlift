@@ -9,7 +9,7 @@ import java.util.Date;
 
 
 // máquina: l040101-ws#.ua.pt
-// login: sd34
+// login: sd304
 // pass: qwerty
 // IP pool: 22330 - 22339
 
@@ -49,37 +49,37 @@ public class SimulatorParam {
      * Arrival lounge host name
      * @serial arrivalLoungeHostName
      */
-    public static final String DepAirportHostName = "localhost";
+    public static final String DepAirportHostName = "l040101-ws05.ua.pt";
 
     /**
      * Arrival lounge port number
      * @serial arrivalLoungePort
      */
-    public static final int DepAirportPort = 4010;//22330 ;
+    public static final int DepAirportPort = 22330 ;
 
 
-    public static final String DestAirportHostName = "localhost";
+    public static final String DestAirportHostName = "l040101-ws06.ua.pt";
     /**
      * Arrival lounge port number
      * @serial arrivalLoungePort
      */
-    public static final int DestAirportPort = 4011;//22331 ;
+    public static final int DestAirportPort = 22331 ;
 
 
-    public static final String AirplaneHostName = "localhost";
-
-    /**
-     * Arrival lounge port number
-     * @serial arrivalLoungePort
-     */
-    public static final int AirplanePort = 4012;//22332 ;
-
-    public static final String RepositoryHostName = "localhost";
+    public static final String AirplaneHostName = "l040101-ws04.ua.pt";
 
     /**
      * Arrival lounge port number
      * @serial arrivalLoungePort
      */
-    public static final int RepositoryPort = 4013;//22333 ;
+    public static final int AirplanePort = 22332 ;
+
+    public static final String RepositoryHostName = "l040101-ws07.ua.pt";
+
+    /**
+     * Arrival lounge port number
+     * @serial arrivalLoungePort
+     */
+    public static final int RepositoryPort = 22333 ;
 
 }
