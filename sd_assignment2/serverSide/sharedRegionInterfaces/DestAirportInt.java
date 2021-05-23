@@ -10,11 +10,13 @@ import structs.MessageException;
 import structs.MessageType;
 
 /**
- *  Destination Airport
+ *  Destination Airport Interface
  *
- *  It is responsible for the flight back to the departure airport.
+ *   It is responsible to validate and process the incoming message, execute the corresponding method on the
+ *  Destination Airport and generate the outgoing message.
+ *  Implementation of a client-server model of type 2 (server replication).
+ *  communication is based on a communication channel under the TCP protocol.
  *
- *  It does not contain any blocking point.
  */
 
 public class DestAirportInt {
@@ -41,6 +43,7 @@ public class DestAirportInt {
     public Message processAndReply(Message inMessage) throws MessageException {
         Message outMessage = null;
 
+        /* processing (No validations needed)*/
         switch (inMessage.getType()){
             case FLY_TO_DEPARTURE_POINT:
                 destAirport.flyToDeparturePoint();

@@ -115,8 +115,7 @@ public class Airplane {
      * It is called by the passenger after the flight lands
      */
 
-    public synchronized void leaveThePlane(){
-        int passengerId = ((AirplaneProxy) Thread.currentThread()).getPassengerId();
+    public synchronized void leaveThePlane(int passengerId){
         ((AirplaneProxy) Thread.currentThread()).setPassengerState(PassengerStates.atDestination);
         repos.setPassengerState(passengerId, PassengerStates.atDestination);
 

@@ -10,21 +10,12 @@ import structs.MessageType;
 import structs.SimulatorParam;
 
 /**
- *  Departure Airport
- *  It is responsible for many actions.
- *  Regarding the passengers, it controls the process of waiting in Queue.
- *  Regarding the hostess, it is responsible for the waiting for the next flight, the preparing of the boarding, the
- *  process of waiting for more passengers, the action of checking documents and signaling the plane to take off.
- *  Concerning the pilot, it is responsible for the process of informing that the plane is ready to board, waiting
- *  for it to happen and flying to the destination.
+ *  Departure Airport Interface
  *
- *  All public methods are executed in mutual exclusion.
- *
- *  There are seven internal synchronization points: an array of blocking points for the passengers, where all of them
- *  wait to be called by the hostess and wait while the documents aren't checked; four blocking points for the hostess,
- *  while she waits while the Queue is empty, while the documents are not shown to her, while the plain is not ready to
- *  fly and also while the pilot is not ready for the boarding process to start. Finally, one single blocking point for
- *  the pilot, where he waits for the plane to be ready for take off.
+ *   It is responsible to validate and process the incoming message, execute the corresponding method on the
+ *  Departure Airport and generate the outgoing message.
+ *  Implementation of a client-server model of type 2 (server replication).
+ *  communication is based on a communication channel under the TCP protocol.
  *
  */
 
@@ -52,17 +43,43 @@ public class DepAirportInt {
     public Message processAndReply(Message inMessage) throws MessageException {
         Message outMessage = null;
 
+        /* validation of the incoming message */
+        switch (inMessage.getType()){
+            case GET_FLEW:
+                break;
+            case WAIT_IN_QUEUE:
+                if(inMessage.getPassengerID()<0 || inMessage.getPassengerID()>= SimulatorParam.NUM_PASSANGERS) throw new MessageException("Invalid Passenger ID",inMessage);
+                break;
+            case WAIT_FOR_NEXT_PASSENGER:
+                break;
+            case CHECK_DOCUMENTS:
+                break;
+            case INFORM_PLANE_READY_TO_TAKEOFF:
+                break;
+            case WAIT_FOR_NEXT_FLIGHT:
+                break;
+            case INFORM_PLANE_READY_FOR_BOARDING:
+                break;
+            case WAIT_FOR_ALL_IN_BOARD:
+                break;
+            case FLY_TO_DESTINATION_POINT:
+                break;
+            case PREPARE_FOR_PASS_BOARDING:
+                break;
+            case SHUTDOWN:
+                break;
+            default: throw new MessageException ("Message type invalid : ", inMessage);
+        }
+
+        /* processing */
         switch (inMessage.getType()){
             case GET_FLEW:
                 int flew = depAirport.getFlew();
                 outMessage = new Message(MessageType.ACK, flew);
                 break;
             case WAIT_IN_QUEUE:
-                if(inMessage.getPassengerID()<0 || inMessage.getPassengerID()>= SimulatorParam.NUM_PASSANGERS) throw new MessageException("Invalid Passenger ID",inMessage);
-                else {
-                    depAirport.waitInQueue(inMessage.getPassengerID());
-                    outMessage = new Message(MessageType.ACK);
-                }
+                depAirport.waitInQueue(inMessage.getPassengerID());
+                outMessage = new Message(MessageType.ACK);
                 break;
             case WAIT_FOR_NEXT_PASSENGER:
                 boolean planeReady = depAirport.waitForNextPassenger();
@@ -101,8 +118,8 @@ public class DepAirportInt {
                 outMessage = new Message(MessageType.ACK);
                 (((DepartureAirportProxy) (Thread.currentThread ())).getScon ()).setTimeout (10);
                 break;
-            default: throw new MessageException ("Message type invalid : ", inMessage);
         }
+
         return (outMessage);
     }
 }

@@ -23,7 +23,7 @@ public class HostessMain {
         Hostess hostess = new Hostess(depAirportStub,destAirportStub,airplaneStub,0,TOTAL);
 
         hostess.start();
-        GenericIO.writelnString("Hostess thread" + Thread.currentThread().getName() + "Started");
+        GenericIO.writelnString(    "Hostess thread" + Thread.currentThread().getName() + "Started");
 
         try{
             hostess.join();

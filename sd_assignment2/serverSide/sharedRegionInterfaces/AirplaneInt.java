@@ -9,14 +9,12 @@ import structs.MessageType;
 import structs.SimulatorParam;
 
 /**
- *  Airplane
+ *  Airplane Interface
  *
- *  It is responsible to keep track of it's occupation, the IDs of the passengers inside and if it has arrived the
- *  destination.
- *  All public methods are executed in mutual exclusion.
- *  There are two internal synchronization points: an array of blocking points, one per each passenger, where he
- *  waits for the flight to end so that he can exit the airplane; and one single blocking point for the pilot,
- *  where she waits for every passenger to leave the plane, in order to announce the arrival of the airplane.
+ *   It is responsible to validate and process the incoming message, execute the corresponding method on the
+ *  Airplane and generate the outgoing message.
+ *  Implementation of a client-server model of type 2 (server replication).
+ *  communication is based on a communication channel under the TCP protocol.
  *
  */
 
@@ -45,21 +43,33 @@ public class AirplaneInt {
     public Message processAndReply(Message inMessage) throws MessageException{
         Message outMessage = null;
 
+        /* validation of the incoming message */
         switch(inMessage.getType()){
             case BOARD_THE_PLANE:
                 if(inMessage.getPassengerID()<0 || inMessage.getPassengerID()>= SimulatorParam.NUM_PASSANGERS) throw new MessageException("Invalid Passenger ID",inMessage);
-                else {
-                    ap.boardThePlane(inMessage.getPassengerID());
-                    outMessage = new Message(MessageType.ACK);
-                }
+                break;
+            case WAIT_FOR_END_OF_FLIGHT: break;
+            case LEAVE_THE_PLANE:
+                if(inMessage.getPassengerID()<0 || inMessage.getPassengerID()>= SimulatorParam.NUM_PASSANGERS) throw new MessageException("Invalid Passenger ID",inMessage);
+                break;
+            case ANNOUNCE_ARRIVAL: break;
+            case PARK_AT_TRANSFER_GATE: break;
+            case SHUTDOWN:  break;
+            default: throw new MessageException ("Message type invalid : ", inMessage);
+        }
 
+        /* processing */
+        switch(inMessage.getType()){
+            case BOARD_THE_PLANE:
+                ap.boardThePlane(inMessage.getPassengerID());
+                outMessage = new Message(MessageType.ACK);
                 break;
             case WAIT_FOR_END_OF_FLIGHT:
                 ap.waitForEndOfFlight();
                 outMessage = new Message(MessageType.ACK);
                 break;
             case LEAVE_THE_PLANE:
-                ap.leaveThePlane();
+                ap.leaveThePlane(inMessage.getPassengerID());
                 outMessage = new Message(MessageType.ACK);
                 break;
             case ANNOUNCE_ARRIVAL:
@@ -75,7 +85,6 @@ public class AirplaneInt {
                 outMessage = new Message(MessageType.ACK);
                 (((AirplaneProxy) (Thread.currentThread ())).getScon ()).setTimeout (10);
                 break;
-            default: throw new MessageException ("Message type invalid : ", inMessage);
         }
 
         return (outMessage);
