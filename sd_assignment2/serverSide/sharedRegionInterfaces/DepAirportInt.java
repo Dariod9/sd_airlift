@@ -66,6 +66,9 @@ public class DepAirportInt {
                 break;
             case PREPARE_FOR_PASS_BOARDING:
                 break;
+            case PASSENGER_ENTERED_PLANE:
+                if(inMessage.getPassengerID()<0 || inMessage.getPassengerID()>= SimulatorParam.NUM_PASSANGERS) throw new MessageException("Invalid Passenger ID",inMessage);
+                break;
             case SHUTDOWN:
                 break;
             default: throw new MessageException ("Message type invalid : ", inMessage);
@@ -111,6 +114,10 @@ public class DepAirportInt {
                 break;
             case PREPARE_FOR_PASS_BOARDING:
                 depAirport.prepareForPassBoarding();
+                outMessage = new Message(MessageType.ACK);
+                break;
+            case PASSENGER_ENTERED_PLANE:
+                depAirport.passengerEnteredPlane(inMessage.getPassengerID());
                 outMessage = new Message(MessageType.ACK);
                 break;
             case SHUTDOWN:

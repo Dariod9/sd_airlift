@@ -20,7 +20,7 @@ public class DepartureAirportProxy extends Thread implements PilotInt, HostessIn
 	 *  @serialField nProxy
 	 */
 
-	private static int nProxy;
+	private static int nProxy=0;
 
 	private int hostessID;
 	private int hostessState;

@@ -76,6 +76,10 @@ public enum MessageType {
      */
     PREPARE_FOR_PASS_BOARDING,
     /**
+     * Passenger entered the plane
+     */
+    PASSENGER_ENTERED_PLANE,
+    /**
      * Operation fly to the departure airport.
      */
     FLY_TO_DEPARTURE_POINT,

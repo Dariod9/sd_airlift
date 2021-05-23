@@ -19,7 +19,7 @@ public class AirplaneProxy extends Thread implements PilotInt, PassengerInt {
 	 *  @serialField nProxy
 	 */
 
-	private static int nProxy;
+	private static int nProxy = 0;
 
 
 	private int pilotID;

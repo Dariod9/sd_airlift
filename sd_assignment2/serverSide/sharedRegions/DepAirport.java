@@ -107,6 +107,16 @@ public class DepAirport {
     private boolean planeReady = false;
 
     /**
+     * Last passenger to fly
+     */
+    private int lastPassenger = 0;
+
+    /**
+     * Last passenger needed to fly
+     */
+    private boolean canFly = false;
+
+    /**
      * Reference to the repository.
      */
 
@@ -235,8 +245,6 @@ public class DepAirport {
 
     public synchronized void checkDocuments() {
 
-        int hostessId = ((DepartureAirportProxy) Thread.currentThread()).getHostessID();
-
         while (fifoSize == 0 ) {
             try {
                 wait();
@@ -267,11 +275,10 @@ public class DepAirport {
         }
 
         checked=true;
+        lastPassenger = chamado;
         boarded++;
         docsGiven=false;
         notifyAll();
-
-
 
     }
 
@@ -284,7 +291,7 @@ public class DepAirport {
 
     public synchronized void informPlaneReadyToTakeOff() {
 
-        while (!planeReady) {
+        while (!planeReady || !canFly) {
             try {
                 wait();
             } catch (Exception e) {
@@ -292,6 +299,7 @@ public class DepAirport {
             }
         }
 
+        repos.addFlightInfo(boarded);
         ((DepartureAirportProxy) Thread.currentThread()).setHostessState(HostessStates.readyToFly);
         readyTakeOff=true;
         repos.addFlightInfo(boarded);
@@ -333,7 +341,6 @@ public class DepAirport {
      */
 
     public synchronized void informPlaneReadyForBoarding() {
-        int pilotId = ((DepartureAirportProxy) Thread.currentThread()).getPilotID();
         ((DepartureAirportProxy) Thread.currentThread()).setPilotstate(PilotStates.readyForBoarding);
         repos.setPilotState(PilotStates.readyForBoarding);
 
@@ -390,9 +397,13 @@ public class DepAirport {
      * Internal Operation.
      */
     public synchronized void prepareForPassBoarding() {
-        int hostessId = ((DepartureAirportProxy) Thread.currentThread()).getHostessID();
         ((DepartureAirportProxy) Thread.currentThread()).setHostessState(HostessStates.waitForPassenger);
         repos.setHostessState(HostessStates.waitForPassenger);
+    }
+
+    public synchronized void passengerEnteredPlane(int passengerID){
+        if(lastPassenger == passengerID) canFly=true;
+        notifyAll();
     }
 
     public synchronized void shutServer() {

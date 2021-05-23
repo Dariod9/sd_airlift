@@ -13,7 +13,7 @@ public class RepositoryProxy extends Thread{
      *  @serialField nProxy
      */
 
-    private static int nProxy;
+    private static int nProxy=0;
 
 
     /**

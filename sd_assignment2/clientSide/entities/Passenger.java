@@ -103,6 +103,7 @@ public class Passenger extends Thread {
         travelToAirport();
         depAirportStub.waitInQueue();
         airplaneStub.boardThePlane();
+        depAirportStub.passengerEnteredPlane();
         airplaneStub.waitForEndOfFlight();
         airplaneStub.leaveThePlane();
     }
