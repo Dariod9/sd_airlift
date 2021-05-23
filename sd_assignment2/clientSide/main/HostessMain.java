@@ -22,9 +22,5 @@ public class HostessMain {
             hostess.join();
         } catch(InterruptedException e){}
 
-        depAirportStub.shutServer();
-        destAirportStub.shutServer();
-        airplaneStub.shutServer();
-
     }
 }

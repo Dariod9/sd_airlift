@@ -31,10 +31,5 @@ public class PassengerMain {
                 e.printStackTrace();
             }
         });
-
-        depAirportStub.shutServer();
-        destAirportStub.shutServer();
-        airplaneStub.shutServer();
-
     }
 }
