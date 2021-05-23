@@ -293,10 +293,10 @@ public class DepAirport {
         }
 
         ((DepartureAirportProxy) Thread.currentThread()).setHostessState(HostessStates.readyToFly);
-        repos.setHostessState(HostessStates.readyToFly);
-
-        flew = flew + boarded;
         readyTakeOff=true;
+        repos.addFlightInfo(boarded);
+        repos.setHostessState(HostessStates.readyToFly);
+        flew = flew + boarded;
         notifyAll();
         GenericIO.writelnString("Hostess: "+ Thread.currentThread().getName()+" everyone aboard");
         ((DepartureAirportProxy) Thread.currentThread()).setHostessState(HostessStates.waitForFlight);
@@ -371,7 +371,7 @@ public class DepAirport {
      */
 
     public synchronized void flyToDestinationPoint() {
-        repos.addFlightInfo(boarded);
+//        repos.addFlightInfo(boarded);
         int pilotId = ((DepartureAirportProxy) Thread.currentThread()).getPilotID();
         ((DepartureAirportProxy) Thread.currentThread()).setPilotstate(PilotStates.flyingForward);
         repos.setPilotState(PilotStates.flyingForward);

@@ -2,6 +2,7 @@ package serverSide.sharedRegions;
 
 import clientSide.entities.*;
 import genclass.*;
+import serverSide.main.RepositoryMain;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -315,7 +316,6 @@ public class Repository {
                 break;
             case PilotStates.flyingForward:
                 lineStatus += " FLFW ";
-                writeSmallHeader(flight_number, "departed with " + flights_info.get(flight_number) + " passengers");
                 break;
             case PilotStates.deBoarding:
                 lineStatus += " DRPP ";
@@ -338,6 +338,7 @@ public class Repository {
                 break;
             case HostessStates.readyToFly:
                 lineStatus += " RDTF ";
+                writeSmallHeader(flight_number, "departed with " + flights_info.get(flight_number) + " passengers");
                 break;
         }
 
@@ -402,5 +403,9 @@ public class Repository {
         { GenericIO.writelnString ("The operation of closing the file " + filename + " failed!");
             System.exit (1);
         }
+    }
+
+    public synchronized void shutServer(){
+        RepositoryMain.finished=true;
     }
 }

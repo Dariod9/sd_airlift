@@ -61,6 +61,8 @@ public class RepositoryInt {
                 break;
             case REPORT_SUMMARY:
                 break;
+            case SHUTDOWN:
+                break;
             default: throw new MessageException ("Message type invalid : ", inMessage);
         }
 
@@ -88,6 +90,10 @@ public class RepositoryInt {
                 break;
             case REPORT_SUMMARY:
                 repo.reportSummary();
+                outMessage = new Message(MessageType.ACK);
+                break;
+            case SHUTDOWN:
+                repo.shutServer();
                 outMessage = new Message(MessageType.ACK);
                 break;
         }

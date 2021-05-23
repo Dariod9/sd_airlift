@@ -5,8 +5,6 @@ import clientSide.entities.Hostess;
 import clientSide.entities.Passenger;
 import clientSide.entities.Pilot;
 
-import genclass.GenericIO;
-
 
 import structs.Message;
 import structs.MessageType;

@@ -3,6 +3,7 @@ import clientSide.entitiesStubs.DepartureAirportStub;
 import clientSide.entitiesStubs.DestinationAirportStub;
 import clientSide.entitiesStubs.AirplaneStub;
 import clientSide.entities.*;
+import clientSide.entitiesStubs.RepositoryStub;
 import genclass.GenericIO;
 
 
@@ -20,6 +21,7 @@ public class PilotMain {
         DepartureAirportStub depAirportStub = new DepartureAirportStub();
         DestinationAirportStub destAirportStub = new DestinationAirportStub();
         AirplaneStub airplaneStub = new AirplaneStub();
+        RepositoryStub repositoryStub = new RepositoryStub();
 
         Pilot pilot = new Pilot(depAirportStub,destAirportStub,airplaneStub,0,TOTAL);
 
@@ -34,6 +36,7 @@ public class PilotMain {
         depAirportStub.shutServer();
         destAirportStub.shutServer();
         airplaneStub.shutServer();
+        repositoryStub.shutServer();
 
     }
 }

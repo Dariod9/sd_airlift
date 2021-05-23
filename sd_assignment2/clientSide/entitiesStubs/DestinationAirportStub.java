@@ -1,9 +1,8 @@
 package clientSide.entitiesStubs;
 
-import clientSide.entities.Pilot;
-import genclass.GenericIO;
-import structs.SimulatorParam;
 import clientSide.ClientCom;
+import clientSide.entities.Pilot;
+import structs.SimulatorParam;
 import structs.Message;
 import structs.MessageType;
 

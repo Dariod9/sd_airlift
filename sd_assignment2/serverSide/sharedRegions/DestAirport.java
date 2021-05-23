@@ -4,6 +4,7 @@ import clientSide.entitiesStubs.RepositoryStub;
 import genclass.*;
 import clientSide.entities.*;
 import serverSide.main.DepAirportMain;
+import serverSide.main.DestAirportMain;
 import serverSide.serverProxys.DestinationAirportProxy;
 
 /**
@@ -44,7 +45,7 @@ public class DestAirport {
         GenericIO.writelnString("Pilot "+Thread.currentThread().getName()+" is flying to departure point");
     }
 
-    public void shutServer() {
-        DepAirportMain.finished=true;
+    public synchronized void shutServer() {
+        DestAirportMain.finished=true;
     }
 }

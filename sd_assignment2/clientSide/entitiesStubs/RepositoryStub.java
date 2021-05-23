@@ -1,16 +1,9 @@
 package clientSide.entitiesStubs;
 
 import clientSide.ClientCom;
-import clientSide.entities.Pilot;
-import clientSide.entities.PilotStates;
 import structs.Message;
 import structs.MessageType;
 import structs.SimulatorParam;
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 
 public class RepositoryStub {
 	/**
