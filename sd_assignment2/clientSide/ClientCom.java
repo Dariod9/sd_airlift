@@ -3,7 +3,6 @@ package clientSide;
 import genclass.GenericIO;
 import java.io.*;
 import java.net.*;
-import structs.SimulatorParam;
 
 /**
  *   Communication manager - client side.
