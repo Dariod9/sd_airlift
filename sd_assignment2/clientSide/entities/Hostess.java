@@ -32,30 +32,17 @@ public class Hostess extends Thread{
      */
     private final DepartureAirportStub depAirportStub;
 
-    /**
-     * Reference to the destination airport.
-     */
-    private final DestinationAirportStub destAirportStub;
-
-    /**
-     * Reference to the airplane.
-     */
-    private final AirplaneStub airplaneStub;
 
     /**
      * Instantiation of a Hostess thread.
      *
      * @param depAirportStub reference to departure airport
-     * @param destAirportStub reference to destination airport
-     * @param airplaneStub reference to airplane
      * @param hostessID hostess id
      */
-    public Hostess(DepartureAirportStub depAirportStub, DestinationAirportStub destAirportStub, AirplaneStub airplaneStub, int hostessID, int TOTAL){
+    public Hostess(DepartureAirportStub depAirportStub,  int hostessID, int TOTAL){
         this.TOTAL = TOTAL;
         this.hostessID=hostessID;
-        this.destAirportStub=destAirportStub;
         this.depAirportStub=depAirportStub;
-        this.airplaneStub=airplaneStub;
     }
 
     /**

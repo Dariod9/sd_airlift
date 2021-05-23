@@ -31,7 +31,6 @@ public class DestAirportMain {
         scon = new ServerCom(portNumb);
         scon.start();
 
-        DestinationAirportStub daStub = new DestinationAirportStub();
         RepositoryStub repository = new RepositoryStub();
 
         DestAirport destAirport = new DestAirport(repository);

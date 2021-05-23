@@ -31,8 +31,7 @@ public class AirplaneMain {
         scon = new ServerCom(portNumb);
         scon.start();
 
-        AirplaneStub alStub = new AirplaneStub();
-        RepositoryStub repository = new RepositoryStub();
+       RepositoryStub repository = new RepositoryStub();
 
         Airplane airplane = new Airplane(repository);
 

@@ -31,11 +31,6 @@ public class Passenger extends Thread {
     private final DepartureAirportStub depAirportStub;
 
     /**
-     * Reference to the departure airport.
-     */
-    private final DestinationAirportStub destAirportStub;
-
-    /**
      * Reference to the airplane.
      */
     private final AirplaneStub airplaneStub;
@@ -44,14 +39,12 @@ public class Passenger extends Thread {
      * Instantiation of a Airplane thread.
      *
      * @param depAirportStub reference to departure airport
-     * @param destAirportStub reference to destination airport
      * @param airplaneStub reference to airplane
      * @param id passenger id
      */
-    public Passenger(DepartureAirportStub depAirportStub, DestinationAirportStub destAirportStub, AirplaneStub airplaneStub, int id) {
+    public Passenger(DepartureAirportStub depAirportStub, AirplaneStub airplaneStub, int id) {
         this.passengerId = id;
         this.depAirportStub = depAirportStub;
-        this.destAirportStub = destAirportStub;
         this.airplaneStub = airplaneStub;
     }
 

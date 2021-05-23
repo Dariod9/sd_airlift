@@ -19,12 +19,11 @@ public class PassengerMain {
         final int MIN=5;
 
         DepartureAirportStub depAirportStub = new DepartureAirportStub();
-        DestinationAirportStub destAirportStub = new DestinationAirportStub();
         AirplaneStub airplaneStub = new AirplaneStub();
         Passenger[] passengers = new Passenger[TOTAL];
 
         for(int i=0;i<passengers.length;i++){
-            passengers[i] = new Passenger(depAirportStub, destAirportStub, airplaneStub,i);
+            passengers[i] = new Passenger(depAirportStub, airplaneStub,i);
         }
 
 
