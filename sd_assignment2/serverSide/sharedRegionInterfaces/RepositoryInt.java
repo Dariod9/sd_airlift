@@ -54,7 +54,7 @@ public class RepositoryInt {
                 break;
             case SET_HOSTESS_STATE_ID:
                 if(inMessage.getHostessState() < 0 || inMessage.getHostessState() > SimulatorParam.HOSTESS_STATES ||
-                        inMessage.getPassengerID()<0 || inMessage.getPassengerID()> SimulatorParam.NUM_PASSANGERS) throw new MessageException("Number of hostess state or passenger ID invalid!",inMessage);
+                        inMessage.getPassengerID()<0 || inMessage.getPassengerID()>= SimulatorParam.NUM_PASSANGERS) throw new MessageException("Number of hostess state or passenger ID invalid!",inMessage);
                 else{
                     repo.setHostessState(inMessage.getHostessState(),inMessage.getPassengerID());
                     outMessage = new Message(MessageType.ACK);
@@ -62,7 +62,7 @@ public class RepositoryInt {
                 break;
             case SET_PASSENGER_STATE:
                 if(inMessage.getPassengerState()<0 || inMessage.getPassengerState()>SimulatorParam.PASSENGER_STATES ||
-                        inMessage.getPassengerID()<0 || inMessage.getPassengerID()>SimulatorParam.NUM_PASSANGERS) throw new MessageException("Number of passenger state or passenger ID invalid!",inMessage);
+                        inMessage.getPassengerID()<0 || inMessage.getPassengerID()>=SimulatorParam.NUM_PASSANGERS) throw new MessageException("Number of passenger state or passenger ID invalid!",inMessage);
                 else{
                     repo.setPassengerState(inMessage.getPassengerID(), inMessage.getPassengerState());
                     outMessage = new Message(MessageType.ACK);

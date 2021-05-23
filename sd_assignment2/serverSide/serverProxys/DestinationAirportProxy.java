@@ -135,8 +135,5 @@ public class DestinationAirportProxy extends Thread implements PilotInt {
 		this.pilotID=pilotID;
 	}
 
-	@Override
-	public void fly() {
 
-	}
 }

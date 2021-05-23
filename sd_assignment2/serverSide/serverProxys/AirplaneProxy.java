@@ -140,11 +140,11 @@ public class AirplaneProxy extends Thread implements PilotInt, PassengerInt {
 	public void showDocuments() {
 
 	}
-
-	@Override
-	public void travelToAirport() {
-
-	}
+//
+//	@Override
+//	public void travelToAirport() {
+//
+//	}
 
 	@Override
 	public int getPilotstate() {
@@ -166,8 +166,5 @@ public class AirplaneProxy extends Thread implements PilotInt, PassengerInt {
 		this.pilotID=pilotID;
 	}
 
-	@Override
-	public void fly() {
 
-	}
 }

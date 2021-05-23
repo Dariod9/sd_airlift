@@ -7,6 +7,7 @@ import serverSide.sharedRegions.DepAirport;
 import structs.Message;
 import structs.MessageException;
 import structs.MessageType;
+import structs.SimulatorParam;
 
 /**
  *  Departure Airport
@@ -57,8 +58,11 @@ public class DepAirportInt {
                 outMessage = new Message(MessageType.ACK, flew);
                 break;
             case WAIT_IN_QUEUE:
-                depAirport.waitInQueue();
-                outMessage = new Message(MessageType.ACK);
+                if(inMessage.getPassengerID()<0 || inMessage.getPassengerID()>= SimulatorParam.NUM_PASSANGERS) throw new MessageException("Invalid Passenger ID",inMessage);
+                else {
+                    depAirport.waitInQueue(inMessage.getPassengerID());
+                    outMessage = new Message(MessageType.ACK);
+                }
                 break;
             case WAIT_FOR_NEXT_PASSENGER:
                 boolean planeReady = depAirport.waitForNextPassenger();

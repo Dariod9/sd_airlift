@@ -101,6 +101,8 @@ public class Message implements Serializable {
                                 break;
             case "flight": this.numPassengers=state;
                             break;
+            case "id": this.passengerID=state;
+                        break;
             default:break;
         }
     }

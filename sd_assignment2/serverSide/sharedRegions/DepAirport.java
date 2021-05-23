@@ -148,8 +148,7 @@ public class DepAirport {
      * It is called by a passenger after he arrives to the airport, while he waits to be called by the hostess.
      *
      */
-    public synchronized void waitInQueue() {
-        int passengerId = ((DepartureAirportProxy) Thread.currentThread()).getPassengerId();
+    public synchronized void waitInQueue(int passengerId) {
         ((DepartureAirportProxy) Thread.currentThread()).setPassengerState(PassengerStates.inQueue);
         repos.setPassengerState(passengerId,PassengerStates.inQueue);
 
@@ -284,7 +283,6 @@ public class DepAirport {
      */
 
     public synchronized void informPlaneReadyToTakeOff() {
-        int hostessId = ((DepartureAirportProxy) Thread.currentThread()).getHostessID();
 
         while (!planeReady) {
             try {
@@ -298,6 +296,7 @@ public class DepAirport {
         repos.setHostessState(HostessStates.readyToFly);
 
         flew = flew + boarded;
+        readyTakeOff=true;
         notifyAll();
         GenericIO.writelnString("Hostess: "+ Thread.currentThread().getName()+" everyone aboard");
         ((DepartureAirportProxy) Thread.currentThread()).setHostessState(HostessStates.waitForFlight);

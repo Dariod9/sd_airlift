@@ -6,6 +6,7 @@ import serverSide.sharedRegions.Airplane;
 import structs.Message;
 import structs.MessageException;
 import structs.MessageType;
+import structs.SimulatorParam;
 
 /**
  *  Airplane
@@ -46,8 +47,12 @@ public class AirplaneInt {
 
         switch(inMessage.getType()){
             case BOARD_THE_PLANE:
-                ap.boardThePlane();
-                outMessage = new Message(MessageType.ACK);
+                if(inMessage.getPassengerID()<0 || inMessage.getPassengerID()>= SimulatorParam.NUM_PASSANGERS) throw new MessageException("Invalid Passenger ID",inMessage);
+                else {
+                    ap.boardThePlane(inMessage.getPassengerID());
+                    outMessage = new Message(MessageType.ACK);
+                }
+
                 break;
             case WAIT_FOR_END_OF_FLIGHT:
                 ap.waitForEndOfFlight();

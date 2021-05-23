@@ -48,12 +48,7 @@ public interface PassengerInt {
 
     void showDocuments();
 
-    /**
-     * Passenger travel to airport.
-     *
-     * Internal Operation.
-     */
-    void travelToAirport();
+
 
 }
 

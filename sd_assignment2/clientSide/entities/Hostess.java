@@ -11,7 +11,7 @@ import structs.entitiesInterfaces.HostessInt;
  *   Static solution.
  */
 
-public class Hostess extends Thread implements HostessInt {
+public class Hostess extends Thread{
 
     /**
      * Hostess state.

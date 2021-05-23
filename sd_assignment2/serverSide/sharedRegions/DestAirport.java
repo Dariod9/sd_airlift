@@ -38,7 +38,6 @@ public class DestAirport {
      */
 
     public synchronized void flyToDeparturePoint() {
-        int pilotId = ((DestinationAirportProxy) Thread.currentThread()).getPilotID();
         ((DestinationAirportProxy) Thread.currentThread()).setPilotstate(PilotStates.flyingBack);
         repos.setPilotState(PilotStates.flyingBack);
 

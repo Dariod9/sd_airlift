@@ -163,10 +163,6 @@ public class DepartureAirportProxy extends Thread implements PilotInt, HostessIn
 
 	}
 
-	@Override
-	public void travelToAirport() {
-
-	}
 
 	@Override
 	public int getPilotstate() {
@@ -188,7 +184,6 @@ public class DepartureAirportProxy extends Thread implements PilotInt, HostessIn
 		this.pilotID=pilotID;
 	}
 
-	@Override
 	public void fly() {
 		try {
 			sleep(5000);

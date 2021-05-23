@@ -11,7 +11,7 @@ import structs.entitiesInterfaces.PilotInt;
  *   Static solution.
  */
 
-public class Pilot extends Thread implements PilotInt {
+public class Pilot extends Thread{
 
     /**
      * pilot state.
@@ -113,19 +113,6 @@ public class Pilot extends Thread implements PilotInt {
         }
     }
 
-    /**
-     * Pilot in flight.
-     *
-     * Internal Operation.
-     */
-    public void fly() {
-        try {
-            sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
-
-    }
 
 }

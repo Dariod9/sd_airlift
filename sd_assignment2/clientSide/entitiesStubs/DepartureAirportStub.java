@@ -53,7 +53,7 @@ public class DepartureAirportStub{
 
 		ClientCom con = new ClientCom(serverHostName, serverPortNumb);
 		Message inMessage, outMessage;
-		Pilot p = (Pilot) Thread.currentThread();
+		Passenger p = (Passenger) Thread.currentThread();
 		//Waits for connection
 		while (!con.open()) {
 			try {
@@ -62,8 +62,10 @@ public class DepartureAirportStub{
 			}
 		}
 
+
+		String entity="id";
 		//What should i do message with the flight number
-		outMessage = new Message(MessageType.WAIT_IN_QUEUE);
+		outMessage = new Message(MessageType.WAIT_IN_QUEUE, p.getPassengerId(), entity);
 		con.writeObject(outMessage);
 		inMessage = (Message) con.readObject();
 
@@ -170,7 +172,7 @@ public class DepartureAirportStub{
 
 		ClientCom con = new ClientCom(serverHostName, serverPortNumb);
 		Message inMessage, outMessage;
-		Pilot p = (Pilot) Thread.currentThread();
+		Hostess p = (Hostess) Thread.currentThread();
 		//Waits for connection
 		while (!con.open()) {
 			try {
@@ -205,7 +207,7 @@ public class DepartureAirportStub{
 	public void prepareForPassBoarding() {
 		ClientCom con = new ClientCom(serverHostName, serverPortNumb);
 		Message inMessage, outMessage;
-		Pilot p = (Pilot) Thread.currentThread();
+		Hostess p = (Hostess) Thread.currentThread();
 		//Waits for connection
 		while (!con.open()) {
 			try {
@@ -238,7 +240,7 @@ public class DepartureAirportStub{
 	public void checkDocuments() {
 		ClientCom con = new ClientCom(serverHostName, serverPortNumb);
 		Message inMessage, outMessage;
-		Pilot p = (Pilot) Thread.currentThread();
+		Hostess p = (Hostess) Thread.currentThread();
 		//Waits for connection
 		while (!con.open()) {
 			try {
@@ -310,7 +312,7 @@ public class DepartureAirportStub{
 	public void informPlaneReadyToTakeOff() {
 		ClientCom con = new ClientCom(serverHostName, serverPortNumb);
 		Message inMessage, outMessage;
-		Pilot p = (Pilot) Thread.currentThread();
+		Hostess p = (Hostess) Thread.currentThread();
 		//Waits for connection
 		while (!con.open()) {
 			try {
@@ -332,16 +334,6 @@ public class DepartureAirportStub{
 
 		//Close connection
 		con.close();
-	}
-
-	public void parkAtTransferGate() {
-		//TODO
-//		((Pilot) Thread.currentThread()).setPilotState(PilotStates.ATTRANSFERGATE);
-//		repos.setPilotState (((Pilot) Thread.currentThread ()).getPilotState ());
-//		GenericIO.writelnString("PLANE AT TRANSFER GATE");
-//		next_fly = true;
-//		notifyAll();
-
 	}
 	
    /**
@@ -370,7 +362,7 @@ public class DepartureAirportStub{
 
 		ClientCom con = new ClientCom(serverHostName, serverPortNumb);
 		Message inMessage, outMessage;
-		Pilot p = (Pilot) Thread.currentThread();
+		Hostess p = (Hostess) Thread.currentThread();
 		//Waits for connection
 		while (!con.open()) {
 			try {

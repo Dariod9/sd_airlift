@@ -14,7 +14,7 @@ import structs.entitiesInterfaces.PassengerInt;
  */
 
 
-public class Passenger extends Thread implements PassengerInt {
+public class Passenger extends Thread {
 
     /**
      * Passenger identification.

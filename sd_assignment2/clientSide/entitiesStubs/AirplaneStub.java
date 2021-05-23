@@ -129,7 +129,7 @@ public class AirplaneStub {
     public void leaveThePlane() {
         ClientCom con = new ClientCom(serverHostName, serverPortNumb);
         Message inMessage, outMessage;
-        Pilot p = (Pilot) Thread.currentThread();
+        Passenger p = (Passenger) Thread.currentThread();
         //Waits for connection
         while (!con.open()) {
             try {
@@ -138,8 +138,9 @@ public class AirplaneStub {
             }
         }
 
+        String entity="id";
         //What should i do message with the flight number
-        outMessage = new Message(MessageType.LEAVE_THE_PLANE);
+        outMessage = new Message(MessageType.LEAVE_THE_PLANE,p.getPassengerId(), entity);
         con.writeObject(outMessage);
         inMessage = (Message) con.readObject();
 
@@ -157,7 +158,7 @@ public class AirplaneStub {
     public void waitForEndOfFlight() {
         ClientCom con = new ClientCom(serverHostName, serverPortNumb);
         Message inMessage, outMessage;
-        Pilot p = (Pilot) Thread.currentThread();
+        Passenger p = (Passenger) Thread.currentThread();
         //Waits for connection
         while (!con.open()) {
             try {
@@ -166,8 +167,9 @@ public class AirplaneStub {
             }
         }
 
+        String entity="id";
         //What should i do message with the flight number
-        outMessage = new Message(MessageType.WAIT_FOR_END_OF_FLIGHT);
+        outMessage = new Message(MessageType.WAIT_FOR_END_OF_FLIGHT, p.getPassengerId(), entity);
         con.writeObject(outMessage);
         inMessage = (Message) con.readObject();
 
@@ -186,7 +188,7 @@ public class AirplaneStub {
 
         ClientCom con = new ClientCom(serverHostName, serverPortNumb);
         Message inMessage, outMessage;
-        Pilot p = (Pilot) Thread.currentThread();
+        Passenger p = (Passenger) Thread.currentThread();
         //Waits for connection
         while (!con.open()) {
             try {
@@ -195,8 +197,9 @@ public class AirplaneStub {
             }
         }
 
+        String entity="id";
         //What should i do message with the flight number
-        outMessage = new Message(MessageType.BOARD_THE_PLANE);
+        outMessage = new Message(MessageType.BOARD_THE_PLANE, p.getPassengerId(), entity);
         con.writeObject(outMessage);
         inMessage = (Message) con.readObject();
 

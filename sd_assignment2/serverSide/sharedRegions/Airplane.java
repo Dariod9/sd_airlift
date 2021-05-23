@@ -75,9 +75,7 @@ public class Airplane {
      *  It is called by the passenger after having the documents checked
      */
 
-    public synchronized void boardThePlane() {
-        int passengerId = ((AirplaneProxy) Thread.currentThread()).getPassengerId();
-
+    public synchronized void boardThePlane(int passengerId) {
         ((AirplaneProxy) Thread.currentThread()).setPassengerState(PassengerStates.inFlight);
         repos.setPassengerState(passengerId,PassengerStates.inFlight);
 

@@ -41,11 +41,5 @@ public interface PilotInt{
     void setPilotID(int pilotID);
 
 
-    /**
-     * Pilot in flight.
-     *
-     * Internal Operation.
-     */
-    void fly();
 
 }
