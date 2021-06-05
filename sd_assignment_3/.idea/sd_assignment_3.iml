@@ -10,11 +10,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-<<<<<<< master
-          <root url="jar://$USER_HOME$/Downloads/genclass.jar!/" />
-=======
           <root url="jar://$MODULE_DIR$/../genclass.jar!/" />
->>>>>>> start assignment 3
         </CLASSES>
         <JAVADOC />
         <SOURCES />
