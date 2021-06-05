@@ -3,6 +3,8 @@ package serverSide;
 import interfaces.Compute;
 import interfaces.Task;
 
+import java.rmi.RemoteException;
+
 /**
  *  Generic functionality that will run locally code transferred to it.
  *
@@ -20,7 +22,7 @@ public class ComputeEngine implements Compute
      */
 
     @Override
-    public Object executeTask (Task t)
+    public Object executeTask (Task t) throws RemoteException
     {
         return t.execute ();
     }
