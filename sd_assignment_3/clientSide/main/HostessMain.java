@@ -1,92 +1,74 @@
 package clientSide.main;
+import clientSide.entities.Hostess;
 import genclass.GenericIO;
-import java.rmi.registry.LocateRegistry;
+
 import java.rmi.registry.Registry;
+import java.rmi.registry.LocateRegistry;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.math.BigDecimal;
-import genclass.GenericIO;
-import interfaces.Compute;
+import java.util.Random;
+
+import interfaces.*;
+import utils.SimulatorParam;
 
 /**
- *   Client side.
- *
- *   Communication is based in Java RMI.
- *   Entity Hostess
+ * This data type instantiates an active entity, in this case the Horse/Jockey pairs,
+ * which looks up for remote shared regions on Locate Registry and executes
+ * their methods remotely.
+ * Communication is based in Java RMI.
  */
 public class HostessMain {
+
     /**
-     *  Main method.
-     *
-     *    @param args runtime arguments
+     * Main task that instantiates an active entity.
+     * It also instantiates the Locate Registry that has the RMI registrations
+     * for the other shared regions, so that it can execute its methods remotely.
      */
-    public static void main(String args[]) {
-        /* get location of the generic registry service */
-
-        String rmiRegHostName;
-        int rmiRegPortNumb;
-
-        GenericIO.writeString ("Name of the processing node where the registering service is located? ");
-        rmiRegHostName = GenericIO.readlnString ();
-        GenericIO.writeString ("Port number where the registering service is listening to? ");
-        rmiRegPortNumb = GenericIO.readlnInt ();
-
-        /* look for the remote object by name in the remote host registry */
-
-        String nameEntry = "Compute";
-        Compute comp = null;
+    public static void main(String[] args) {
         Registry registry = null;
+        DepAirportInt depAirportInt = null;
+        Random rnd;
+        int agility;
 
-        try
-        { registry = LocateRegistry.getRegistry (rmiRegHostName, rmiRegPortNumb);
+        try {
+            registry = LocateRegistry.getRegistry(
+                    SimulatorParam.RegistryName,
+                    SimulatorParam.RegistryPort);
+        } catch (RemoteException e) {
+            System.out.println("RMI registry creation exception: " +
+                    e.getMessage());
+            e.printStackTrace();
+            System.exit(1);
         }
-        catch (RemoteException e)
-        { GenericIO.writelnString ("RMI registry creation exception: " + e.getMessage ());
-            e.printStackTrace ();
-            System.exit (1);
-        }
+        System.out.println("RMI registry was created!");
 
-        try
-        { comp = (Compute) registry.lookup (nameEntry);
-        }
-        catch (RemoteException e)
-        { GenericIO.writelnString ("ComputePi look up exception: " + e.getMessage ());
-            e.printStackTrace ();
-            System.exit (1);
-        }
-        catch (NotBoundException e)
-        { GenericIO.writelnString ("ComputePi not bound exception: " + e.getMessage ());
-            e.printStackTrace ();
-            System.exit (1);
-        }
-
-        /* instantiate the mobile code object to be run remotely */
-
-        Pi task = null;
-        BigDecimal pi = null;
-
-        try
-        { task = new Pi (Integer.parseInt (args[0]));
-        }
-        catch (NumberFormatException e)
-        { GenericIO.writelnString ("Pi instantiation exception: " + e.getMessage ());
-            e.printStackTrace ();
-            System.exit (1);
+        try {
+            depAirportInt = (DepAirportInt) registry.lookup("DepAirport");
+        } catch (RemoteException e) {
+            System.out.println("Shared Region look up exception: " +
+                    e.getMessage());
+            e.printStackTrace();
+            System.exit(1);
+        } catch (NotBoundException e) {
+            System.out.println("Shared Region not bound exception: " +
+                    e.getMessage());
+            e.printStackTrace();
+            System.exit(1);
         }
 
-        /* invoke the remote method (run the code at a ComputeEngine remote object) */
+        // entities initialization
+        Hostess hostess = new Hostess(depAirportInt, 0, 21);
 
-        try
-        { pi = (BigDecimal) (comp.executeTask (task));
-        }
-        catch (RemoteException e)
-        { GenericIO.writelnString ("ComputePi remote invocation exception: " + e.getMessage ());
-            e.printStackTrace ();
-            System.exit (1);
-        }
+        rnd = new Random();
 
-        /* print the result */
-        GenericIO.writelnString (pi.toString ());
+        hostess.start();
+
+        try {
+            hostess.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        // end of the simulation
 
     }
 }
