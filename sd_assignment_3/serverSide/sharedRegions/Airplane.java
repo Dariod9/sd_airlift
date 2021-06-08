@@ -6,8 +6,11 @@ import clientSide.entities.PassengerStates;
 import clientSide.entities.Pilot;
 import clientSide.entities.PilotStates;
 import interfaces.AirplaneInt;
+import interfaces.RepositoryInt;
 import utils.MemException;
 import utils.MemFIFO;
+
+import java.rmi.RemoteException;
 
 /**
  *  Airplane
@@ -51,14 +54,14 @@ public class Airplane implements AirplaneInt {
      * Reference to the repository.
      */
 
-    private Repository repos;
+    private RepositoryInt repos;
 
     /**
      *  Airplane instantiation
      * @param repos reference to the repository.
      */
 
-    public Airplane(Repository repos) {
+    public Airplane(RepositoryInt repos) {
         try {
             this.passengerIDs = new MemFIFO<>(new Integer [21]);
             occupation=0;
@@ -79,7 +82,11 @@ public class Airplane implements AirplaneInt {
         int passengerId = ((Passenger) Thread.currentThread()).getPassengerId();
 
         ((Passenger) Thread.currentThread()).setPassengerState(PassengerStates.inFlight);
-        repos.setPassengerState(passengerId,((Passenger) Thread.currentThread()).getPassengerState());
+        try {
+            repos.setPassengerState(passengerId,((Passenger) Thread.currentThread()).getPassengerState());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
         try {
             passengerIDs.write(passengerId);
@@ -122,7 +129,11 @@ public class Airplane implements AirplaneInt {
     public synchronized void leaveThePlane(){
         int passengerId = ((Passenger) Thread.currentThread()).getPassengerId();
         ((Passenger) Thread.currentThread()).setPassengerState(PassengerStates.atDestination);
-        repos.setPassengerState(passengerId, ((Passenger) Thread.currentThread()).getPassengerState());
+        try {
+            repos.setPassengerState(passengerId, ((Passenger) Thread.currentThread()).getPassengerState());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
         int passenger;
 
@@ -153,7 +164,11 @@ public class Airplane implements AirplaneInt {
     public synchronized void announceArrival() {
         int pilotId = ((Pilot) Thread.currentThread()).getPilotID();
         ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.deBoarding);
-        repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
+        try {
+            repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         arrived=true;
         notifyAll();
         GenericIO.writelnString("Pilot "+Thread.currentThread().getName()+" arrived at destination");
@@ -177,7 +192,11 @@ public class Airplane implements AirplaneInt {
     public synchronized void parkAtTransferGate() {
         int pilotId = ((Pilot) Thread.currentThread()).getPilotID();
         ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.atTransferGate);
-        repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
+        try {
+            repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
         arrived=false;
         notifyAll();

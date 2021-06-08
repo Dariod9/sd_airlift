@@ -1,7 +1,6 @@
 package clientSide.entities;
 
 
-import interfaces.Task;
 import interfaces.DepAirportInt;
 
 import java.rmi.RemoteException;

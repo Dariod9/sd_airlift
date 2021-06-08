@@ -1,10 +1,13 @@
-package serverSide.sharedRegions;;
+package serverSide.sharedRegions;
 
 import genclass.*;
 import clientSide.entities.*;
 import interfaces.DepAirportInt;
+import interfaces.RepositoryInt;
 import utils.MemException;
 import utils.MemFIFO;
+
+import java.rmi.RemoteException;
 
 /**
  *  Departure Airport
@@ -117,14 +120,14 @@ public class DepAirport implements DepAirportInt {
      * Reference to the repository.
      */
 
-    private Repository repos;
+    private RepositoryInt repos;
 
     /**
      * Departure Airport instantiaton.
      *
      * @param repos reference to the repository.
      */
-    public DepAirport(Repository repos, int TOTAL, int MIN, int MAX) {
+    public DepAirport(RepositoryInt repos, int TOTAL, int MIN, int MAX) {
 
         try {
             this.passengerIDs = new MemFIFO(new Integer[21]);
@@ -158,7 +161,11 @@ public class DepAirport implements DepAirportInt {
     public synchronized void waitInQueue() {
         int passengerId = ((Passenger) Thread.currentThread()).getPassengerId();
         ((Passenger) Thread.currentThread()).setPassengerState(PassengerStates.inQueue);
-        repos.setPassengerState(passengerId,((Passenger) Thread.currentThread()).getPassengerState());
+        try {
+            repos.setPassengerState(passengerId,((Passenger) Thread.currentThread()).getPassengerState());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
         try {
             passengerIDs.write(passengerId);
@@ -204,7 +211,11 @@ public class DepAirport implements DepAirportInt {
      */
     public synchronized boolean waitForNextPassenger() {
         ((Hostess) Thread.currentThread()).setHostessState(HostessStates.waitForPassenger);
-        repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
+        try {
+            repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
         if (flew >= TOTAL-MIN) {
             if (boarded == TOTAL - flew){
@@ -261,7 +272,7 @@ public class DepAirport implements DepAirportInt {
             GenericIO.writelnString("Hostess "+ Thread.currentThread().getName()+" called Passenger "+chamado);
 
             notifyAll();
-        } catch (MemException e) {
+        } catch (MemException | RemoteException e) {
             e.printStackTrace();
         }
 
@@ -302,13 +313,21 @@ public class DepAirport implements DepAirportInt {
         }
 
         ((Hostess) Thread.currentThread()).setHostessState(HostessStates.readyToFly);
-        repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
+        try {
+            repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         readyTakeOff=true;
         flew = flew + boarded;
         notifyAll();
         GenericIO.writelnString("Hostess: "+ Thread.currentThread().getName()+" everyone aboard");
         ((Hostess) Thread.currentThread()).setHostessState(HostessStates.waitForFlight);
-        repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
+        try {
+            repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
 
     }
@@ -343,14 +362,22 @@ public class DepAirport implements DepAirportInt {
     public synchronized void informPlaneReadyForBoarding() {
         int pilotId = ((Pilot) Thread.currentThread()).getPilotID();
         ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.readyForBoarding);
-        repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
+        try {
+            repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
         pilotReady = true;
         notifyAll();
         GenericIO.writelnString("Pilot "+ Thread.currentThread().getName()+" is ready");
 
         ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.waitingForBoarding);
-        repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
+        try {
+            repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -379,10 +406,18 @@ public class DepAirport implements DepAirportInt {
      */
 
     public synchronized void flyToDestinationPoint() {
-        repos.addFlightInfo(boarded);
+        try {
+            repos.addFlightInfo(boarded);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         int pilotId = ((Pilot) Thread.currentThread()).getPilotID();
         ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.flyingForward);
-        repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
+        try {
+            repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         GenericIO.writelnString("Pilot "+ Thread.currentThread().getName()+" is flying to destination point");
         boarded = 0;
         readyTakeOff = false;
@@ -400,7 +435,11 @@ public class DepAirport implements DepAirportInt {
     public synchronized void prepareForPassBoarding() {
         int hostessId = ((Hostess) Thread.currentThread()).getHostessID();
         ((Hostess) Thread.currentThread()).setHostessState(HostessStates.waitForPassenger);
-        repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
+        try {
+            repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
