@@ -3,6 +3,7 @@ package serverSide.sharedRegions;;
 import genclass.*;
 import clientSide.entities.Pilot;
 import clientSide.entities.PilotStates;
+import interfaces.DestAirportInt;
 
 /**
  *  Destination Airport
@@ -12,7 +13,7 @@ import clientSide.entities.PilotStates;
  *  It does not contain any blocking point.
  */
 
-public class DestAirport {
+public class DestAirport implements DestAirportInt {
 
     /**
      * Reference to the repository.

@@ -1,7 +1,10 @@
 package clientSide.entities;
-import clientSide.entitiesStubs.DepartureAirportStub;
-import clientSide.entitiesStubs.DestinationAirportStub;
-import clientSide.entitiesStubs.AirplaneStub;
+import interfaces.DepAirportInt;
+import interfaces.DestAirportInt;
+import interfaces.AirplaneInt;
+
+import java.rmi.RemoteException;
+
 
 /**
  *   Pilot thread.
@@ -30,32 +33,33 @@ public class Pilot extends Thread{
     /**
      * Reference to the departure airport.
      */
-    private final DepartureAirportStub depAirportStub;
+    private DepAirportInt depAirport;
 
     /**
      * Reference to the departure airport.
      */
-    private final DestinationAirportStub destAirportStub;
+    private DestAirportInt destAirport;
 
     /**
      * Reference to the airplane.
      */
-    private final AirplaneStub airplaneStub;
+    private AirplaneInt airplane;
 
     /**
      * Instantiation of a Pilot thread.
      *
-     * @param depAirportStub reference to departure airport
-     * @param destAirportStub reference to destination airport
-     * @param airplaneStub reference to airplane
+     * @param depAirport reference to departure airport
+     * @param destAirport reference to destination airport
+     * @param airplane reference to airplane
      * @param pilotID pilot id
+     * @param TOTAL total passengers
      */
-    public Pilot (DepartureAirportStub depAirportStub, DestinationAirportStub destAirportStub, AirplaneStub airplaneStub, int pilotID, int TOTAL) {
+    public Pilot (DepAirportInt depAirport, DestAirportInt destAirport, AirplaneInt airplane, int pilotID, int TOTAL) {
         this.TOTAL=TOTAL;
         this.pilotID=pilotID;
-        this.depAirportStub=depAirportStub;
-        this.destAirportStub=destAirportStub;
-        this.airplaneStub=airplaneStub;
+        this.depAirport=depAirport;
+        this.destAirport=destAirport;
+        this.airplane=airplane;
         Pilotstate=PilotStates.atTransferGate;
     }
 
@@ -101,17 +105,66 @@ public class Pilot extends Thread{
      */
     @Override
     public void run() {
-        while(depAirportStub.getFlewPilot()<TOTAL) {
-            depAirportStub.informPlaneReadyForBoarding();
-            depAirportStub.waitForAllInBoard();
-            depAirportStub.flyToDestinationPoint();
-            airplaneStub.announceArrival();
-            destAirportStub.flyToDeparturePoint();
-            airplaneStub.parkAtTransferGate();
+        while(true) {
+            try {
+                if (!(depAirport.getFlew()<TOTAL)) break;
+            } catch (RemoteException e) {
+                e.printStackTrace();
+                System.exit(1);
+            }
+            try {
+                depAirport.informPlaneReadyForBoarding();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+                System.exit(1);
+            }
+            try {
+                depAirport.waitForAllInBoard();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+                System.exit(1);
+            }
+            try {
+                depAirport.flyToDestinationPoint();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+                System.exit(1);
+            }
+            try {
+                airplane.announceArrival();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+                System.exit(1);
+            }
+            try {
+                destAirport.flyToDeparturePoint();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+                System.exit(1);
+            }
+            try {
+                airplane.parkAtTransferGate();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+                System.exit(1);
+            }
 
         }
     }
 
+    /**
+     * Pilot in flight.
+     *
+     * Internal Operation.
+     */
+    public void fly() {
+        try {
+            sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
+
+    }
 
 }

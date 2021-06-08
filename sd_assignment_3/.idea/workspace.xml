@@ -2,8 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ef62e93d-7188-4cf2-b3a6-82487d6fb489" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/clientSide/entities/Hostess.java" beforeDir="false" afterPath="$PROJECT_DIR$/clientSide/entities/Hostess.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/clientSide/entities/Passenger.java" beforeDir="false" afterPath="$PROJECT_DIR$/clientSide/entities/Passenger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/clientSide/entities/Pilot.java" beforeDir="false" afterPath="$PROJECT_DIR$/clientSide/entities/Pilot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interfaces/AirplaneInt.java" beforeDir="false" afterPath="$PROJECT_DIR$/interfaces/AirplaneInt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interfaces/RepositoryInt.java" beforeDir="false" afterPath="$PROJECT_DIR$/interfaces/RepositoryInt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serverSide/sharedRegions/Airplane.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverSide/sharedRegions/Airplane.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serverSide/sharedRegions/DepAirport.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverSide/sharedRegions/DepAirport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serverSide/sharedRegions/DestAirport.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverSide/sharedRegions/DestAirport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serverSide/sharedRegions/Repository.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverSide/sharedRegions/Repository.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +65,7 @@
       <updated>1622559242136</updated>
       <workItem from="1622559244452" duration="1785000" />
       <workItem from="1622921974413" duration="5559000" />
-      <workItem from="1623168546505" duration="4599000" />
+      <workItem from="1623168546505" duration="8502000" />
     </task>
     <servers />
   </component>

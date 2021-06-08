@@ -15,7 +15,7 @@ public interface AirplaneInt extends Remote {
      * <p>
      * It is called by the passenger after having the documents checked
      */
-    void boardThePlane() throws RemoteException;
+    int boardThePlane() throws RemoteException;
 
     /**
      * Operation wait for the end of the flight

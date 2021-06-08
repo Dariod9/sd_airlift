@@ -4,6 +4,8 @@ package clientSide.entities;
 import interfaces.Task;
 import interfaces.DepAirportInt;
 
+import java.rmi.RemoteException;
+
 /**
  *   Hostess thread.
  *
@@ -87,20 +89,46 @@ public class Hostess extends Thread{
      */
     @Override
     public void run() {
-        while(depAirport.getFlewHostess()!=TOTAL){
-            depAirport.waitForNextFlight();
-            depAirport.prepareForPassBoarding();
-            while(true) {
-                if(depAirportStub.waitForNextPassenger()) break;
-                depAirportStub.checkDocuments();
+        while(true){
+            try {
+                if (!(depAirport.getFlew()!=TOTAL)) break;
+            } catch (RemoteException e) {
+                e.printStackTrace();
+                System.exit(1);
             }
-            depAirportStub.informPlaneReadyToTakeOff();
+            try {
+                depAirport.waitForNextFlight();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+                System.exit(1);
+            }
+            try {
+                depAirport.prepareForPassBoarding();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+                System.exit(1);
+            }
+            while(true) {
+                try {
+                    if(depAirport.waitForNextPassenger()) break;
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                    System.exit(1);
+                }
+                try {
+                    depAirport.checkDocuments();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                    System.exit(1);
+                }
+            }
+            try {
+                depAirport.informPlaneReadyToTakeOff();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+                System.exit(1);
+            }
         }
     }
 
-    /* TODO */
-    @Override
-    public Object execute() {
-        return null;
-    }
 }

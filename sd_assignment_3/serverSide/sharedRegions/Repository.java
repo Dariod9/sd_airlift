@@ -4,6 +4,7 @@ import clientSide.entities.HostessStates;
 import clientSide.entities.PassengerStates;
 import clientSide.entities.PilotStates;
 import genclass.*;
+import interfaces.RepositoryInt;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -17,7 +18,7 @@ import java.util.Set;
  *  It contains no internal synchronization points.
  */
 
-public class Repository {
+public class Repository implements RepositoryInt {
 
     /**
      * Name of the logging file.

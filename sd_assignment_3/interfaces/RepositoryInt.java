@@ -92,39 +92,5 @@ public interface RepositoryInt extends Remote {
 
     void addFlightInfo(int inpl) throws RemoteException;
 
-    /**
-     *  Write the header to the logging file.
-     *
-     *  The passengers are sleeping and the hostess and pilot are carrying out normal duties.
-     *  Internal operation.
-     */
 
-     void writeHeader() throws RemoteException;
-
-    /**
-     *  Write a state line at the beginning of the logging file with the initial states.
-     *
-     *  The current state of the pilot, hostess and passengers are organized in a line to be printed.
-     *  Internal operation.
-     */
-
-     void writeSmallHeader(int nFlight, String message) throws RemoteException;
-
-    /**
-     *  Write a state line at the end of the logging file.
-     *
-     *  The current state of the pilot, hostess and passengers are organized in a line to be printed.
-     *  Internal operation.
-     */
-
-     void reportStatus(String teste) throws RemoteException;
-
-    /**
-     *  Write a summary of the flights needed to transport all the passengers.
-     *
-     *  The current state of the pilot, hostess and passengers are organized in a line to be printed.
-     *  Internal operation.
-     */
-
-    void reportSummary() throws RemoteException;
 }

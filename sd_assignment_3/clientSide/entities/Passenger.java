@@ -1,9 +1,10 @@
 package clientSide.entities;
 
-import clientSide.entities.Airplane;
-import clientSide.entitiesStubs.DepartureAirportStub;
-import clientSide.entitiesStubs.DestinationAirportStub;
+import interfaces.DepAirportInt;
+import interfaces.AirplaneInt;
 import genclass.*;
+
+import java.rmi.RemoteException;
 
 /**
  *   Passenger thread.
@@ -28,24 +29,24 @@ public class Passenger extends Thread {
     /**
      * Reference to the departure airport.
      */
-    private final DepartureAirport depAirport;
+    private DepAirportInt depAirport;
 
     /**
      * Reference to the airplane.
      */
-    private final Airplane airplane;
+    private AirplaneInt airplane;
 
     /**
      * Instantiation of a Airplane thread.
      *
-     * @param depAirportStub reference to departure airport
-     * @param airplaneStub reference to airplane
+     * @param depAirport reference to departure airport
+     * @param airplane reference to airplane
      * @param id passenger id
      */
-    public Passenger(DepartureAirport depAirport, Airplane airplane, int id) {
+    public Passenger(DepAirportInt depAirport, AirplaneInt airplane, int id) {
         this.passengerId = id;
-        this.depAirportStub = depAirportStub;
-        this.airplaneStub = airplaneStub;
+        this.depAirport = depAirport;
+        this.airplane = airplane;
     }
 
 
@@ -92,12 +93,38 @@ public class Passenger extends Thread {
      */
     @Override
     public void run() {
+        int passengerId=0;
         travelToAirport();
-        depAirportStub.waitInQueue();
-        airplaneStub.boardThePlane();
-        depAirportStub.passengerEnteredPlane();
-        airplaneStub.waitForEndOfFlight();
-        airplaneStub.leaveThePlane();
+        try {
+            depAirport.waitInQueue();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+        try {
+            passengerId = airplane.boardThePlane();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+        try {
+            depAirport.passengerEnteredPlane(passengerId);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+        try {
+            airplane.waitForEndOfFlight();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+        try {
+            airplane.leaveThePlane();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
     }
 
     /**

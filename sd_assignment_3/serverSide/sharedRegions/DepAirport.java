@@ -2,6 +2,7 @@ package serverSide.sharedRegions;;
 
 import genclass.*;
 import clientSide.entities.*;
+import interfaces.DepAirportInt;
 import utils.MemException;
 import utils.MemFIFO;
 
@@ -24,7 +25,7 @@ import utils.MemFIFO;
  *
  */
 
-public class DepAirport {
+public class DepAirport implements DepAirportInt {
 
     /**
      * List of all of the passengers' IDs.
@@ -101,6 +102,16 @@ public class DepAirport {
      */
 
     private boolean planeReady = false;
+
+    /**
+     * Last passenger to fly
+     */
+    private int lastPassenger = 0;
+
+    /**
+     * Last passenger needed to fly
+     */
+    private boolean canFly = false;
 
     /**
      * Reference to the repository.
@@ -192,7 +203,6 @@ public class DepAirport {
      * @return
      */
     public synchronized boolean waitForNextPassenger() {
-
         ((Hostess) Thread.currentThread()).setHostessState(HostessStates.waitForPassenger);
         repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
 
@@ -264,6 +274,7 @@ public class DepAirport {
         }
 
         checked=true;
+        lastPassenger = chamado;
         boarded++;
         docsGiven=false;
         notifyAll();
@@ -282,7 +293,7 @@ public class DepAirport {
     public synchronized void informPlaneReadyToTakeOff() {
         int hostessId = ((Hostess) Thread.currentThread()).getHostessID();
 
-        while (!planeReady) {
+        while (!planeReady || !canFly) {
             try {
                 wait();
             } catch (Exception e) {
@@ -392,6 +403,14 @@ public class DepAirport {
         repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
     }
 
-
+    /**
+     * Check if the last passenger as entered the plane
+     *
+     * @param passengerID
+     */
+    public synchronized void passengerEnteredPlane(int passengerID){
+        if(lastPassenger == passengerID) canFly=true;
+        notifyAll();
+    }
 
 }

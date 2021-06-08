@@ -5,6 +5,7 @@ import clientSide.entities.Passenger;
 import clientSide.entities.PassengerStates;
 import clientSide.entities.Pilot;
 import clientSide.entities.PilotStates;
+import interfaces.AirplaneInt;
 import utils.MemException;
 import utils.MemFIFO;
 
@@ -20,7 +21,7 @@ import utils.MemFIFO;
  *
  */
 
-public class Airplane {
+public class Airplane implements AirplaneInt {
 
     /**
      * List of all the boarded passengers' IDs.
@@ -74,7 +75,7 @@ public class Airplane {
      *  It is called by the passenger after having the documents checked
      */
 
-    public synchronized void boardThePlane() {
+    public synchronized int boardThePlane() {
         int passengerId = ((Passenger) Thread.currentThread()).getPassengerId();
 
         ((Passenger) Thread.currentThread()).setPassengerState(PassengerStates.inFlight);
@@ -91,7 +92,7 @@ public class Airplane {
         GenericIO.writelnString("Passenger "+ Thread.currentThread().getName()+" entered the plane");
         GenericIO.writelnString("There are "+occupation+" passengers aboard");
         //notifyAll();
-
+        return passengerId;
     }
 
     /**
