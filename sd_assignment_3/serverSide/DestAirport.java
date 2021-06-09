@@ -1,8 +1,8 @@
-package serverSide.sharedRegions;
+package serverSide;
 
 import genclass.*;
-import clientSide.entities.Pilot;
-import clientSide.entities.PilotStates;
+import clientSide.Pilot;
+import clientSide.PilotStates;
 import interfaces.DestAirportInt;
 import interfaces.RepositoryInt;
 
@@ -14,6 +14,8 @@ import java.rmi.RemoteException;
  *  It is responsible for the flight back to the departure airport.
  *
  *  It does not contain any blocking point.
+ *
+ *  Communication is based in Java RMI.
  */
 
 public class DestAirport implements DestAirportInt {
@@ -43,9 +45,8 @@ public class DestAirport implements DestAirportInt {
      */
 
     public synchronized void flyToDeparturePoint() {
-        ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.flyingBack);
         try {
-            repos.setPilotState((((Pilot) Thread.currentThread()).getPilotstate()));
+            repos.setPilotState(PilotStates.flyingBack);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -53,10 +54,13 @@ public class DestAirport implements DestAirportInt {
         GenericIO.writelnString("Pilot "+Thread.currentThread().getName()+" is flying to departure point");
     }
 
-    public synchronized void shutdown() {
-        ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.flyingBack);
-
-        finished=true;
-
+    /**
+     * Operation shut server
+     *
+     * it is called to set to true the boolean condition that shuts down the server
+     */
+    public synchronized void shutServer() {
+        DestAirportMain.finished=true;
+        GenericIO.writelnString("Shutting Dest Airport -> " + DestAirportMain.finished);
     }
 }

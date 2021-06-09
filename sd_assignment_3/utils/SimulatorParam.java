@@ -5,12 +5,12 @@ public class SimulatorParam {
     /**
      * Hostname of the Registry server.
      */
-    public static final String RegistryName = "RegistrySD";
+    public static final String RegistryName = "localhost";
 
     /**
      * Port of the Registry server.
      */
-    public static final int RegistryPort = 4010;
+    public static final int RegistryPort = 22000;
 
     /**
      * Hostname of the Airplane server.
@@ -20,7 +20,7 @@ public class SimulatorParam {
     /**
      * Port of the Airplane server.
      */
-    public static final int AirplanePort = 4011;
+    public static final int AirplanePort = 22001;
 
     /**
      * Hostname of the DepAirport server.
@@ -30,7 +30,7 @@ public class SimulatorParam {
     /**
      * Port of the DepAirport server.
      */
-    public static final int DepAirportPort = 4012;
+    public static final int DepAirportPort = 22002;
 
     /**
      * Hostname of the DepAirport server.
@@ -40,7 +40,7 @@ public class SimulatorParam {
     /**
      * Port of the DepAirport server.
      */
-    public static final int DestAirportPort = 4013;
+    public static final int DestAirportPort = 22003;
 
     /**
      * Hostname of the DepAirport server.
@@ -50,7 +50,7 @@ public class SimulatorParam {
     /**
      * Port of the DepAirport server.
      */
-    public static final int RepositoryPort = 4014;
+    public static final int RepositoryPort = 22004;
 
     /**
      * Total passengers

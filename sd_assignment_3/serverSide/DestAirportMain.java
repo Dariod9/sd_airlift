@@ -1,33 +1,29 @@
-package serverSide.main;
+package serverSide;
 
-import interfaces.RepositoryInt;
-import interfaces.Register;
-import serverSide.sharedRegions.Repository;
-import utils.SimulatorParam;
-
-import java.rmi.AlreadyBoundException;
 import java.rmi.NoSuchObjectException;
+import java.rmi.registry.Registry;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+
+
+import genclass.GenericIO;
+import interfaces.*;
+import utils.SimulatorParam;
 
 /**
  * This data type instantiates and registers a remote object, in this particular
- * case the  Repository shared region, that will run mobile code.
+ * case the Destination Airport shared region, that will run mobile code.
  * Communication is based in Java RMI.
  */
-public class RepositoryMain {
-
+public class DestAirportMain {
 
     /**
      * Boolean that is true if the shared region has already ended its execution.
      */
-    private static boolean ended;
+    public static boolean finished;
 
     /**
      * Main task that instantiates the remote object and its stub.
@@ -41,37 +37,21 @@ public class RepositoryMain {
     public static void main(String[] args) {
         Registry registry = null;
         Register reg = null;
+        DestAirport destAirport;
         String objectName;
-        Repository Repository;
+        DestAirportInt destAirportInt = null;
         RepositoryInt repositoryInt = null;
-        ended = false;
+        finished = false;
 
         /* create and install the security manager */
         if (System.getSecurityManager() == null)
             System.setSecurityManager(new SecurityManager());
         System.out.println("Security manager was installed!");
 
-        /* instantiate a remote object that runs mobile code and generate a stub for it */
-        Repository = new Repository(21, "logger.txt");
-        objectName = "Repository";
-
-        try {
-            repositoryInt =
-                    (RepositoryInt) UnicastRemoteObject.exportObject(
-                            Repository, SimulatorParam.RepositoryPort);
-        } catch (RemoteException e) {
-            System.out.println(objectName + " stub generation exception: "
-                    + e.getMessage());
-            e.printStackTrace();
-            System.exit(1);
-        }
-        System.out.println("Stub was generated!");
-
-        /* register it with the  registry service */
         try {
             registry = LocateRegistry.getRegistry(
                     SimulatorParam.RegistryName,
-                    SimulatorParam.RepositoryPort);
+                    SimulatorParam.RegistryPort);
         } catch (RemoteException e) {
             System.out.println("RMI registry creation exception: " +
                     e.getMessage());
@@ -81,7 +61,40 @@ public class RepositoryMain {
         System.out.println("RMI registry was created!");
 
         try {
-            reg = (Register) registry.lookup("RegisterHandler");
+            repositoryInt = (RepositoryInt)
+                    registry.lookup("Repository");
+//            stableStub = (StableInt) registry.lookup("Stable");
+        } catch (RemoteException e) {
+            System.out.println("Shared Region look up exception: " +
+                    e.getMessage());
+            e.printStackTrace();
+            System.exit(1);
+        } catch (NotBoundException e) {
+            System.out.println("Shared Region not bound exception: " +
+                    e.getMessage());
+            e.printStackTrace();
+            System.exit(1);
+        }
+
+        /* instantiate a remote object that runs mobile code and generate a stub for it */
+        destAirport = new DestAirport(repositoryInt);
+        objectName = "DestAirport";
+
+        try {
+            destAirportInt =
+                    (DestAirportInt) UnicastRemoteObject.exportObject(
+                            destAirport, SimulatorParam.DestAirportPort);
+        } catch (RemoteException e) {
+            System.out.println(objectName + " stub generation exception: "
+                    + e.getMessage());
+            e.printStackTrace();
+            System.exit(1);
+        }
+        System.out.println("Stub was generated!");
+
+        /* register it with the general registry service */
+        try {
+            reg = (Register) registry.lookup("Register");
         } catch (RemoteException e) {
             System.out.println("RegisterRemoteObject lookup exception: " +
                     e.getMessage());
@@ -95,7 +108,7 @@ public class RepositoryMain {
         }
 
         try {
-            reg.bind(objectName, repositoryInt);
+            reg.bind(objectName, destAirportInt);
         } catch (RemoteException e) {
             System.out.println(objectName + " registration exception: " +
                     e.getMessage());
@@ -110,11 +123,13 @@ public class RepositoryMain {
         System.out.println(objectName + " object was registered!");
 
 
-        while (!ended) {
+        while (true) {
+            GenericIO.writelnString("finished? " + finished);
             try {
-//                shutdown.await();
+                if(finished) break;
             } catch (Exception e) {
                 e.printStackTrace();
+                System.exit(1);
             }
         }
 
@@ -135,7 +150,7 @@ public class RepositoryMain {
         System.out.println(objectName + " object was unregistered!");
 
         try {
-            UnicastRemoteObject.unexportObject(Repository, true);
+            UnicastRemoteObject.unexportObject(destAirport, true);
         } catch (NoSuchObjectException e) {
             System.out.println(objectName + " stub destruction exception: "
                     + e.getMessage());
@@ -144,5 +159,4 @@ public class RepositoryMain {
         }
         System.out.println("Stub was destroyed!");
     }
-
 }

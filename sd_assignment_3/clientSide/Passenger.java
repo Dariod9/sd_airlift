@@ -1,4 +1,4 @@
-package clientSide.entities;
+package clientSide;
 
 import interfaces.DepAirportInt;
 import interfaces.AirplaneInt;
@@ -93,22 +93,22 @@ public class Passenger extends Thread {
      */
     @Override
     public void run() {
-        int passengerId=0;
+        int passenger=0;
         travelToAirport();
         try {
-            depAirport.waitInQueue();
+            depAirport.waitInQueue(passengerId);
         } catch (RemoteException e) {
             e.printStackTrace();
             System.exit(1);
         }
         try {
-            passengerId = airplane.boardThePlane();
+            passenger = airplane.boardThePlane(passengerId);
         } catch (RemoteException e) {
             e.printStackTrace();
             System.exit(1);
         }
         try {
-            depAirport.passengerEnteredPlane(passengerId);
+            depAirport.passengerEnteredPlane(passenger);
         } catch (RemoteException e) {
             e.printStackTrace();
             System.exit(1);
@@ -120,7 +120,7 @@ public class Passenger extends Thread {
             System.exit(1);
         }
         try {
-            airplane.leaveThePlane();
+            airplane.leaveThePlane(passengerId);
         } catch (RemoteException e) {
             e.printStackTrace();
             System.exit(1);

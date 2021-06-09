@@ -1,7 +1,9 @@
-package clientSide.entities;
+package clientSide;
+import genclass.GenericIO;
 import interfaces.DepAirportInt;
 import interfaces.DestAirportInt;
 import interfaces.AirplaneInt;
+import interfaces.RepositoryInt;
 
 import java.rmi.RemoteException;
 
@@ -46,6 +48,11 @@ public class Pilot extends Thread{
     private AirplaneInt airplane;
 
     /**
+     * Reference to the repository.
+     */
+    private RepositoryInt repos;
+
+    /**
      * Instantiation of a Pilot thread.
      *
      * @param depAirport reference to departure airport
@@ -54,12 +61,13 @@ public class Pilot extends Thread{
      * @param pilotID pilot id
      * @param TOTAL total passengers
      */
-    public Pilot (DepAirportInt depAirport, DestAirportInt destAirport, AirplaneInt airplane, int pilotID, int TOTAL) {
+    public Pilot (DepAirportInt depAirport, DestAirportInt destAirport, AirplaneInt airplane,RepositoryInt repos, int pilotID, int TOTAL) {
         this.TOTAL=TOTAL;
         this.pilotID=pilotID;
         this.depAirport=depAirport;
         this.destAirport=destAirport;
         this.airplane=airplane;
+        this.repos=repos;
         Pilotstate=PilotStates.atTransferGate;
     }
 
@@ -150,6 +158,18 @@ public class Pilot extends Thread{
             }
 
         }
+        try {
+            GenericIO.writelnString("Time to shut servers!");
+            depAirport.shutServer();
+            destAirport.shutServer();
+            airplane.shutServer();
+            repos.shutServer();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+
+        GenericIO.writelnString("Pilot life cycle terminated!");
     }
 
     /**

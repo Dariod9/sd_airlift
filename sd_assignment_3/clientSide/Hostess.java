@@ -1,6 +1,7 @@
-package clientSide.entities;
+package clientSide;
 
 
+import genclass.GenericIO;
 import interfaces.DepAirportInt;
 
 import java.rmi.RemoteException;
@@ -128,6 +129,7 @@ public class Hostess extends Thread{
                 System.exit(1);
             }
         }
+        //GenericIO.writelnString("Hostess life cycle terminated!");
     }
 
 }

@@ -1,4 +1,4 @@
-package clientSide.entities;
+package clientSide;
 /**
  *    Definition of the internal states of the hostess during his life cycle.
  */

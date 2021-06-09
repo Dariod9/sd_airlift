@@ -1,10 +1,10 @@
-package serverSide.sharedRegions;
+package serverSide;
 
 import genclass.*;
-import clientSide.entities.Passenger;
-import clientSide.entities.PassengerStates;
-import clientSide.entities.Pilot;
-import clientSide.entities.PilotStates;
+import clientSide.Passenger;
+import clientSide.PassengerStates;
+import clientSide.Pilot;
+import clientSide.PilotStates;
 import interfaces.AirplaneInt;
 import interfaces.RepositoryInt;
 import utils.MemException;
@@ -22,6 +22,7 @@ import java.rmi.RemoteException;
  *  waits for the flight to end so that he can exit the airplane; and one single blocking point for the pilot,
  *  where she waits for every passenger to leave the plane, in order to announce the arrival of the airplane.
  *
+ * Communication is based in Java RMI.
  */
 
 public class Airplane implements AirplaneInt {
@@ -78,12 +79,10 @@ public class Airplane implements AirplaneInt {
      *  It is called by the passenger after having the documents checked
      */
 
-    public synchronized int boardThePlane() {
-        int passengerId = ((Passenger) Thread.currentThread()).getPassengerId();
+    public synchronized int boardThePlane(int passengerId) {
 
-        ((Passenger) Thread.currentThread()).setPassengerState(PassengerStates.inFlight);
         try {
-            repos.setPassengerState(passengerId,((Passenger) Thread.currentThread()).getPassengerState());
+            repos.setPassengerState(passengerId,PassengerStates.inFlight);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -109,8 +108,6 @@ public class Airplane implements AirplaneInt {
      */
 
     public synchronized void waitForEndOfFlight(){
-        int passengerId = ((Passenger) Thread.currentThread()).getPassengerId();
-
         while (!arrived) {
             try {
                 wait();
@@ -126,11 +123,9 @@ public class Airplane implements AirplaneInt {
      * It is called by the passenger after the flight lands
      */
 
-    public synchronized void leaveThePlane(){
-        int passengerId = ((Passenger) Thread.currentThread()).getPassengerId();
-        ((Passenger) Thread.currentThread()).setPassengerState(PassengerStates.atDestination);
+    public synchronized void leaveThePlane(int passengerId){
         try {
-            repos.setPassengerState(passengerId, ((Passenger) Thread.currentThread()).getPassengerState());
+            repos.setPassengerState(passengerId, PassengerStates.atDestination);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -162,10 +157,8 @@ public class Airplane implements AirplaneInt {
      */
 
     public synchronized void announceArrival() {
-        int pilotId = ((Pilot) Thread.currentThread()).getPilotID();
-        ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.deBoarding);
         try {
-            repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
+            repos.setPilotState(PilotStates.deBoarding);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -190,10 +183,8 @@ public class Airplane implements AirplaneInt {
      */
 
     public synchronized void parkAtTransferGate() {
-        int pilotId = ((Pilot) Thread.currentThread()).getPilotID();
-        ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.atTransferGate);
         try {
-            repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
+            repos.setPilotState(PilotStates.atTransferGate);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -202,7 +193,15 @@ public class Airplane implements AirplaneInt {
         notifyAll();
 
         GenericIO.writelnString("Pilot "+Thread.currentThread().getName()+" parked at transfer gate");
+    }
 
-
+    /**
+     * Operation shut server
+     *
+     * it is called to set to true the boolean condition that shuts down the server
+     */
+    public synchronized void shutServer() {
+        AirplaneMain.finished=true;
+        GenericIO.writelnString("Shutting Airplane -> " + AirplaneMain.finished);
     }
 }

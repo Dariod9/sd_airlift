@@ -18,4 +18,10 @@ public interface DestAirportInt extends Remote{
      */
 
     void flyToDeparturePoint() throws RemoteException;
+
+    /**
+     * Shut server operation
+     * @throws RemoteException
+     */
+    void shutServer() throws RemoteException;
 }

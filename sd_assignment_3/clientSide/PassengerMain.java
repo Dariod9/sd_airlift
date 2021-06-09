@@ -1,5 +1,6 @@
-package clientSide.main;
-import clientSide.entities.Hostess;
+package clientSide;
+import clientSide.Hostess;
+import clientSide.Passenger;
 import genclass.GenericIO;
 
 import java.rmi.registry.Registry;
@@ -12,12 +13,12 @@ import interfaces.*;
 import utils.SimulatorParam;
 
 /**
- * This data type instantiates an active entity, in this case the Horse/Jockey pairs,
+ * This data type instantiates an active entity, in this case the Passenger,
  * which looks up for remote shared regions on Locate Registry and executes
  * their methods remotely.
  * Communication is based in Java RMI.
  */
-public class HostessMain {
+public class PassengerMain {
 
     /**
      * Main task that instantiates an active entity.
@@ -27,8 +28,7 @@ public class HostessMain {
     public static void main(String[] args) {
         Registry registry = null;
         DepAirportInt depAirportInt = null;
-        Random rnd;
-        int agility;
+        AirplaneInt airplaneInt = null;
 
         try {
             registry = LocateRegistry.getRegistry(
@@ -44,6 +44,7 @@ public class HostessMain {
 
         try {
             depAirportInt = (DepAirportInt) registry.lookup("DepAirport");
+            airplaneInt = (AirplaneInt) registry.lookup("Airplane");
         } catch (RemoteException e) {
             System.out.println("Shared Region look up exception: " +
                     e.getMessage());
@@ -57,17 +58,26 @@ public class HostessMain {
         }
 
         // entities initialization
-        Hostess hostess = new Hostess(depAirportInt, 0, 21);
+        Passenger[] passengers = new Passenger[SimulatorParam.TOTAL];
 
-        rnd = new Random();
 
-        hostess.start();
-
-        try {
-            hostess.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        for (int i = 0; i < SimulatorParam.TOTAL; i++) {
+            passengers[i]=new Passenger(depAirportInt, airplaneInt, i);
         }
+
+        // start of the simulation
+        for (int i = 0; i < SimulatorParam.TOTAL; i++)
+            passengers[i].start();
+
+        // end of the simulation
+        for (int i = 0; i < SimulatorParam.TOTAL; i++) {
+            try {
+                passengers[i].join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         // end of the simulation
 
     }

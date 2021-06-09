@@ -15,7 +15,7 @@ public interface AirplaneInt extends Remote {
      * <p>
      * It is called by the passenger after having the documents checked
      */
-    int boardThePlane() throws RemoteException;
+    int boardThePlane(int passengerId) throws RemoteException;
 
     /**
      * Operation wait for the end of the flight
@@ -31,7 +31,7 @@ public interface AirplaneInt extends Remote {
      * It is called by the passenger after the flight lands
      */
 
-    void leaveThePlane() throws RemoteException;
+    void leaveThePlane(int passengerId) throws RemoteException;
 
     /**
      * Operation announce arrival.
@@ -48,4 +48,10 @@ public interface AirplaneInt extends Remote {
      */
 
     void parkAtTransferGate() throws RemoteException;
+
+    /**
+     * Shut server operation
+     * @throws RemoteException
+     */
+    void shutServer() throws RemoteException;
 }

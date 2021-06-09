@@ -92,5 +92,18 @@ public interface RepositoryInt extends Remote {
 
     void addFlightInfo(int inpl) throws RemoteException;
 
+    /**
+     *  Write a summary of the flights needed to transport all the passengers.
+     *
+     *  The current state of the pilot, hostess and passengers are organized in a line to be printed.
+     *  Internal operation.
+     */
+    void reportSummary() throws RemoteException;
+
+    /**
+     * Shut server operation
+     * @throws RemoteException
+     */
+    void shutServer() throws RemoteException;
 
 }

@@ -25,7 +25,7 @@ public interface DepAirportInt extends Remote{
      * It is called by a passenger after he arrives to the airport, while he waits to be called by the hostess.
      *
      */
-    void waitInQueue() throws RemoteException;
+    void waitInQueue(int passengerId) throws RemoteException;
 
     /**
      * Operation wait for the next passenger.
@@ -102,6 +102,10 @@ public interface DepAirportInt extends Remote{
      */
     void passengerEnteredPlane(int passengerID) throws RemoteException;
 
-
+    /**
+     * Shut server operation
+     * @throws RemoteException
+     */
+    void shutServer() throws RemoteException;
 
 }

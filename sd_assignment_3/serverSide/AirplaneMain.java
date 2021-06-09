@@ -1,4 +1,4 @@
-package serverSide.main;
+package serverSide;
 
 import java.rmi.NoSuchObjectException;
 import java.rmi.registry.Registry;
@@ -7,26 +7,22 @@ import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
+import genclass.GenericIO;
 import interfaces.*;
-import serverSide.sharedRegions.Airplane;
-import serverSide.sharedRegions.DepAirport;
-import serverSide.sharedRegions.DestAirport;
-import utils.SimulatorParam;
+import utils.*;
 
 /**
  * This data type instantiates and registers a remote object, in this particular
- * case the Betting Centre shared region, that will run mobile code.
+ * case the Airplane shared region, that will run mobile code.
  * Communication is based in Java RMI.
  */
-public class DestAirportMain {
+public class AirplaneMain {
 
     /**
      * Boolean that is true if the shared region has already ended its execution.
      */
+    public static boolean finished;
 
     /**
      * Main task that instantiates the remote object and its stub.
@@ -40,11 +36,11 @@ public class DestAirportMain {
     public static void main(String[] args) {
         Registry registry = null;
         Register reg = null;
-        DestAirport destAirport;
+        Airplane airplane;
         String objectName;
-        DestAirportInt destAirportInt = null;
+        AirplaneInt airplaneInt = null;
         RepositoryInt repositoryInt = null;
-//        StableInt stableStub = null;
+        finished = false;
 
         /* create and install the security manager */
         if (System.getSecurityManager() == null)
@@ -66,7 +62,6 @@ public class DestAirportMain {
         try {
             repositoryInt = (RepositoryInt)
                     registry.lookup("Repository");
-//            stableStub = (StableInt) registry.lookup("Stable");
         } catch (RemoteException e) {
             System.out.println("Shared Region look up exception: " +
                     e.getMessage());
@@ -80,13 +75,13 @@ public class DestAirportMain {
         }
 
         /* instantiate a remote object that runs mobile code and generate a stub for it */
-        destAirport = new DestAirport(repositoryInt);
-        objectName = "DestAirport";
+        airplane = new Airplane(repositoryInt);
+        objectName = "Airplane";
 
         try {
-            destAirportInt =
-                    (DestAirportInt) UnicastRemoteObject.exportObject(
-                            destAirport, SimulatorParam.DestAirportPort);
+            airplaneInt =
+                    (AirplaneInt) UnicastRemoteObject.exportObject(
+                            airplane, SimulatorParam.AirplanePort);
         } catch (RemoteException e) {
             System.out.println(objectName + " stub generation exception: "
                     + e.getMessage());
@@ -97,7 +92,7 @@ public class DestAirportMain {
 
         /* register it with the general registry service */
         try {
-            reg = (Register) registry.lookup("RegisterHandler");
+            reg = (Register) registry.lookup("Register");
         } catch (RemoteException e) {
             System.out.println("RegisterRemoteObject lookup exception: " +
                     e.getMessage());
@@ -111,7 +106,7 @@ public class DestAirportMain {
         }
 
         try {
-            reg.bind(objectName, destAirportInt);
+            reg.bind(objectName, airplaneInt);
         } catch (RemoteException e) {
             System.out.println(objectName + " registration exception: " +
                     e.getMessage());
@@ -126,14 +121,15 @@ public class DestAirportMain {
         System.out.println(objectName + " object was registered!");
 
 
-        while (!destAirport.finished) {
+        while (true) {
+            GenericIO.writelnString("finished? " + finished);
             try {
-//                wait();
+                if(finished) break;
             } catch (Exception e) {
                 e.printStackTrace();
+                System.exit(1);
             }
         }
-
 
         try {
             reg.unbind(objectName);
@@ -151,7 +147,7 @@ public class DestAirportMain {
         System.out.println(objectName + " object was unregistered!");
 
         try {
-            UnicastRemoteObject.unexportObject(destAirport, true);
+            UnicastRemoteObject.unexportObject(airplane, true);
         } catch (NoSuchObjectException e) {
             System.out.println(objectName + " stub destruction exception: "
                     + e.getMessage());
@@ -160,4 +156,5 @@ public class DestAirportMain {
         }
         System.out.println("Stub was destroyed!");
     }
+
 }

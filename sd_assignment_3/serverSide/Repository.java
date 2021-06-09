@@ -1,8 +1,8 @@
-package serverSide.sharedRegions;
+package serverSide;
 
-import clientSide.entities.HostessStates;
-import clientSide.entities.PassengerStates;
-import clientSide.entities.PilotStates;
+import clientSide.HostessStates;
+import clientSide.PassengerStates;
+import clientSide.PilotStates;
 import genclass.*;
 import interfaces.RepositoryInt;
 
@@ -16,6 +16,8 @@ import java.util.Set;
  *  It is responsible to keep the visible internal state of the problem and print it in the logging file.
  *  All public methods are executed in mutual exclusion.
  *  It contains no internal synchronization points.
+ *
+ *  Communication is based in Java RMI.
  */
 
 public class Repository implements RepositoryInt {
@@ -79,6 +81,8 @@ public class Repository implements RepositoryInt {
      */
 
     private HashMap<Integer, Integer> flights_info;
+
+
 
     /**
      *  Instantiation of a repository object.
@@ -405,5 +409,15 @@ public class Repository implements RepositoryInt {
         { GenericIO.writelnString ("The operation of closing the file " + filename + " failed!");
             System.exit (1);
         }
+    }
+
+    /**
+     * Operation shut server
+     *
+     * it is called to set to true the boolean condition that shuts down the server
+     */
+    public synchronized void shutServer() {
+        RepositoryMain.finished=true;
+        GenericIO.writelnString("Shutting Repository -> " + RepositoryMain.finished);
     }
 }

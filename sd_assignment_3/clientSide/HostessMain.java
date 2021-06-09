@@ -1,6 +1,5 @@
-package clientSide.main;
-import clientSide.entities.Hostess;
-import clientSide.entities.Pilot;
+package clientSide;
+import clientSide.Hostess;
 import genclass.GenericIO;
 
 import java.rmi.registry.Registry;
@@ -13,12 +12,12 @@ import interfaces.*;
 import utils.SimulatorParam;
 
 /**
- * This data type instantiates an active entity, in this case the Horse/Jockey pairs,
+ * This data type instantiates an active entity, in this case the Hostess,
  * which looks up for remote shared regions on Locate Registry and executes
  * their methods remotely.
  * Communication is based in Java RMI.
  */
-public class PilotMain {
+public class HostessMain {
 
     /**
      * Main task that instantiates an active entity.
@@ -28,8 +27,6 @@ public class PilotMain {
     public static void main(String[] args) {
         Registry registry = null;
         DepAirportInt depAirportInt = null;
-        DestAirportInt destAirportInt = null;
-        AirplaneInt airplaneInt = null;
         Random rnd;
         int agility;
 
@@ -47,8 +44,6 @@ public class PilotMain {
 
         try {
             depAirportInt = (DepAirportInt) registry.lookup("DepAirport");
-            destAirportInt = (DestAirportInt) registry.lookup("DestAirport");
-            airplaneInt = (AirplaneInt) registry.lookup("Airplane");
         } catch (RemoteException e) {
             System.out.println("Shared Region look up exception: " +
                     e.getMessage());
@@ -62,12 +57,12 @@ public class PilotMain {
         }
 
         // entities initialization
-        Pilot pilot = new Pilot(depAirportInt, destAirportInt, airplaneInt,0, 21);
+        Hostess hostess = new Hostess(depAirportInt, 0, 21);
 
-        pilot.start();
+        hostess.start();
 
         try {
-            pilot.join();
+            hostess.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

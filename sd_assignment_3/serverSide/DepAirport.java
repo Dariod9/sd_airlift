@@ -1,7 +1,7 @@
-package serverSide.sharedRegions;
+package serverSide;
 
 import genclass.*;
-import clientSide.entities.*;
+import clientSide.*;
 import interfaces.DepAirportInt;
 import interfaces.RepositoryInt;
 import utils.MemException;
@@ -26,6 +26,7 @@ import java.rmi.RemoteException;
  *  fly and also while the pilot is not ready for the boarding process to start. Finally, one single blocking point for
  *  the pilot, where he waits for the plane to be ready for take off.
  *
+ * Communication is based in Java RMI.
  */
 
 public class DepAirport implements DepAirportInt {
@@ -83,7 +84,7 @@ public class DepAirport implements DepAirportInt {
     private int MAX;
 
     /**
-     * Number of passengers who have travalled.
+     * Number of passengers who have travelled.
      */
 
     private int flew = 0;
@@ -123,6 +124,16 @@ public class DepAirport implements DepAirportInt {
     private RepositoryInt repos;
 
     /**
+     * Passenger to run showDocuments()
+     */
+    private Passenger pass;
+
+    /**
+     * Passenger to run fly()
+     */
+    private Pilot pilot;
+
+    /**
      * Departure Airport instantiaton.
      *
      * @param repos reference to the repository.
@@ -158,14 +169,15 @@ public class DepAirport implements DepAirportInt {
      * It is called by a passenger after he arrives to the airport, while he waits to be called by the hostess.
      *
      */
-    public synchronized void waitInQueue() {
-        int passengerId = ((Passenger) Thread.currentThread()).getPassengerId();
-        ((Passenger) Thread.currentThread()).setPassengerState(PassengerStates.inQueue);
-        try {
-            repos.setPassengerState(passengerId,((Passenger) Thread.currentThread()).getPassengerState());
+    public synchronized void waitInQueue(int passengerId) {
+
+        try{
+            repos.setPassengerState(passengerId,PassengerStates.inQueue);
         } catch (RemoteException e) {
             e.printStackTrace();
+            System.exit(1);
         }
+
 
         try {
             passengerIDs.write(passengerId);
@@ -185,7 +197,11 @@ public class DepAirport implements DepAirportInt {
             }
         }
 
-        ((Passenger) Thread.currentThread()).showDocuments();
+        /*
+        * Static reference to Passenger thread
+        * */
+        //pass.showDocuments();
+
         docsGiven=true;
 
         notifyAll();
@@ -210,9 +226,8 @@ public class DepAirport implements DepAirportInt {
      * @return
      */
     public synchronized boolean waitForNextPassenger() {
-        ((Hostess) Thread.currentThread()).setHostessState(HostessStates.waitForPassenger);
         try {
-            repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
+            repos.setHostessState(HostessStates.waitForPassenger);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -252,9 +267,6 @@ public class DepAirport implements DepAirportInt {
      */
 
     public synchronized void checkDocuments() {
-
-        int hostessId = ((Hostess) Thread.currentThread()).getHostessID();
-
         while (fifoSize == 0 ) {
             try {
                 wait();
@@ -267,8 +279,7 @@ public class DepAirport implements DepAirportInt {
             chamado = passengerIDs.read();
             fifoSize--;
 
-            ((Hostess) Thread.currentThread()).setHostessState(HostessStates.checkPassenger);
-            repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState(), chamado);
+            repos.setHostessState(HostessStates.checkPassenger, chamado);
             GenericIO.writelnString("Hostess "+ Thread.currentThread().getName()+" called Passenger "+chamado);
 
             notifyAll();
@@ -302,7 +313,6 @@ public class DepAirport implements DepAirportInt {
      */
 
     public synchronized void informPlaneReadyToTakeOff() {
-        int hostessId = ((Hostess) Thread.currentThread()).getHostessID();
 
         while (!planeReady || !canFly) {
             try {
@@ -312,9 +322,8 @@ public class DepAirport implements DepAirportInt {
             }
         }
 
-        ((Hostess) Thread.currentThread()).setHostessState(HostessStates.readyToFly);
         try {
-            repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
+            repos.setHostessState(HostessStates.readyToFly);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -322,9 +331,8 @@ public class DepAirport implements DepAirportInt {
         flew = flew + boarded;
         notifyAll();
         GenericIO.writelnString("Hostess: "+ Thread.currentThread().getName()+" everyone aboard");
-        ((Hostess) Thread.currentThread()).setHostessState(HostessStates.waitForFlight);
         try {
-            repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
+            repos.setHostessState(HostessStates.waitForFlight);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -360,10 +368,8 @@ public class DepAirport implements DepAirportInt {
      */
 
     public synchronized void informPlaneReadyForBoarding() {
-        int pilotId = ((Pilot) Thread.currentThread()).getPilotID();
-        ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.readyForBoarding);
         try {
-            repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
+            repos.setPilotState(PilotStates.readyForBoarding);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -372,9 +378,8 @@ public class DepAirport implements DepAirportInt {
         notifyAll();
         GenericIO.writelnString("Pilot "+ Thread.currentThread().getName()+" is ready");
 
-        ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.waitingForBoarding);
         try {
-            repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
+            repos.setPilotState(PilotStates.waitingForBoarding);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -411,10 +416,9 @@ public class DepAirport implements DepAirportInt {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        int pilotId = ((Pilot) Thread.currentThread()).getPilotID();
-        ((Pilot) Thread.currentThread()).setPilotstate(PilotStates.flyingForward);
+
         try {
-            repos.setPilotState(((Pilot) Thread.currentThread()).getPilotstate());
+            repos.setPilotState(PilotStates.flyingForward);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -422,7 +426,12 @@ public class DepAirport implements DepAirportInt {
         boarded = 0;
         readyTakeOff = false;
         planeReady = false;
-        ((Pilot) Thread.currentThread()).fly();
+
+        /*
+         * Static reference to Pilot thread
+         * */
+        //pilot.fly();
+
         notifyAll();
     }
 
@@ -433,10 +442,8 @@ public class DepAirport implements DepAirportInt {
      * Internal Operation.
      */
     public synchronized void prepareForPassBoarding() {
-        int hostessId = ((Hostess) Thread.currentThread()).getHostessID();
-        ((Hostess) Thread.currentThread()).setHostessState(HostessStates.waitForPassenger);
         try {
-            repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState());
+            repos.setHostessState(HostessStates.waitForPassenger);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -452,4 +459,13 @@ public class DepAirport implements DepAirportInt {
         notifyAll();
     }
 
+    /**
+     * Operation shut server
+     *
+     * it is called to set to true the boolean condition that shuts down the server
+     */
+    public synchronized void shutServer() {
+        DepAirportMain.finished=true;
+        GenericIO.writelnString("Shutting Dep Airport -> " + DepAirportMain.finished);
+    }
 }
