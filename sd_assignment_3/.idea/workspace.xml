@@ -3,18 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="ef62e93d-7188-4cf2-b3a6-82487d6fb489" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dir_clientSide.zip" beforeDir="false" afterPath="$PROJECT_DIR$/dir_clientSide.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dir_registry.zip" beforeDir="false" afterPath="$PROJECT_DIR$/dir_registry.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dir_serverSide.zip" beforeDir="false" afterPath="$PROJECT_DIR$/dir_serverSide.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dir_serverSide/logger.txt" beforeDir="false" afterPath="$PROJECT_DIR$/dir_serverSide/logger.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serverSide/Airplane.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverSide/Airplane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serverSide/AirplaneMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverSide/AirplaneMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serverSide/DepAirport.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverSide/DepAirport.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serverSide/DepAirportMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverSide/DepAirportMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serverSide/DestAirport.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverSide/DestAirport.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serverSide/DestAirportMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverSide/DestAirportMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serverSide/Repository.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverSide/Repository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serverSide/RepositoryMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverSide/RepositoryMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/clientSide/Passenger.java" beforeDir="false" afterPath="$PROJECT_DIR$/clientSide/Passenger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/SimulatorParam.java" beforeDir="false" afterPath="$PROJECT_DIR$/utils/SimulatorParam.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,19 +59,9 @@
       <recent name="serverSide" />
       <recent name="clientSide" />
     </key>
-  </component>
-  <component name="RunManager">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="utils" />
+    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

@@ -151,7 +151,8 @@ public class Passenger extends Thread {
         passengerState = PassengerStates.goingToAirport;
 
         long a = 0;
-        a = (passengerId/5)*2 * 1500;
+        //primeira multiplicação -> número de passageiros que chega de cada vez
+        a = (passengerId/10)*2 * 1500;
 
         try {
             sleep(a);
