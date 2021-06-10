@@ -465,7 +465,7 @@ public class DepAirport implements DepAirportInt {
      * it is called to set to true the boolean condition that shuts down the server
      */
     public synchronized void shutServer() {
-        DepAirportMain.finished=true;
-        GenericIO.writelnString("Shutting Dep Airport -> " + DepAirportMain.finished);
+        DepAirportMain.wakeUp();
+        //GenericIO.writelnString("Shutting Dep Airport -> " + DepAirportMain.finished);
     }
 }

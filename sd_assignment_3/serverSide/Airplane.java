@@ -201,7 +201,7 @@ public class Airplane implements AirplaneInt {
      * it is called to set to true the boolean condition that shuts down the server
      */
     public synchronized void shutServer() {
-        AirplaneMain.finished=true;
-        GenericIO.writelnString("Shutting Airplane -> " + AirplaneMain.finished);
+        AirplaneMain.wakeUp();
+        //GenericIO.writelnString("Shutting Airplane -> " + AirplaneMain.finished);
     }
 }

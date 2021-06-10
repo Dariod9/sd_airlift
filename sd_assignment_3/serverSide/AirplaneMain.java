@@ -8,6 +8,10 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 import genclass.GenericIO;
 import interfaces.*;
 import utils.*;
@@ -25,6 +29,17 @@ public class AirplaneMain {
     public static boolean finished;
 
     /**
+     * Instance of a monitor.
+     */
+    private static Lock mutex;
+
+    /**
+     * Condition variable where the main thread waits until the shared region
+     * ends its life cycle to unbind it in the registry.
+     */
+    private static Condition shutdown;
+
+    /**
      * Main task that instantiates the remote object and its stub.
      * It also instantiates the Locate Registry that has the RMI registrations
      * for the other shared regions. If this shared region needs a stub of another,
@@ -40,6 +55,8 @@ public class AirplaneMain {
         String objectName;
         AirplaneInt airplaneInt = null;
         RepositoryInt repositoryInt = null;
+        mutex = new ReentrantLock();
+        shutdown = mutex.newCondition();
         finished = false;
 
         /* create and install the security manager */
@@ -120,16 +137,15 @@ public class AirplaneMain {
         }
         System.out.println(objectName + " object was registered!");
 
+        mutex.lock();
 
-        while (true) {
-            GenericIO.writelnString("finished? " + finished);
-            try {
-                if(finished) break;
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.exit(1);
-            }
+        while (!finished){
+            try{
+                shutdown.await();
+            } catch (InterruptedException e) {}
         }
+
+        mutex.unlock();
 
         try {
             reg.unbind(objectName);
@@ -157,4 +173,16 @@ public class AirplaneMain {
         System.out.println("Stub was destroyed!");
     }
 
+    /**
+     * Method that signals the main thread to unbind the shared region from the
+     * registry.
+     */
+    public static void wakeUp() {
+        mutex.lock();
+
+        finished = true;
+        shutdown.signal();
+
+        mutex.unlock();
+    }
 }

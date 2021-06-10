@@ -12,6 +12,9 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 
 /**
@@ -26,6 +29,16 @@ public class RepositoryMain {
      */
     public static boolean finished;
 
+    /**
+     * Instance of a monitor.
+     */
+    private static Lock mutex;
+
+    /**
+     * Condition variable where the main thread waits until the shared region
+     * ends its life cycle to unbind it in the registry.
+     */
+    private static Condition shutdown;
 
     /**
      * Main task that instantiates the remote object and its stub.
@@ -42,6 +55,8 @@ public class RepositoryMain {
         String objectName;
         Repository Repository;
         RepositoryInt repositoryInt = null;
+        mutex = new ReentrantLock();
+        shutdown = mutex.newCondition();
         finished = false;
 
         /* create and install the security manager */
@@ -108,15 +123,15 @@ public class RepositoryMain {
         System.out.println(objectName + " object was registered!");
 
 
-        while (true) {
-            GenericIO.writelnString("finished? " + finished);
-            try {
-                if(finished) break;
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.exit(1);
-            }
+        mutex.lock();
+
+        while (!finished){
+            try{
+                shutdown.await();
+            } catch (InterruptedException e) {}
         }
+
+        mutex.unlock();
 
          /*
         Flights Sum Up
@@ -149,6 +164,19 @@ public class RepositoryMain {
         System.out.println("Stub was destroyed!");
 
 
+    }
+
+    /**
+     * Method that signals the main thread to unbind the shared region from the
+     * registry.
+     */
+    public static void wakeUp() {
+        mutex.lock();
+
+        finished = true;
+        shutdown.signal();
+
+        mutex.unlock();
     }
 
 }

@@ -417,7 +417,7 @@ public class Repository implements RepositoryInt {
      * it is called to set to true the boolean condition that shuts down the server
      */
     public synchronized void shutServer() {
-        RepositoryMain.finished=true;
-        GenericIO.writelnString("Shutting Repository -> " + RepositoryMain.finished);
+        RepositoryMain.wakeUp();
+        //GenericIO.writelnString("Shutting Repository -> " + RepositoryMain.finished);
     }
 }

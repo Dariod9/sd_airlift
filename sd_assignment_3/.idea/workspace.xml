@@ -2,34 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ef62e93d-7188-4cf2-b3a6-82487d6fb489" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/sd_assignment_3.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sd_assignment_3.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/clientSide/entities/Hostess.java" beforeDir="false" afterPath="$PROJECT_DIR$/clientSide/Hostess.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/clientSide/entities/HostessStates.java" beforeDir="false" afterPath="$PROJECT_DIR$/clientSide/HostessStates.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/clientSide/entities/Passenger.java" beforeDir="false" afterPath="$PROJECT_DIR$/clientSide/Passenger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/clientSide/entities/PassengerStates.java" beforeDir="false" afterPath="$PROJECT_DIR$/clientSide/PassengerStates.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/clientSide/entities/Pilot.java" beforeDir="false" afterPath="$PROJECT_DIR$/clientSide/Pilot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/clientSide/entities/PilotStates.java" beforeDir="false" afterPath="$PROJECT_DIR$/clientSide/PilotStates.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/clientSide/entities/package-info.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/clientSide/main/HostessMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/clientSide/HostessMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/clientSide/main/PassengerMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/clientSide/PassengerMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/clientSide/main/PilotMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/clientSide/PilotMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/clientSide/main/package-info.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/interfaces/AirplaneInt.java" beforeDir="false" afterPath="$PROJECT_DIR$/interfaces/AirplaneInt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/interfaces/DepAirportInt.java" beforeDir="false" afterPath="$PROJECT_DIR$/interfaces/DepAirportInt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/interfaces/DestAirportInt.java" beforeDir="false" afterPath="$PROJECT_DIR$/interfaces/DestAirportInt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/interfaces/RepositoryInt.java" beforeDir="false" afterPath="$PROJECT_DIR$/interfaces/RepositoryInt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/registry/ServerRegisterRemoteObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/registry/ServerRegisterRemoteObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serverSide/main/AirplaneMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverSide/AirplaneMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serverSide/main/DepAirportMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverSide/DepAirportMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serverSide/main/DestAirportMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverSide/DestAirportMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serverSide/main/RepositoryMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverSide/RepositoryMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serverSide/sharedRegions/Airplane.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverSide/Airplane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serverSide/sharedRegions/DepAirport.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverSide/DepAirport.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serverSide/sharedRegions/DestAirport.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverSide/DestAirport.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serverSide/sharedRegions/Repository.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverSide/Repository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/SimulatorParam.java" beforeDir="false" afterPath="$PROJECT_DIR$/utils/SimulatorParam.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/utils/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dir_clientSide.zip" beforeDir="false" afterPath="$PROJECT_DIR$/dir_clientSide.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dir_registry.zip" beforeDir="false" afterPath="$PROJECT_DIR$/dir_registry.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dir_serverSide.zip" beforeDir="false" afterPath="$PROJECT_DIR$/dir_serverSide.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dir_serverSide/logger.txt" beforeDir="false" afterPath="$PROJECT_DIR$/dir_serverSide/logger.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serverSide/Airplane.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverSide/Airplane.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serverSide/AirplaneMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverSide/AirplaneMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serverSide/DepAirport.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverSide/DepAirport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serverSide/DepAirportMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverSide/DepAirportMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serverSide/DestAirport.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverSide/DestAirport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serverSide/DestAirportMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverSide/DestAirportMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serverSide/Repository.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverSide/Repository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serverSide/RepositoryMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverSide/RepositoryMain.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +95,7 @@
       <workItem from="1622921974413" duration="5559000" />
       <workItem from="1623168546505" duration="15107000" />
       <workItem from="1623249022095" duration="7702000" />
-      <workItem from="1623253615266" duration="18382000" />
+      <workItem from="1623253615266" duration="21644000" />
     </task>
     <servers />
   </component>
