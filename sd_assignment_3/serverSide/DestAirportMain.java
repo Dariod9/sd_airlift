@@ -66,8 +66,8 @@ public class DestAirportMain {
 
         try {
             registry = LocateRegistry.getRegistry(
-                    SimulatorParam.RegistryName,
-                    SimulatorParam.RegistryPort);
+                    args[0],
+                    Integer.parseInt(args[1]));
         } catch (RemoteException e) {
             System.out.println("RMI registry creation exception: " +
                     e.getMessage());
@@ -99,7 +99,7 @@ public class DestAirportMain {
         try {
             destAirportInt =
                     (DestAirportInt) UnicastRemoteObject.exportObject(
-                            destAirport, SimulatorParam.DestAirportPort);
+                            destAirport, Integer.parseInt(args[2]));
         } catch (RemoteException e) {
             System.out.println(objectName + " stub generation exception: "
                     + e.getMessage());

@@ -67,11 +67,13 @@ public class RepositoryMain {
         /* instantiate a remote object that runs mobile code and generate a stub for it */
         Repository = new Repository(21, "logger.txt");
         objectName = "Repository";
-
+        GenericIO.writelnString ("hostname " + args[0]);
+        GenericIO.writelnString ("Port " + args[1]);
+        GenericIO.writelnString ("PORTS " + args[2]);
         try {
             repositoryInt =
                     (RepositoryInt) UnicastRemoteObject.exportObject(
-                            Repository, SimulatorParam.RepositoryPort);
+                            Repository, Integer.parseInt(args[2]));
         } catch (RemoteException e) {
             System.out.println(objectName + " stub generation exception: "
                     + e.getMessage());
@@ -83,8 +85,8 @@ public class RepositoryMain {
         /* register it with the  registry service */
         try {
             registry = LocateRegistry.getRegistry(
-                    SimulatorParam.RegistryName,
-                    SimulatorParam.RegistryPort);
+                    args[0],
+                    Integer.parseInt(args[1]));
         } catch (RemoteException e) {
             System.out.println("RMI registry creation exception: " +
                     e.getMessage());

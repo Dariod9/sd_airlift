@@ -60,6 +60,7 @@ public class DepAirportMain {
         shutdown = mutex.newCondition();
         finished = false;
 
+
         /* create and install the security manager */
         if (System.getSecurityManager() == null)
             System.setSecurityManager(new SecurityManager());
@@ -67,8 +68,8 @@ public class DepAirportMain {
 
         try {
             registry = LocateRegistry.getRegistry(
-                    SimulatorParam.RegistryName,
-                    SimulatorParam.RegistryPort);
+                    args[0],
+                    Integer.parseInt(args[1]));
         } catch (RemoteException e) {
             System.out.println("RMI registry creation exception: " +
                     e.getMessage());
@@ -100,7 +101,7 @@ public class DepAirportMain {
         try {
             depAirportInt =
                     (DepAirportInt) UnicastRemoteObject.exportObject(
-                            depAirport, SimulatorParam.DepAirportPort);
+                            depAirport, Integer.parseInt(args[2]));
         } catch (RemoteException e) {
             System.out.println(objectName + " stub generation exception: "
                     + e.getMessage());

@@ -32,9 +32,9 @@ public class ServerRegisterRemoteObject
      int rmiRegPortNumb;
 
      GenericIO.writeString ("Name of the processing node where the registering service is located? ");
-     rmiRegHostName = GenericIO.readlnString ();
+     //rmiRegHostName = GenericIO.readlnString ();
      GenericIO.writeString ("Port number where the registering service is listening to? ");
-     rmiRegPortNumb = GenericIO.readlnInt ();
+     //rmiRegPortNumb = GenericIO.readlnInt ();
 
     /* create and install the security manager */
 
@@ -43,10 +43,11 @@ public class ServerRegisterRemoteObject
      GenericIO.writelnString ("Security manager was installed!");
 
     /* instantiate a registration remote object and generate a stub for it */
-
-     RegisterRemoteObject regAirLift = new RegisterRemoteObject (rmiRegHostName, rmiRegPortNumb);
+     GenericIO.writelnString ("hostname " + args[0]);
+     GenericIO.writelnString ("Port " + args[1]);
+     RegisterRemoteObject regAirLift = new RegisterRemoteObject (args[0], Integer.parseInt(args[1]));
      Register regAirLiftStub = null;
-     int listeningPort = 22339;                                      /* it should be set accordingly in each case */
+     int listeningPort = 22337;                                      /* it should be set accordingly in each case */
 
      try
      { regAirLiftStub = (Register) UnicastRemoteObject.exportObject (regAirLift, listeningPort);
@@ -63,7 +64,7 @@ public class ServerRegisterRemoteObject
      Registry registry = null;
 
      try
-     { registry = LocateRegistry.getRegistry (rmiRegHostName, rmiRegPortNumb);
+     { registry = LocateRegistry.getRegistry (args[0], Integer.parseInt(args[1]));
      }
      catch (RemoteException e)
      { GenericIO.writelnString ("RMI registry creation exception: " + e.getMessage ());
